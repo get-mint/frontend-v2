@@ -1,15 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { Star } from "lucide-react";
 
-import { brand } from "@/lib/constants/brand";
-
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+
+import { LogoBanner } from "./logo-banner";
 
 export default function LandingPage() {
   const [browser, setBrowser] = useState<"chrome" | "edge" | "other">("other");
@@ -41,7 +40,7 @@ export default function LandingPage() {
           <div className="max-w-xl">
             <p className="text-2xl font-extrabold text-secondary">Mint</p>
 
-            <h1 className="text-7xl font-bold tracking-tight mb-4">
+            <h1 className="text-7xl font-bold tracking-tight mb-3">
               It's your money,
               <br />
               we grab it for you
@@ -55,12 +54,16 @@ export default function LandingPage() {
 
           <Card className="bg-white rounded-3xl p-8 shadow-lg w-md">
             <CardContent className="p-0 justify-center">
-              <h2 className="text-4xl font-bold mb-2">Ready to start saving?</h2>
+              <h2 className="text-4xl font-bold mb-2">
+                Ready to start saving?
+              </h2>
               <p className="text-lg font-semibold mb-4">
                 We've already helped our community earn{" "}
                 <span className="text-secondary underline font-bold">$2M+</span>{" "}
                 in cash back, with over{" "}
-                <span className="text-secondary underline font-bold">1,000+</span>{" "}
+                <span className="text-secondary underline font-bold">
+                  1,000+
+                </span>{" "}
                 happy users and growing every day! 💸
               </p>
 
@@ -88,24 +91,7 @@ export default function LandingPage() {
           </Card>
         </div>
       </div>
-      <div className="w-full overflow-hidden bg-white relative">
-        <div className="animate-scroll flex">
-          <Image
-            src="/images/logo-scroll.png"
-            alt="Partner logos"
-            width={3000}
-            height={430}
-            className="object-cover min-w-full h-16"
-          />
-          <Image
-            src="/images/logo-scroll.png"
-            alt="Partner logos"
-            width={3000}
-            height={120}
-            className="object-cover min-w-full h-16"
-          />
-        </div>
-      </div>
+      <LogoBanner />
     </>
   );
 }

@@ -37,7 +37,7 @@ export default function Layout({
             disableTransitionOnChange
             storageKey="theme-preference"
           >
-            <NextTopLoader showSpinner={false} />
+            <NextTopLoader showSpinner={false} color="oklch(0.78 0.15 160)" />
             {children}
             <Toaster position="bottom-right" />
           </ThemeProvider>

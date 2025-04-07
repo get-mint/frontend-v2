@@ -1,21 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { LogOutIcon, LayoutDashboardIcon } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
 
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,6 +18,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
+
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/download", label: "Download" },
+];
 
 const AuthNav = ({ authUser }: { authUser: any }) => {
   const router = useRouter();
@@ -39,7 +37,7 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
   return (
     <div
       className={`border rounded-full bg-background flex items-center shadow-sm ${
-        authUser ? "p-2" : "px-6 h-14"
+        authUser ? "p-2" : "px-3 h-14"
       }`}
     >
       {authUser ? (
@@ -71,12 +69,14 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
           </DropdownMenu>
         </div>
       ) : (
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           <Link href="/auth/login">
-            <Button variant="outline">Log In</Button>
+            <Button variant="outline" className="rounded-full px-6">
+              Log In
+            </Button>
           </Link>
           <Link href="/auth/signup">
-            <Button>Sign Up</Button>
+            <Button className="rounded-full px-6">Sign Up</Button>
           </Link>
         </div>
       )}
@@ -84,52 +84,8 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
   );
 };
 
-/**
- * Add routes where the header should not be sticky. I personally use this
- * for the landing page, but you can add more routes as needed.
- */
-const nonStickyRoutes = ["/landing"];
-
-const sections = [
-  {
-    title: "Product",
-    links: [
-      { href: "/download", label: "Download" },
-      { href: "#features", label: "Features", isScroll: true },
-      { href: "/info/security", label: "Security" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { href: "/info/company/about", label: "About Us" },
-      { href: "/info/company/careers", label: "Careers" },
-      { href: "/info/company/faq", label: "FAQ" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { href: "/info/legal/privacy-policy", label: "Privacy Policy" },
-      { href: "/info/legal/terms-of-service", label: "Terms of Service" },
-      { href: "/info/legal/cookie-policy", label: "Cookie Policy" },
-    ],
-  },
-];
-
 export function Header() {
-  const router = useRouter();
-  const pathname = usePathname();
-
   const { authUser } = useAuth();
-
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
-    e.preventDefault();
-    router.push(href);
-  };
 
   return (
     <div className="py-6">
@@ -142,30 +98,15 @@ export function Header() {
               </Link>
 
               <nav className="flex gap-8">
-                <Link
-                  href="/"
-                  className="text-foreground hover:text-foreground/80"
-                >
-                  HOME
-                </Link>
-                <Link
-                  href="/about"
-                  className="text-foreground hover:text-foreground/80"
-                >
-                  ABOUT
-                </Link>
-                <Link
-                  href="/download"
-                  className="text-foreground hover:text-foreground/80"
-                >
-                  DOWNLOAD
-                </Link>
-                <Link
-                  href="/deals"
-                  className="text-foreground hover:text-foreground/80"
-                >
-                  DEALS
-                </Link>
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="text-foreground font-semibold hover:text-secondary/80"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </nav>
             </div>
           </div>

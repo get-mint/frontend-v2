@@ -14,8 +14,8 @@ import { brand } from "@/lib/constants/brand";
 export function Logo() {
   return (
     <div className="flex items-center gap-1">
-      <brand.lucideIcon className="size-7 text-primary" />
-      <span className="text-2xl font-bold text-secondary">{brand.name}</span>
+      <brand.lucideIcon className="size-6 text-primary" />
+      <span className="text-xl font-bold text-secondary">{brand.name}</span>
     </div>
   );
 }

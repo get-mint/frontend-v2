@@ -41,6 +41,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --animate-marquee: marquee 120s linear infinite;
+  --animate-marquee-vertical: marquee-vertical 120s linear infinite;
 }
 
 :root {
@@ -123,15 +125,20 @@
   }
 }
 
-@keyframes scroll {
+@keyframes marquee {
   0% {
-    transform: translateX(0);
+    transform: translateX(0%);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-100% - 1rem));
   }
 }
 
-.animate-scroll {
-  animation: scroll 20s linear infinite;
+@keyframes marquee-vertical {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(calc(-100% - 1rem));
+  }
 }
