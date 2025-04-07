@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/server/server";
 import type { Database } from "@/types/supabase";
+import { Headphones, Search } from "lucide-react";
 
 type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
 
@@ -61,7 +62,9 @@ const steps = [
       <div className="p-4">
         <div className="bg-white rounded-lg shadow-sm p-4">
           <div className="bg-yellow-100 rounded-lg w-full h-32 mb-4 flex items-center justify-center">
-            <div className="w-24 h-24 bg-white rounded-full" />
+            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center">
+              <Headphones className="w-12 h-12 text-gray-700" />
+            </div>
           </div>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
@@ -89,11 +92,11 @@ const steps = [
         <div className="bg-[#0070BA] text-white p-4 rounded-lg flex items-center justify-center">
           <span className="text-2xl font-bold">PayPal</span>
         </div>
-        <div className="bg-[#BF0A0F] p-4 rounded-lg relative overflow-hidden">
+        <div className="bg-[#F5F5F5] p-4 rounded-lg relative overflow-hidden border border-gray-200">
           <div className="absolute top-2 right-2">
-            <span className="text-xs text-white/80">4564332</span>
+            <span className="text-xs text-gray-500">4564332</span>
           </div>
-          <div className="space-y-2 text-white">
+          <div className="space-y-2 text-gray-700">
             <div className="text-sm">Pay to the order of:</div>
             <div className="font-semibold">Savvy Shopper</div>
             <div className="flex justify-between items-center mt-4">
