@@ -3,15 +3,22 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { Star } from "lucide-react";
+import { Star, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 import { LogoBanner } from "./logo-banner";
 
+interface Stats {
+  usersCount: number;
+  advertisersCount: number;
+}
+
 export default function LandingPage() {
   const [browser, setBrowser] = useState<"chrome" | "edge" | "other">("other");
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -20,6 +27,17 @@ export default function LandingPage() {
     } else if (userAgent.includes("chrome")) {
       setBrowser("chrome");
     }
+
+    fetch("/api/stats")
+      .then((res) => res.json())
+      .then((data) => {
+        setStats(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching stats:", error);
+        setIsLoading(false);
+      });
   }, []);
 
   const getButtonText = () => {
@@ -47,8 +65,14 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-xl text-secondary font-bold">
-              Get Cash Back at 100+ stores, thousands of restaurants, on travel
-              bookings and even more. Join and watch your Cash Back add up.
+              Get Cash Back at{" "}
+              {isLoading ? (
+                <Loader2 className="inline w-4 h-4 animate-spin" />
+              ) : (
+                `${stats?.advertisersCount || "100+"}`
+              )}{" "}
+              stores, thousands of restaurants, on travel bookings and even
+              more. Join and watch your Cash Back add up.
             </p>
           </div>
 
@@ -58,11 +82,13 @@ export default function LandingPage() {
                 Ready to start saving?
               </h2>
               <p className="text-lg font-semibold mb-4">
-                We've already helped our community earn{" "}
-                <span className="text-secondary underline font-bold">$2M+</span>{" "}
-                in cash back, with over{" "}
+                Join our community of{" "}
                 <span className="text-secondary underline font-bold">
-                  1,000+
+                  {isLoading ? (
+                    <Loader2 className="inline w-4 h-4 animate-spin" />
+                  ) : (
+                    `${stats?.usersCount || "1,000+"}`
+                  )}
                 </span>{" "}
                 happy users and growing every day! 💸
               </p>

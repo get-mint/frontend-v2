@@ -15,7 +15,7 @@ export function Logo() {
   return (
     <div className="flex items-center gap-1">
       <brand.lucideIcon className="size-6 text-primary" />
-      <span className="text-xl font-bold text-secondary">{brand.name}</span>
+      <span className="text-xl font-semibold text-secondary">{brand.name}</span>
     </div>
   );
 }

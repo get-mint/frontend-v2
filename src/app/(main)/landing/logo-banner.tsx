@@ -51,7 +51,7 @@ export function LogoBanner() {
                 alt={advertiser.name}
                 width={120}
                 height={40}
-                className="object-contain h-10"
+                className="object-contain h-12"
               />
             </div>
           ))}
