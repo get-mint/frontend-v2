@@ -37,9 +37,13 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div
+      className={`border rounded-full bg-background flex items-center shadow-sm ${
+        authUser ? "p-2" : "px-6 h-14"
+      }`}
+    >
       {authUser ? (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
               <Avatar className="border size-10">
@@ -128,59 +132,47 @@ export function Header() {
   };
 
   return (
-    <header
-      className={`border-b bg-background ${
-        !nonStickyRoutes.includes(pathname) ? "sticky top-0" : ""
-      } z-50`}
-    >
-      <div className="container mx-auto py-4">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <Logo />
-          </Link>
+    <div className="py-6">
+      <div className="container mx-auto">
+        <div className="flex items-center justify-center gap-2">
+          <div className="border rounded-full h-14 px-6 bg-background flex items-center shadow-sm">
+            <div className="flex items-center gap-8">
+              <Link href="/" className="flex items-center">
+                <Logo />
+              </Link>
 
-          <NavigationMenu>
-            <NavigationMenuList>
-              {sections.map((section) => (
-                <NavigationMenuItem key={section.title}>
-                  <NavigationMenuTrigger>{section.title}</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[200px] gap-2">
-                      {section.links.map((link) => (
-                        <li key={link.href}>
-                          <NavigationMenuLink asChild>
-                            <a
-                              href={link.href}
-                              onClick={(e) => handleClick(e, link.href)}
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                              target={
-                                link.href.startsWith("/info/")
-                                  ? "_blank"
-                                  : undefined
-                              }
-                              rel={
-                                link.href.startsWith("/info/")
-                                  ? "noopener noreferrer"
-                                  : undefined
-                              }
-                            >
-                              <div className="text-sm font-medium leading-none">
-                                {link.label}
-                              </div>
-                            </a>
-                          </NavigationMenuLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+              <nav className="flex gap-8">
+                <Link
+                  href="/"
+                  className="text-foreground hover:text-foreground/80"
+                >
+                  HOME
+                </Link>
+                <Link
+                  href="/about"
+                  className="text-foreground hover:text-foreground/80"
+                >
+                  ABOUT
+                </Link>
+                <Link
+                  href="/download"
+                  className="text-foreground hover:text-foreground/80"
+                >
+                  DOWNLOAD
+                </Link>
+                <Link
+                  href="/deals"
+                  className="text-foreground hover:text-foreground/80"
+                >
+                  DEALS
+                </Link>
+              </nav>
+            </div>
+          </div>
 
           <AuthNav authUser={authUser} />
         </div>
       </div>
-    </header>
+    </div>
   );
 }
