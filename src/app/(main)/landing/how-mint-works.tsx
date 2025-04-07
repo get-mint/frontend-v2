@@ -1,13 +1,15 @@
-import { createAdminClient } from "@/lib/supabase/server/server";
-import type { Database } from "@/types/supabase";
 import { Headphones, Search } from "lucide-react";
+
+import { createAdminClient } from "@/lib/supabase/server/server";
+
+import type { Database } from "@/types/supabase";
 
 type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
 
 const steps = [
   {
     title: "1. Join for free",
-    description: "Install Mint, enter your email, and start shopping.",
+    description: "Install Mint, enter your email, and start shopping. Mint will pop up whenever cashback is available.",
     renderContent: ({
       brands,
       totalStores,
@@ -17,20 +19,7 @@ const steps = [
     }) => (
       <div className="p-4 space-y-4">
         <div className="bg-white rounded-full shadow-sm p-3 flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            className="w-5 h-5 text-gray-400"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          <Search className="w-5 h-5 text-gray-400" />
           <span className="text-gray-500">
             Shop {totalStores.toLocaleString()}+ stores
           </span>
@@ -57,7 +46,7 @@ const steps = [
   },
   {
     title: "2. Start earning cash back",
-    description: "Shop at your favorite stores and earn cash back.",
+    description: "Shop at your favorite stores and earn cash back. Mint is always on, so you'll never miss a deal.",
     renderContent: ({}: { brands: Advertiser[]; totalStores: number }) => (
       <div className="p-4">
         <div className="bg-white rounded-lg shadow-sm p-4">
@@ -117,13 +106,11 @@ export async function HowMintWorks() {
   try {
     const supabase = createAdminClient();
 
-    // Fetch total count of active stores
     const { count: storeCount } = await supabase
       .from("advertisers")
       .select("*", { count: "exact", head: true })
       .eq("active", true);
 
-    // Fetch brands for display
     const { data, error } = await supabase
       .from("advertisers")
       .select("*")
@@ -153,8 +140,12 @@ export async function HowMintWorks() {
             <div className="w-full h-64 bg-primary/40 rounded-xl overflow-hidden">
               {step.renderContent({ brands, totalStores })}
             </div>
-            <h3 className="text-xl font-semibold mt-4 mb-2">{step.title}</h3>
-            <p className="text-gray-600">{step.description}</p>
+            <h3 className="text-xl font-semibold mt-4 mb-1 leading-tight">
+              {step.title}
+            </h3>
+            <p className="text-muted-foreground leading-tight">
+              {step.description}
+            </p>
           </div>
         ))}
       </div>
