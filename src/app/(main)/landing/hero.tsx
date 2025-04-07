@@ -20,7 +20,8 @@ export async function Hero() {
 
     const { count: advertisersCount } = await supabase
       .from("advertisers")
-      .select("*", { count: "exact", head: true });
+      .select("*", { count: "exact", head: true })
+      .eq("active", true);
 
     stats = {
       usersCount: usersCount?.toLocaleString() || "1,000+",
@@ -79,7 +80,7 @@ export async function Hero() {
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               </div>
-              <span className="ml-2 text-sm">100+ Chrome Store reviews</span>
+              <span className="ml-2 text-sm">100+ reviews</span>
             </div>
           </CardContent>
         </Card>
