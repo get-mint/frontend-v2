@@ -1,4 +1,4 @@
-import { Headphones, Search } from "lucide-react";
+import { Search, Shirt } from "lucide-react";
 
 import { createAdminClient } from "@/lib/supabase/server/server";
 
@@ -9,7 +9,8 @@ type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
 const steps = [
   {
     title: "1. Join for free",
-    description: "Install Mint, enter your email, and start shopping. Mint will pop up whenever cashback is available.",
+    description:
+      "Install Mint, enter your email, and start shopping. Mint will pop up whenever cashback is available.",
     renderContent: ({
       brands,
       totalStores,
@@ -46,22 +47,23 @@ const steps = [
   },
   {
     title: "2. Start earning cash back",
-    description: "Shop at your favorite stores and earn cash back. Mint is always on, so you'll never miss a deal.",
+    description:
+      "Shop at your favorite stores and earn cash back. Mint is always on, so you'll never miss a deal.",
     renderContent: ({}: { brands: Advertiser[]; totalStores: number }) => (
       <div className="p-4">
         <div className="bg-white rounded-lg shadow-sm p-4">
           <div className="bg-yellow-100 rounded-lg w-full h-32 mb-4 flex items-center justify-center">
             <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center">
-              <Headphones className="w-12 h-12 text-gray-700" />
+              <Shirt className="w-12 h-12 text-gray-700" />
             </div>
           </div>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="font-semibold">Noise Cancelling Headphones</span>
-              <span className="text-green-600">$25.00 Cash Back</span>
+              <span className="font-semibold">Classic T-Shirt</span>
+              <span className="text-green-600">$5.00 Cash Back</span>
             </div>
             <div className="flex justify-between items-center text-gray-600">
-              <span>$250.00</span>
+              <span>$25.00</span>
               <span>QTY 1</span>
             </div>
             <button className="w-full bg-black text-white rounded-lg py-2 mt-2">
