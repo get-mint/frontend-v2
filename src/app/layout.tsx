@@ -32,7 +32,7 @@ export default function Layout({
         <body className={`${figtree.className} antialiased`}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
             storageKey="theme-preference"
