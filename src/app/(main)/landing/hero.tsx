@@ -44,8 +44,8 @@ export async function Hero() {
 
           <p className="text-xl text-secondary font-bold">
             Get Cash Back at {stats.advertisersCount || "100+"} stores,
-            restaurants, on travel bookings and even more. Join and watch your
-            Cash Back add up.
+            restaurants, travel bookings and even more. Join and watch your
+            rewards add up.
           </p>
         </div>
 
