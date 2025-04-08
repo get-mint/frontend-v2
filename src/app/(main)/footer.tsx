@@ -23,7 +23,6 @@ const sections = [
     title: "Company",
     links: [
       { href: "/info/company/about", label: "About Us" },
-      { href: "/info/company/careers", label: "Careers" },
       { href: "/info/company/faq", label: "FAQ" },
     ],
   },
@@ -32,7 +31,6 @@ const sections = [
     links: [
       { href: "/info/legal/privacy-policy", label: "Privacy Policy" },
       { href: "/info/legal/terms-of-service", label: "Terms of Service" },
-      { href: "/info/legal/cookie-policy", label: "Cookie Policy" },
     ],
   },
 ];
@@ -64,14 +62,14 @@ export function Footer() {
     <footer className="border-t bg-background mt-12">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-wrap gap-8 max-w-3xl">
-          <div className="w-full md:w-auto md:min-w-[200px]">
+          <div className="hidden md:block md:w-auto md:min-w-[200px] mr-12">
             <Logo />
 
             <p className="mt-1 text-sm text-muted-foreground mb-4">
               {brand.description}
             </p>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-8">
               {Object.entries(brand.social).map(([platform, href]) => {
                 if (href !== "https://example.com") {
                   return (
@@ -92,9 +90,9 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-8 w-full md:w-auto">
+          <div className="flex flex-wrap gap-12 w-full md:w-auto">
             {sections.map((section) => (
-              <div key={section.title} className="min-w-[200px]">
+              <div key={section.title} className="min-w-[100px]">
                 <h3 className="font-semibold mb-4">{section.title}</h3>
                 <ul className="space-y-2">
                   {section.links.map((link) => (
