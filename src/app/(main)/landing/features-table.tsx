@@ -57,10 +57,10 @@ export function FeaturesTable() {
                 </p>
               </div>
               <div className="grid grid-cols-2 place-items-center">
-                <div className="bg-secondary/10 rounded-full p-2">
-                  <Check className="text-secondary h-5 w-5" />
+                <div className="bg-primary/15 rounded-full p-2">
+                  <Check className="text-primary h-5 w-5" />
                 </div>
-                <div className="bg-amber-50 rounded-full p-2">
+                <div className="bg-amber-100 rounded-full p-2">
                   <X className="text-amber-500 h-5 w-5" />
                 </div>
               </div>
