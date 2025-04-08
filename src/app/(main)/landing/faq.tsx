@@ -36,12 +36,12 @@ const faqItems = [
 
 export default function FAQ() {
   return (
-    <div className="container max-w-4xl mx-auto px-4">
+    <div className="container max-w-6xl mx-auto px-4">
       <div className="text-center mb-12">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-3 text-secondary">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-secondary">
           Got Questions? We've Got Answers.
         </h2>
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-base">
           Find quick answers to common questions about Mint
         </p>
       </div>
@@ -53,10 +53,10 @@ export default function FAQ() {
             value={item.id}
             className="border rounded-lg px-4"
           >
-            <AccordionTrigger className="text-lg font-semibold hover:no-underline cursor-pointer">
+            <AccordionTrigger className="text-base font-semibold hover:no-underline cursor-pointer">
               {item.question}
             </AccordionTrigger>
-            <AccordionContent className="pb-4 text-md font-medium">
+            <AccordionContent className="pb-4 text-sm font-medium">
               {item.answer}
             </AccordionContent>
           </AccordionItem>
