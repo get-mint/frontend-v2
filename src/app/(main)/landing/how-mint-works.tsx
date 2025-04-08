@@ -134,7 +134,7 @@ export async function HowMintWorks() {
     <div className="py-16">
       <div className="text-center mb-10">
         <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-secondary">
-          Here's how Mint works
+          Here's How Mint Works
         </h2>
         <p className="text-muted-foreground text-lg">
           Get started in just three simple steps and start earning cashback today

@@ -3,19 +3,23 @@ import { Check, X } from "lucide-react";
 const features = [
   {
     name: "Transparent rewards",
-    description: "You see exactly how much cashback you earn and how we calculate it — no mystery points or hidden conditions.",
+    description:
+      "You see exactly how much cashback you earn and how we calculate it — no mystery points or hidden conditions.",
   },
   {
     name: "Low minimum redemption",
-    description: "You only need $5 to cash out, making it easy to actually access your rewards.",
+    description:
+      "You only need $5 to cash out, making it easy to actually access your rewards.",
   },
   {
     name: "Popular gift cards",
-    description: "Choose from brands you actually use — Amazon, Target, Starbucks, and more — or just get cash.",
+    description:
+      "Choose from brands you actually use — Amazon, Target, Starbucks, and more — or just get cash.",
   },
   {
     name: "Fast processing",
-    description: "Your money is ready to withdraw within 3 days — not weeks or months like other platforms.",
+    description:
+      "Your money is ready to withdraw within 3 days — not weeks or months like other platforms.",
   },
 ];
 
@@ -33,7 +37,9 @@ export function FeaturesTable() {
 
       <div className="w-full border rounded-lg overflow-hidden bg-white shadow-sm">
         <div className="grid grid-cols-3 bg-muted p-4 border-b">
-          <div className="col-span-2 font-semibold text-black text-lg">Features</div>
+          <div className="col-span-2 font-semibold text-black text-lg">
+            Features
+          </div>
           <div className="grid grid-cols-2 text-center font-semibold">
             <div className="text-secondary text-lg">Mint</div>
             <div className="text-amber-500 text-lg">Others</div>
@@ -43,8 +49,12 @@ export function FeaturesTable() {
           {features.map((feature, index) => (
             <div key={index} className="grid grid-cols-3 p-4 hover:bg-muted/5">
               <div className="col-span-2">
-                <h4 className="font-semibold text-black text-base">{feature.name}</h4>
-                <p className="text-sm text-gray-600 mt-2">{feature.description}</p>
+                <h4 className="font-semibold text-black text-base">
+                  {feature.name}
+                </h4>
+                <p className="text-sm text-gray-600 mt-2">
+                  {feature.description}
+                </p>
               </div>
               <div className="grid grid-cols-2 place-items-center">
                 <div className="bg-secondary/10 rounded-full p-2">
@@ -60,4 +70,4 @@ export function FeaturesTable() {
       </div>
     </div>
   );
-} 
+}

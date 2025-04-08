@@ -10,8 +10,8 @@ export default async function LandingPage() {
       <Hero />
       <LogoBanner />
       <HowMintWorks />
-      <FeaturesTable />
       <FAQ />
+      <FeaturesTable />
     </>
   );
 }
