@@ -1,35 +1,41 @@
+import { cache } from "react";
 import Link from "next/link";
+
 import { Star } from "lucide-react";
+
 import { createAdminClient } from "@/lib/supabase/server/server";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-export async function Hero() {
-  let stats = {
-    usersCount: "1,000+",
-    advertisersCount: "100+",
-  };
-
+const getStats = cache(async () => {
   try {
     const supabase = createAdminClient();
 
-    const { count: usersCount } = await supabase
-      .from("users")
-      .select("*", { count: "exact", head: true });
+    const [{ count: usersCount }, { count: advertisersCount }] =
+      await Promise.all([
+        supabase.from("users").select("*", { count: "exact", head: true }),
+        supabase
+          .from("advertisers")
+          .select("*", { count: "exact", head: true })
+          .eq("active", true),
+      ]);
 
-    const { count: advertisersCount } = await supabase
-      .from("advertisers")
-      .select("*", { count: "exact", head: true })
-      .eq("active", true);
-
-    stats = {
+    return {
       usersCount: usersCount?.toLocaleString() || "1,000+",
       advertisersCount: advertisersCount?.toLocaleString() || "100+",
     };
   } catch (error) {
     console.error("Failed to fetch stats:", error);
+    return {
+      usersCount: "1,000+",
+      advertisersCount: "100+",
+    };
   }
+});
+
+export async function Hero() {
+  const stats = await getStats();
 
   return (
     <div className="w-full bg-primary/40 animate-in fade-in">
