@@ -1,4 +1,24 @@
+import { cva, type VariantProps } from "class-variance-authority";
+
+import { cn } from "@/lib/utils/tailwind";
 import { brand } from "@/lib/constants/brand";
+
+const logoVariants = cva("flex items-center gap-1", {
+  variants: {
+    size: {
+      default: "text-xl",
+      sm: "text-base",
+      lg: "text-2xl",
+    },
+  },
+  defaultVariants: {
+    size: "default",
+  },
+});
+
+export interface LogoProps extends VariantProps<typeof logoVariants> {
+  className?: string;
+}
 
 /**
  * This component is used to display the logo of the app. You can edit this
@@ -11,11 +31,17 @@ import { brand } from "@/lib/constants/brand";
  *
  * @returns The rendered Logo component.
  */
-export function Logo() {
+export function Logo({ size, className }: LogoProps) {
   return (
-    <div className="flex items-center gap-1">
-      <brand.lucideIcon className="size-6 text-primary" />
-      <span className="text-xl font-semibold text-secondary">{brand.name}</span>
+    <div className={cn(logoVariants({ size, className }))}>
+      <brand.lucideIcon
+        className={cn("text-primary", {
+          "size-6": size === "default",
+          "size-4": size === "sm",
+          "size-8": size === "lg",
+        })}
+      />
+      <span className="font-semibold text-secondary">{brand.name}</span>
     </div>
   );
 }

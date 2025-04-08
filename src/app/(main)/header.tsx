@@ -97,8 +97,6 @@ export function Header() {
 
             {!isMobile && (
               <>
-                <div className="h-6 w-px bg-border/50" />
-
                 <nav className="flex gap-8 px-8">
                   {navItems.map((item) => (
                     <Link
