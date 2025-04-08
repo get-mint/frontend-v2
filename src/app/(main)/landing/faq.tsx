@@ -35,12 +35,14 @@ const faqItems = [
 export function Faq() {
   return (
     <div className="container max-w-6xl mx-auto px-4 py-16">
-      <h2 className="text-2xl sm:text-3xl font-bold text-left mb-2 text-secondary">
-        Still have doubts?
-      </h2>
-      <p className="text-muted-foreground text-lg text-left mb-6">
-        We've got you covered.
-      </p>
+      <div className="text-center mb-10">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-secondary">
+          Still have doubts?
+        </h2>
+        <p className="text-muted-foreground text-lg">
+          We've got you covered.
+        </p>
+      </div>
 
       <Accordion type="single" collapsible className="w-full space-y-3">
         {faqItems.map((item) => (
