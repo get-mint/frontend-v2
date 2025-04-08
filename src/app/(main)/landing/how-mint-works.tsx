@@ -132,9 +132,14 @@ export async function HowMintWorks() {
 
   return (
     <div className="py-16">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-secondary">
-        Here's how Mint works
-      </h2>
+      <div className="text-center mb-10">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-secondary">
+          Here's how Mint works
+        </h2>
+        <p className="text-muted-foreground text-lg">
+          Get started in just three simple steps and start earning cashback today
+        </p>
+      </div>
 
       <div className="flex flex-col sm:grid sm:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
         {steps.map((step) => (
