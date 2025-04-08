@@ -23,7 +23,7 @@ export async function LogoBanner() {
   }
 
   return (
-    <div className="w-full bg-secondary">
+    <div className="w-full bg-secondary animate-in fade-in">
       <Marquee className="h-20 w-full" pauseOnHover>
         {advertisers?.map((advertiser: Advertiser) => (
           <div

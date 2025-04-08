@@ -19,14 +19,14 @@ const steps = [
       totalStores: number;
     }) => (
       <div className="p-4 space-y-4">
-        <div className="bg-white rounded-full shadow-sm p-3 flex items-center gap-2">
+        <div className="bg-white rounded-full shadow-sm p-3 flex items-center gap-2 animate-in fade-in slide-in-from-top-4 duration-700">
           <Search className="w-5 h-5 text-gray-400" />
           <span className="text-gray-500">
             Shop {totalStores.toLocaleString()}+ stores
           </span>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 max-h-[180px] overflow-hidden">
+        <div className="grid grid-cols-4 gap-2 max-h-[180px] overflow-hidden animate-in fade-in zoom-in-85 duration-700">
           {brands.slice(0, 12).map((brand) => (
             <div
               key={brand.id}
@@ -51,7 +51,7 @@ const steps = [
       "Shop at your favorite stores and earn cash back. Mint is always on, so you'll never miss a deal.",
     renderContent: ({}: { brands: Advertiser[]; totalStores: number }) => (
       <div className="p-4">
-        <div className="bg-white rounded-lg shadow-sm p-4">
+        <div className="bg-white rounded-lg shadow-sm p-4 animate-in fade-in slide-in-from-bottom-10 duration-700">
           <div className="bg-yellow-100 rounded-lg w-full h-32 mb-4 flex items-center justify-center">
             <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center">
               <Shirt className="w-12 h-12 text-gray-700" />
@@ -80,10 +80,10 @@ const steps = [
       "Redeem your cash back for rewards in the form of gift cards, PayPal, Venmo & more.",
     renderContent: ({}: { brands: Advertiser[]; totalStores: number }) => (
       <div className="p-4 flex flex-col space-y-4">
-        <div className="bg-[#0070BA] text-white p-4 rounded-lg flex items-center justify-center">
+        <div className="bg-[#0070BA] text-white p-4 rounded-lg flex items-center justify-center animate-in fade-in slide-in-from-right-4 duration-700">
           <span className="text-2xl font-bold">PayPal</span>
         </div>
-        <div className="bg-[#F5F5F5] p-4 rounded-lg relative overflow-hidden border border-gray-200">
+        <div className="bg-[#F5F5F5] p-4 rounded-lg relative overflow-hidden border border-gray-200 animate-in fade-in slide-in-from-left-4 duration-700">
           <div className="absolute top-2 right-2">
             <span className="text-xs text-gray-500">4564332</span>
           </div>

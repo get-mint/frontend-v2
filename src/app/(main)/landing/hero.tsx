@@ -32,9 +32,9 @@ export async function Hero() {
   }
 
   return (
-    <div className="w-full bg-primary/40">
+    <div className="w-full bg-primary/40 animate-in fade-in">
       <div className="max-w-6xl mx-auto px-4 py-24 flex items-center gap-12 justify-between">
-        <div className="max-w-xl">
+        <div className="max-w-xl animate-in fade-in slide-in-from-left-16 duration-700">
           <p className="text-2xl font-extrabold text-secondary">Mint</p>
 
           <h1 className="text-7xl font-bold tracking-tight mb-3">
@@ -50,7 +50,7 @@ export async function Hero() {
           </p>
         </div>
 
-        <Card className="bg-white rounded-3xl p-8 shadow-lg w-md">
+        <Card className="bg-white rounded-3xl p-8 shadow-lg w-md animate-in zoom-in-95 duration-700 fade-in">
           <CardContent className="p-0 justify-center">
             <h2 className="text-4xl font-bold mb-2">Ready to start saving?</h2>
 
@@ -63,7 +63,7 @@ export async function Hero() {
             </p>
 
             <Button
-              className="w-full text-lg py-6 rounded-full"
+              className="w-full text-lg py-6 rounded-full hover:scale-105 duration-300"
               variant="secondary"
               asChild
             >
