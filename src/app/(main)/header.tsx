@@ -114,17 +114,16 @@ export function Header() {
             )}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 mr-4">
             <div className="px-4">
               <AuthNav authUser={authUser} />
             </div>
 
             {isMobile && (
               <>
-                <div className="h-6 w-px bg-border/50" />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-10 w-10">
+                    <Button variant="outline" size="icon" className="h-10 w-10">
                       <MenuIcon className="size-5" />
                     </Button>
                   </DropdownMenuTrigger>

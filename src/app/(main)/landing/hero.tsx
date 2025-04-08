@@ -58,11 +58,13 @@ export async function Hero() {
           </p>
         </div>
 
-        <Card className="bg-white rounded-3xl p-8 shadow-lg w-md animate-in zoom-in-95 duration-700 fade-in">
+        <Card className="bg-white rounded-3xl p-8 shadow-lg w-sm sm:w-md animate-in zoom-in-95 duration-700 fade-in">
           <CardContent className="p-0 justify-center">
-            <h2 className="text-4xl font-bold mb-2">Ready to start saving?</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-2">
+              Ready to start saving?
+            </h2>
 
-            <p className="text-lg font-semibold mb-4">
+            <p className="sm:text-lg font-semibold mb-4">
               Join our community of{" "}
               <span className="text-secondary underline font-bold">
                 {stats.usersCount || "1,000+"}

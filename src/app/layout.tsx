@@ -33,7 +33,7 @@ export default function Layout({
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
-            enableSystem
+            forcedTheme="light"
             disableTransitionOnChange
             storageKey="theme-preference"
           >
