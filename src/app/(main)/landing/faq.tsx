@@ -36,7 +36,7 @@ const faqItems = [
 
 export default function FAQ() {
   return (
-    <div className="container max-w-6xl mx-auto px-4">
+    <div className="container max-w-6xl mx-auto px-4 pt-12 pb-24">
       <div className="text-center mb-12">
         <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-secondary">
           Got Questions? We've Got Answers.
