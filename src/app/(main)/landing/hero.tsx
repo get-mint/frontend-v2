@@ -39,7 +39,7 @@ export async function Hero() {
 
   return (
     <div className="w-full bg-primary/40 animate-in fade-in">
-      <div className="max-w-6xl mx-auto px-4 py-8 sm:py-24 flex flex-col sm:flex-row items-center gap-6 sm:gap-12 justify-between">
+      <div className="max-w-6xl mx-auto px-4 py-12 sm:py-24 flex flex-col sm:flex-row items-center gap-6 sm:gap-12 justify-between">
         <div className="max-w-xl animate-in fade-in slide-in-from-left-16 duration-700 sm:text-left text-center">
           <p className="text-2xl font-extrabold text-secondary hidden sm:block">
             Mint

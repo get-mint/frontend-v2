@@ -43,7 +43,7 @@ export default function FAQ() {
   return (
     <div className="bg-muted/55">
       <div className="container max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-secondary">
             Got Questions? We've Got Answers
           </h2>
@@ -70,13 +70,16 @@ export default function FAQ() {
         </Accordion>
 
         <div className="text-center mt-8">
-          <Link
-            href="/info/company/faq"
-            className="inline-block text-secondary hover:text-secondary/80 underline underline-offset-4 transition-colors"
-          >
-            Still have doubts? Click below to explore our most common questions
-            — quick, clear, and no fluff.
-          </Link>
+          <p className="text-muted-foreground text-base">
+            Still have doubts? Click{" "}
+            <Link
+              href="/info/company/faq"
+              className="inline-block text-secondary hover:text-secondary/80 underline underline-offset-4 transition-colors"
+            >
+              here
+            </Link>{" "}
+            to explore our most common questions — quick, clear, and no fluff.
+          </p>
         </div>
       </div>
     </div>

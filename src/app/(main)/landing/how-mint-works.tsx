@@ -132,7 +132,7 @@ export async function HowMintWorks() {
 
   return (
     <div className="py-16">
-      <div className="text-center mb-10">
+      <div className="text-center mb-8 sm:mb-10">
         <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-secondary">
           Here's How Mint Works
         </h2>
