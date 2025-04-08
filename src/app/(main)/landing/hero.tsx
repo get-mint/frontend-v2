@@ -33,11 +33,11 @@ export async function Hero() {
 
   return (
     <div className="w-full bg-primary/40 animate-in fade-in">
-      <div className="max-w-6xl mx-auto px-4 py-24 flex items-center gap-12 justify-between">
+      <div className="max-w-6xl mx-auto px-4 py-16 sm:py-24 flex flex-col sm:flex-row items-center gap-12 justify-between">
         <div className="max-w-xl animate-in fade-in slide-in-from-left-16 duration-700">
-          <p className="text-2xl font-extrabold text-secondary">Mint</p>
+          <p className="text-2xl font-extrabold text-secondary hidden sm:block">Mint</p>
 
-          <h1 className="text-7xl font-bold tracking-tight mb-3">
+          <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-3">
             It's your money,
             <br />
             we grab it for you

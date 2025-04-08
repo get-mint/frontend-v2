@@ -28,7 +28,7 @@ export async function LogoBanner() {
         {advertisers?.map((advertiser: Advertiser) => (
           <div
             key={advertiser.id}
-            className="flex items-center justify-center min-w-[100px] h-full px-3"
+            className="flex items-center justify-center h-full"
           >
             <img
               src={advertiser.showcase_image_url!}
