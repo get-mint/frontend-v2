@@ -3,7 +3,7 @@ import { LogoBanner } from "./logo-banner";
 import { HowMintWorks } from "./how-mint-works";
 import { Faq } from "./faq";
 
-export default function LandingPage() {
+export default async function LandingPage() {
   return (
     <>
       <Hero />
