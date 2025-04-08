@@ -20,14 +20,6 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const sections = [
   {
-    title: "Product",
-    links: [
-      { href: "/download", label: "Download" },
-      { href: "#features", label: "Features", isScroll: true },
-      { href: "/info/security", label: "Security" },
-    ],
-  },
-  {
     title: "Company",
     links: [
       { href: "/info/company/about", label: "About Us" },
@@ -70,47 +62,16 @@ export function Footer() {
 
   return (
     <footer className="border-t bg-background mt-12">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-4">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-wrap gap-8 max-w-3xl">
+          <div className="w-full md:w-auto md:min-w-[200px]">
             <Logo />
-          </div>
 
-          {sections.map((section) => (
-            <div key={section.title}>
-              <h3 className="font-semibold mb-4">{section.title}</h3>
-              <ul className="space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      onClick={(e) => handleClick(e, link.href)}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
-                      target={
-                        link.href.startsWith("/info/") ? "_blank" : undefined
-                      }
-                      rel={
-                        link.href.startsWith("/info/")
-                          ? "noopener noreferrer"
-                          : undefined
-                      }
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="border-t mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground">
-              © {currentYear} {brand.name}. All rights reserved.
+            <p className="mt-1 text-sm text-muted-foreground mb-4">
+              {brand.description}
             </p>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4">
               {Object.entries(brand.social).map(([platform, href]) => {
                 if (href !== "https://example.com") {
                   return (
@@ -130,6 +91,41 @@ export function Footer() {
               })}
             </div>
           </div>
+
+          <div className="flex flex-wrap gap-8 w-full md:w-auto">
+            {sections.map((section) => (
+              <div key={section.title} className="min-w-[200px]">
+                <h3 className="font-semibold mb-4">{section.title}</h3>
+                <ul className="space-y-2">
+                  {section.links.map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        onClick={(e) => handleClick(e, link.href)}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                        target={
+                          link.href.startsWith("/info/") ? "_blank" : undefined
+                        }
+                        rel={
+                          link.href.startsWith("/info/")
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="border-t mt-8 pt-8">
+          <p className="text-sm text-muted-foreground">
+            © {currentYear} {brand.name}. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
