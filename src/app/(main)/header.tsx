@@ -28,6 +28,7 @@ const navItems = [
 
 const AuthNav = ({ authUser }: { authUser: any }) => {
   const router = useRouter();
+
   const supabase = createClient();
 
   const handleSignOut = async () => {
@@ -81,8 +82,9 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
 };
 
 export function Header() {
-  const { authUser } = useAuth();
   const isMobile = useIsMobile();
+
+  const { authUser } = useAuth();
 
   return (
     <div className="sticky top-0 z-50 bg-background border-b">
@@ -91,7 +93,7 @@ export function Header() {
           <div className="flex items-center">
             <div className="pl-6 pr-3">
               <Link href="/" className="flex items-center">
-                <Logo />
+                <Logo size="md" />
               </Link>
             </div>
 

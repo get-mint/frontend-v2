@@ -8,7 +8,8 @@ const logoVariants = cva("flex items-center gap-1", {
     size: {
       default: "text-xl",
       sm: "text-base",
-      lg: "text-2xl",
+      md: "text-xl gap-2",
+      lg: "text-2xl gap-2",
     },
   },
   defaultVariants: {
@@ -38,10 +39,11 @@ export function Logo({ size, className }: LogoProps) {
         className={cn("text-primary", {
           "size-6": size === "default",
           "size-4": size === "sm",
+          "size-7": size === "md",
           "size-8": size === "lg",
         })}
       />
-      <span className="font-semibold text-secondary">{brand.name}</span>
+      <span className="font-bold text-secondary">{brand.name}</span>
     </div>
   );
 }
