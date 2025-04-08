@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
-import { LogOutIcon, LayoutDashboardIcon } from "lucide-react";
+import { LogOutIcon, LayoutDashboardIcon, MenuIcon } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
+import { useIsMobile } from "@/lib/hooks/use-mobile";
 
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -40,10 +40,7 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
       {authUser ? (
         <div className="flex items-center">
           <DropdownMenu>
-            <DropdownMenuTrigger
-              asChild
-              className="cursor-pointer hover:scale-105 transition-transform duration-300"
-            >
+            <DropdownMenuTrigger asChild className="cursor-pointer">
               <Avatar className="border size-10">
                 <AvatarImage src={authUser.user_metadata?.avatar_url} />
                 <AvatarFallback className="text-muted-foreground font-semibold">
@@ -68,19 +65,14 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
           </DropdownMenu>
         </div>
       ) : (
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <Link href="/auth/login">
-            <Button
-              variant="outline"
-              className="rounded-full px-6 hover:scale-105 transition-transform duration-300"
-            >
+            <Button variant="outline" className="rounded-full px-6">
               Log In
             </Button>
           </Link>
           <Link href="/auth/signup">
-            <Button className="rounded-full px-6 hover:scale-105 transition-transform duration-300">
-              Sign Up
-            </Button>
+            <Button className="rounded-full px-6">Sign Up</Button>
           </Link>
         </div>
       )}
@@ -90,46 +82,67 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
 
 export function Header() {
   const { authUser } = useAuth();
+  const isMobile = useIsMobile();
 
   return (
-    <>
-      <div className="w-full bg-background h-24" />
-      <div className="sticky top-0 z-50 -mt-24">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-center py-6">
-            <div className="border rounded-full h-14 bg-background/40 backdrop-blur-xl flex items-center shadow-sm hover:shadow-md transition-all duration-300 border-white/20">
-              <div className="px-6">
-                <Link
-                  href="/"
-                  className="flex items-center hover:scale-105 transition-transform duration-300"
-                >
-                  <Logo />
-                </Link>
-              </div>
-
-              <div className="h-6 w-px bg-border/50" />
-
-              <nav className="flex gap-8 px-8">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-foreground font-semibold hover:text-secondary/80 transition-colors duration-300"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-
-              <div className="h-6 w-px bg-border/50" />
-
-              <div className="px-4">
-                <AuthNav authUser={authUser} />
-              </div>
+    <div className="sticky top-0 z-50 bg-background border-b">
+      <div className="container mx-auto">
+        <div className="flex items-center justify-between py-5">
+          <div className="flex items-center">
+            <div className="pl-6 pr-3">
+              <Link href="/" className="flex items-center">
+                <Logo />
+              </Link>
             </div>
+
+            {!isMobile && (
+              <>
+                <div className="h-6 w-px bg-border/50" />
+
+                <nav className="flex gap-8 px-8">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="text-foreground font-semibold hover:text-secondary/80 transition-colors duration-300"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
+              </>
+            )}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="px-4">
+              <AuthNav authUser={authUser} />
+            </div>
+
+            {isMobile && (
+              <>
+                <div className="h-6 w-px bg-border/50" />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-10 w-10">
+                      <MenuIcon className="size-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    {navItems.map((item) => (
+                      <DropdownMenuItem key={item.href} asChild>
+                        <Link href={item.href} className="cursor-pointer">
+                          {item.label}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

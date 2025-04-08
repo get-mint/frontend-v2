@@ -71,7 +71,7 @@ export async function Hero() {
             </p>
 
             <Button
-              className="w-full text-lg py-6 rounded-full hover:scale-105 duration-300"
+              className="w-full text-lg py-6 rounded-full hover:scale-102"
               variant="secondary"
               asChild
             >
