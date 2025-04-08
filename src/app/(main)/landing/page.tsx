@@ -1,6 +1,7 @@
 import { Hero } from "./hero";
 import { LogoBanner } from "./logo-banner";
 import { HowMintWorks } from "./how-mint-works";
+import { Faq } from "./faq";
 
 export default function LandingPage() {
   return (
@@ -8,6 +9,7 @@ export default function LandingPage() {
       <Hero />
       <LogoBanner />
       <HowMintWorks />
+      <Faq />
     </>
   );
 }
