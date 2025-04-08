@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 import { createClient } from "@/lib/supabase/server/server";
 
 import { Marquee } from "@/components/magicui/marquee";
@@ -6,7 +8,7 @@ import { Database } from "@/types/supabase";
 
 type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
 
-export async function LogoBanner() {
+const getAdvertisers = cache(async () => {
   const supabase = await createClient();
 
   const { data: advertisers, error } = await supabase
@@ -19,6 +21,16 @@ export async function LogoBanner() {
 
   if (error) {
     console.error("Error fetching advertisers:", error);
+    return null;
+  }
+
+  return advertisers;
+});
+
+export async function LogoBanner() {
+  const advertisers = await getAdvertisers();
+
+  if (!advertisers) {
     return null;
   }
 
