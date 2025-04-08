@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 const faqItems = [
   {
@@ -33,15 +34,15 @@ const faqItems = [
   },
 ];
 
-export function Faq() {
+export default function FAQ() {
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-16">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-secondary">
-          Still have doubts?
+    <div className="container max-w-4xl mx-auto px-4">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-3 text-secondary">
+          Got Questions? We've Got Answers.
         </h2>
         <p className="text-muted-foreground text-lg">
-          We've got you covered.
+          Find quick answers to common questions about Mint
         </p>
       </div>
 
@@ -61,6 +62,15 @@ export function Faq() {
           </AccordionItem>
         ))}
       </Accordion>
+
+      <div className="text-center mt-8">
+        <Link 
+          href="/info/company/faq"
+          className="inline-block text-secondary hover:text-secondary/80 underline underline-offset-4 transition-colors"
+        >
+          Still have doubts? Click below to explore our most common questions — quick, clear, and no fluff.
+        </Link>
+      </div>
     </div>
   );
 }
