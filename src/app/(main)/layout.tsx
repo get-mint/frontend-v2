@@ -8,7 +8,6 @@ export default function MainLayout({
   return (
     <main>
       <Header />
-
       {children}
       <Footer />
     </main>

@@ -88,7 +88,7 @@ export function Header() {
 
   return (
     <div className="sticky top-0 z-50 bg-background border-b">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-5">
           <div className="flex items-center">
             <div className="pr-3">
