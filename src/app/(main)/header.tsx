@@ -42,24 +42,24 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
         <div className="flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
-              <Avatar className="border size-10">
+              <Avatar className="border size-11">
                 <AvatarImage src={authUser.user_metadata?.avatar_url} />
                 <AvatarFallback className="text-muted-foreground font-semibold">
                   {authUser.email?.[0].toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="animate-in fade-in slide-in-from-top-2 bg-background/40 backdrop-blur-md">
-              <DropdownMenuItem className="hover:bg-secondary/10 transition-colors duration-300">
-                <LayoutDashboardIcon className="size-4 text-foreground" />
-                <Link href="/dashboard">Dashboard</Link>
+
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href="/user">
+                  <LayoutDashboardIcon />
+                  Dashboard
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={handleSignOut}
-                className="cursor-pointer hover:bg-destructive/10 transition-colors duration-300"
-              >
-                <LogOutIcon className="size-4 text-destructive" />
+              <DropdownMenuItem onClick={handleSignOut}>
+                <LogOutIcon className="text-destructive" />
                 Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -91,7 +91,7 @@ export function Header() {
       <div className="container mx-auto">
         <div className="flex items-center justify-between py-5">
           <div className="flex items-center">
-            <div className="pl-6 pr-3">
+            <div className="pr-3">
               <Link href="/" className="flex items-center">
                 <Logo size="md" />
               </Link>
@@ -114,10 +114,8 @@ export function Header() {
             )}
           </div>
 
-          <div className="flex items-center gap-4 mr-4">
-            <div className="px-4">
+          <div className="flex items-center gap-4">
               <AuthNav authUser={authUser} />
-            </div>
 
             {isMobile && (
               <>
