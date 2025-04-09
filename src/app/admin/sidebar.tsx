@@ -19,7 +19,12 @@ import {
 const items = [
   {
     title: "Dashboard",
-    url: "/dashboard",
+    url: "/admin",
+    icon: brand.lucideIcon,
+  },
+  {
+    title: "Advertisers",
+    url: "/admin/advertisers",
     icon: brand.lucideIcon,
   },
 ];
