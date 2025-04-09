@@ -52,8 +52,13 @@ async function protectPath(
 const protectedRoutes = [
   {
     path: "/dashboard",
-    roles: [], // This route only requires authentication, no specific roles
+    roles: ["Admin"], // This route only requires authentication, no specific roles
     unauthorizedPath: "/unauthorized",
+  },
+  {
+    path: "/user",
+    roles: [],
+    unauthorizedPath: "/auth/login",
   },
   // Add more protected routes here as needed
   // Example:

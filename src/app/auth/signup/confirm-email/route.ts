@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { createHash } from "crypto";
+
 import { createClient, createAdminClient } from "@/lib/supabase/server/server";
 import { AuthenticationError, handleApiError } from "@/lib/utils/errors";
 
@@ -40,15 +42,22 @@ export async function GET(request: Request) {
       throw new AuthenticationError("No email found in session");
     }
 
-    const supabaseAdmin = await createAdminClient();
+    const tracking_id = createHash("sha256")
+      .update(session.user.email.trim().toLowerCase())
+      .digest("hex");
+
+    const supabaseAdmin = createAdminClient();
 
     const { error: createUserError } = await supabaseAdmin
       .from("users")
       .insert({
         id: session.user.id,
+        tracking_id,
       });
 
     if (createUserError) {
+      await supabaseAdmin.auth.admin.deleteUser(session.user.id);
+
       throw new AuthenticationError(
         "Failed to create user: ",
         createUserError.message

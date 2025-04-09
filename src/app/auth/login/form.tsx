@@ -51,7 +51,7 @@ export function LoginForm() {
       setIsLoading(true);
       const loginResult = await logIn(email, password);
       if (!loginResult?.error) {
-        router.push("/dashboard");
+        router.push("/user");
       }
     } finally {
       setIsLoading(false);
