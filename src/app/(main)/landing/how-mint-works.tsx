@@ -4,6 +4,8 @@ import { createAdminClient } from "@/lib/supabase/server/server";
 
 import type { Database } from "@/types/supabase";
 
+import { BrandShowcase } from "./brand-showcase";
+
 type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
 
 const steps = [
@@ -12,7 +14,6 @@ const steps = [
     description:
       "Install Mint, enter your email, and start shopping. Mint will pop up whenever cashback is available.",
     renderContent: ({
-      brands,
       totalStores,
     }: {
       brands: Advertiser[];
@@ -25,23 +26,7 @@ const steps = [
             Shop {totalStores.toLocaleString()}+ stores
           </span>
         </div>
-
-        <div className="grid grid-cols-4 gap-2 max-h-[180px] overflow-hidden animate-in fade-in zoom-in-85 duration-700">
-          {brands.slice(0, 12).map((brand) => (
-            <div
-              key={brand.id}
-              className="bg-white p-2 rounded-lg shadow-sm flex items-center justify-center"
-            >
-              <div className="w-12 h-12 relative">
-                <img
-                  src={brand.image_url || "/placeholder.svg"}
-                  alt={brand.name}
-                  className="object-contain w-full h-full"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+        <BrandShowcase />
       </div>
     ),
   },
@@ -137,7 +122,8 @@ export async function HowMintWorks() {
           Here's How Mint Works
         </h2>
         <p className="text-muted-foreground text-lg">
-          Get started in just three simple steps and start earning cashback today
+          Get started in just three simple steps and start earning cashback
+          today
         </p>
       </div>
 
