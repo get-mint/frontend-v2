@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Computer, LayoutDashboard } from "lucide-react";
+import { brand } from "@/lib/constants/brand";
 
 import {
   Sidebar,
@@ -20,7 +20,7 @@ const items = [
   {
     title: "Dashboard",
     url: "/dashboard",
-    icon: LayoutDashboard,
+    icon: brand.lucideIcon,
   },
 ];
 
@@ -33,9 +33,9 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <Link href={"/dashboard"} passHref legacyBehavior>
-              <SidebarMenuButton className="bg-secondary text-foreground py-6 px-4 text-lg transition-all duration-150 cursor-pointer">
-                <Computer className="h-5 w-5" />
-                <span className="text-base font-semibold">Next Supa Shad</span>
+              <SidebarMenuButton className="bg-primary text-primary-foreground py-6 px-4 text-lg transition-all duration-150 cursor-pointer">
+                <brand.lucideIcon className="h-5 w-5" />
+                <span className="text-base font-semibold">{brand.name}</span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
