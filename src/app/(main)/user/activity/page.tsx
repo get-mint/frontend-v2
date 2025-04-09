@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 
@@ -18,6 +19,11 @@ type Transaction = {
   transaction_status: "PENDING" | "APPROVED" | "DECLINED" | "EXPIRED" | "PAID";
   advertiser_id: string;
   network_id: string;
+  user_commission_reward_pct: number;
+  advertiser: {
+    name: string;
+    image_url: string | null;
+  };
 };
 
 export default function ActivityPage() {
@@ -32,7 +38,7 @@ export default function ActivityPage() {
       if (!user?.id) return;
 
       const supabase = createClient();
-      
+
       // Get total count for pagination
       const { count } = await supabase
         .from("user_transactions")
@@ -41,10 +47,15 @@ export default function ActivityPage() {
 
       setTotalPages(Math.ceil((count || 0) / ITEMS_PER_PAGE));
 
-      // Get paginated transactions
+      // Get paginated transactions with advertiser info
       const { data } = await supabase
         .from("user_transactions")
-        .select("*")
+        .select(
+          `
+          *,
+          advertiser:advertisers(name, image_url)
+        `
+        )
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
         .range(
@@ -59,20 +70,20 @@ export default function ActivityPage() {
     fetchTransactions();
   }, [user?.id, currentPage]);
 
-  const getStatusColor = (status: Transaction["transaction_status"]) => {
+  const getStatusVariant = (status: Transaction["transaction_status"]) => {
     switch (status) {
       case "APPROVED":
-        return "text-green-600";
+        return "default";
       case "PENDING":
-        return "text-yellow-600";
+        return "secondary";
       case "DECLINED":
-        return "text-red-600";
+        return "destructive";
       case "EXPIRED":
-        return "text-gray-600";
+        return "outline";
       case "PAID":
-        return "text-blue-600";
+        return "default";
       default:
-        return "text-gray-600";
+        return "outline";
     }
   };
 
@@ -86,7 +97,10 @@ export default function ActivityPage() {
           {loading ? (
             <div className="space-y-4">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-16 w-full animate-pulse bg-muted rounded" />
+                <div
+                  key={i}
+                  className="h-16 w-full animate-pulse bg-muted rounded"
+                />
               ))}
             </div>
           ) : transactions.length === 0 ? (
@@ -95,29 +109,54 @@ export default function ActivityPage() {
             </p>
           ) : (
             <div className="space-y-4">
-              {transactions.map((transaction) => (
-                <div
-                  key={transaction.id}
-                  className="flex items-center justify-between p-4 border rounded-lg"
-                >
-                  <div>
-                    <p className="font-medium">
-                      ${transaction.sale_amount.toFixed(2)}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {format(new Date(transaction.created_at), "MMM d, yyyy")}
-                    </p>
+              {transactions.map((transaction) => {
+                const earnedAmount =
+                  transaction.total_commission *
+                  (transaction.user_commission_reward_pct / 100);
+
+                return (
+                  <div
+                    key={transaction.id}
+                    className="flex items-center justify-between p-4 border rounded-lg"
+                  >
+                    <div className="flex items-center gap-4">
+                      {transaction.advertiser.image_url && (
+                        <img
+                          src={transaction.advertiser.image_url}
+                          alt={transaction.advertiser.name}
+                          className="h-10 w-10 rounded object-contain"
+                        />
+                      )}
+                      <div>
+                        <p className="font-medium">
+                          {transaction.advertiser.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {format(
+                            new Date(transaction.created_at),
+                            "MMM d, yyyy"
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-medium text-green-600">
+                        +${earnedAmount.toFixed(2)}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        ${transaction.sale_amount.toFixed(2)} purchase
+                      </p>
+                      <Badge
+                        variant={getStatusVariant(
+                          transaction.transaction_status
+                        )}
+                      >
+                        {transaction.transaction_status}
+                      </Badge>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-medium">
-                      +${transaction.total_commission.toFixed(2)}
-                    </p>
-                    <p className={`text-sm ${getStatusColor(transaction.transaction_status)}`}>
-                      {transaction.transaction_status}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
@@ -137,7 +176,9 @@ export default function ActivityPage() {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
+                }
                 disabled={currentPage === totalPages}
               >
                 <ChevronRight className="h-4 w-4" />
@@ -148,4 +189,4 @@ export default function ActivityPage() {
       </Card>
     </div>
   );
-} 
+}
