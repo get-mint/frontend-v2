@@ -166,13 +166,19 @@ export function SignupForm() {
               </div>
             </div>
           </form>
-          
-          <div className="relative hidden h-full bg-muted md:block">
-            <img
-              src="/placeholder.svg"
-              alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
+
+          <div className="relative hidden h-full bg-primary/40 md:block">
+            <div className="absolute inset-0 h-full w-full flex items-center justify-center p-4">
+              <div className="flex flex-col gap-4 items-center">
+                <h2 className="text-3xl font-extrabold">
+                  Ready to save money?
+                </h2>
+                <p className="text-lg text-balance font-semibold text-secondary text-center">
+                  Join Mint today and start saving money on your favorite
+                  brands. 💸
+                </p>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -12,8 +12,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { AuthBrandShowcase } from "@/app/auth/brand-showcase";
-
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -130,9 +128,14 @@ export function LoginForm() {
             </div>
           </form>
 
-          <div className="relative hidden h-full bg-muted md:block">
+          <div className="relative hidden h-full bg-primary/40 md:block">
             <div className="absolute inset-0 h-full w-full flex items-center justify-center p-4">
-              <AuthBrandShowcase />
+              <div className="flex flex-col gap-4 items-center">
+                <h2 className="text-3xl font-extrabold">Welcome Back!</h2>
+                <p className="text-lg text-balance font-semibold text-secondary text-center">
+                  We missed you. 😘
+                </p>
+              </div>
             </div>
           </div>
         </CardContent>
