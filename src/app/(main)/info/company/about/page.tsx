@@ -85,39 +85,57 @@ export default function About() {
           </div>
         </section>
 
-        {/* What We Stand For - More natural presentation */}
-        <section className="max-w-3xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold text-secondary mb-10">What We Stand For</h2>
-          <div className="space-y-12">
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-medium text-secondary mb-4">Transparency</h3>
+        {/* What We Stand For - Card-based layout */}
+        <section className="max-w-4xl mx-auto mb-24">
+          <h2 className="text-3xl font-bold text-secondary mb-12 text-center">What We Stand For</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="border-2 border-secondary/10 shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-semibold text-secondary mb-3">Transparency</h3>
+                  <div className="h-1 w-16 bg-secondary/20 rounded-full"></div>
+                </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   You'll always know how much you're earning — and how we're earning too. No hidden agendas.
                 </p>
-              </div>
-              
-              <div>
-                <h3 className="text-2xl font-medium text-secondary mb-4">Simplicity</h3>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-secondary/10 shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-semibold text-secondary mb-3">Simplicity</h3>
+                  <div className="h-1 w-16 bg-secondary/20 rounded-full"></div>
+                </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   Install the extension. Shop as usual. Earn automatically. That's it.
                 </p>
-              </div>
-              
-              <div>
-                <h3 className="text-2xl font-medium text-secondary mb-4">Fairness</h3>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-secondary/10 shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-semibold text-secondary mb-3">Fairness</h3>
+                  <div className="h-1 w-16 bg-secondary/20 rounded-full"></div>
+                </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   We split earnings 50/50. Always. No tiers. No bait-and-switch.
                 </p>
-              </div>
-              
-              <div>
-                <h3 className="text-2xl font-medium text-secondary mb-4">Privacy First</h3>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-secondary/10 shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-semibold text-secondary mb-3">Privacy First</h3>
+                  <div className="h-1 w-16 bg-secondary/20 rounded-full"></div>
+                </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   Your data belongs to you. We'll never sell it or use it to track you around the internet.
                 </p>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
