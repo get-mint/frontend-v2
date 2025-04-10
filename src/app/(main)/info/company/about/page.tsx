@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function About() {
@@ -20,14 +21,57 @@ export default function About() {
         {/* The Team - More personal */}
         <section className="max-w-3xl mx-auto mb-24">
           <h2 className="text-3xl font-bold text-secondary mb-10">The Team</h2>
-          <div className="prose prose-lg">
+          <div className="prose prose-lg mb-12">
             <p className="text-xl text-muted-foreground leading-relaxed mb-6">
               We're designers, developers, and everyday online shoppers.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
               What we have in common? We care about building something useful, honest, and sustainable — something that works quietly in the background to put money back in your hands.
             </p>
-            {/* Note: Team photos would be added here */}
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="relative aspect-[4/5] overflow-hidden bg-[#E6FFF6] rounded-[2.5rem_1rem_2.5rem_1rem]">
+              <Image
+                src="/team/amanda-nguyen.png"
+                alt="Team member photo"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent p-6 text-white">
+                <h3 className="font-semibold text-lg">Alexandros Lekkas</h3>
+                <p className="text-sm text-white/90">University of Chicago</p>
+              </div>
+            </div>
+
+            <div className="relative aspect-[4/5] overflow-hidden bg-[#E6FFF6] rounded-[2.5rem_1rem_2.5rem_1rem]">
+              <Image
+                src="/team/amy-deschamps.png"
+                alt="Team member photo"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent p-6 text-white">
+                <h3 className="font-semibold text-lg">Ashwin Balamaran</h3>
+                <p className="text-sm text-white/90">University of Chicago</p>
+              </div>
+            </div>
+
+            <div className="relative aspect-[4/5] overflow-hidden bg-[#E6FFF6] rounded-[2.5rem_1rem_2.5rem_1rem]">
+              <Image
+                src="/team/luther-makina.png"
+                alt="Team member photo"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent p-6 text-white">
+                <h3 className="font-semibold text-lg">Stelios Papapanagiotou</h3>
+                <p className="text-sm text-white/90">Bentley University</p>
+              </div>
+            </div>
           </div>
         </section>
 
