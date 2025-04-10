@@ -32,7 +32,7 @@ export default function About() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="relative aspect-[4/5] overflow-hidden bg-[#E6FFF6] rounded-[2.5rem_1rem_2.5rem_1rem] group">
-              <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-secondary/70 via-secondary/20 to-transparent opacity-75"></div>
               <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
                 <h3 className="font-semibold text-lg text-white mb-1">Alexandros Lekkas</h3>
                 <p className="text-sm text-white/90">University of Chicago</p>
@@ -40,7 +40,7 @@ export default function About() {
             </div>
 
             <div className="relative aspect-[4/5] overflow-hidden bg-[#E6FFF6] rounded-[2.5rem_1rem_2.5rem_1rem] group">
-              <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-secondary/70 via-secondary/20 to-transparent opacity-75"></div>
               <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
                 <h3 className="font-semibold text-lg text-white mb-1">Ashwin Balamaran</h3>
                 <p className="text-sm text-white/90">University of Chicago</p>
@@ -48,7 +48,7 @@ export default function About() {
             </div>
 
             <div className="relative aspect-[4/5] overflow-hidden bg-[#E6FFF6] rounded-[2.5rem_1rem_2.5rem_1rem] group">
-              <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-secondary/70 via-secondary/20 to-transparent opacity-75"></div>
               <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
                 <h3 className="font-semibold text-lg text-white mb-1">Stelios Papapanagiotou</h3>
                 <p className="text-sm text-white/90">Bentley University</p>
