@@ -7,7 +7,7 @@ export default function About() {
       <div className="container mx-auto px-4 py-16">
         {/* Hero Section - More subtle and editorial */}
         <header className="max-w-3xl mx-auto mb-24">
-          <h1 className="text-5xl font-bold text-secondary mb-8">About Us</h1>
+          <h1 className="text-5xl font-bold text-secondary mb-8 text-center">About Us</h1>
           <div className="prose prose-lg">
             <p className="text-3xl font-medium text-secondary leading-snug mb-8">
               A Smarter Way to Save — Powered by People, Not Points.
@@ -20,7 +20,7 @@ export default function About() {
 
         {/* The Team - More personal */}
         <section className="max-w-3xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold text-secondary mb-10">The Team</h2>
+          <h2 className="text-3xl font-bold text-secondary mb-10 text-center">The Team</h2>
           <div className="prose prose-lg mb-12">
             <p className="text-xl text-muted-foreground leading-relaxed mb-6">
               We're designers, developers, and everyday online shoppers.
@@ -59,7 +59,7 @@ export default function About() {
 
         {/* Our Story - More narrative and engaging */}
         <section className="max-w-3xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold text-secondary mb-10">Our Story</h2>
+          <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Our Story</h2>
           <div className="prose prose-lg space-y-8">
             <div className="bg-muted/30 p-8 rounded-lg">
               <p className="text-2xl text-secondary font-medium italic mb-4">
@@ -144,7 +144,7 @@ export default function About() {
 
         {/* Where We're Going - More vision-focused */}
         <section className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-secondary mb-10">Where We're Going</h2>
+          <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Where We're Going</h2>
           <div className="prose prose-lg">
             <p className="text-lg text-muted-foreground leading-relaxed">
               Mint is still growing — and we like it that way. Every feature we build is focused on one thing: helping people save without needing to change their habits. Whether you're ordering food, buying shoes, or booking flights, Mint works silently in the background — always on your side.
