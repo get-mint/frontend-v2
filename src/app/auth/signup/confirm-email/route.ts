@@ -39,7 +39,7 @@ export async function GET(request: Request) {
     }
 
     if (!session.user.email) {
-      throw new AuthenticationError("No email found in session");
+      throw new AuthenticationError("No email found in session.");
     }
 
     const tracking_id = createHash("sha256")
