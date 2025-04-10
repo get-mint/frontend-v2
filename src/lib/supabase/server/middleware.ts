@@ -99,22 +99,35 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  for (const route of protectedRoutes) {
-    if (request.nextUrl.pathname.startsWith(route.path)) {
-      const unauthorizedPath = await protectPath(
-        supabase,
-        route.roles,
-        false,
-        route.unauthorizedPath
-      );
-      if (unauthorizedPath) {
-        const redirectUrl = new URL(unauthorizedPath, request.url);
-        const previousPage = request.headers.get("referer") || "/";
-        redirectUrl.searchParams.set("from", previousPage);
-        return NextResponse.redirect(redirectUrl);
+  try {
+    for (const route of protectedRoutes) {
+      if (request.nextUrl.pathname.startsWith(route.path)) {
+        const unauthorizedPath = await protectPath(
+          supabase,
+          route.roles,
+          false,
+          route.unauthorizedPath
+        );
+        if (unauthorizedPath) {
+          const redirectUrl = new URL(unauthorizedPath, request.url);
+          const previousPage = request.headers.get("referer") || "/";
+          redirectUrl.searchParams.set("from", previousPage);
+          return NextResponse.redirect(redirectUrl);
+        }
       }
     }
-  }
 
-  return NextResponse.next();
+    return NextResponse.next();
+  } catch (error: any) {
+    // Handle the case where refresh token is not found
+    if (error.name === "AuthApiError" && error.code === "refresh_token_not_found") {
+      const redirectUrl = new URL("/auth/login", request.url);
+      const previousPage = request.headers.get("referer") || "/";
+      redirectUrl.searchParams.set("from", previousPage);
+      return NextResponse.redirect(redirectUrl);
+    }
+    
+    // For other errors, just continue with the request
+    return NextResponse.next();
+  }
 }
