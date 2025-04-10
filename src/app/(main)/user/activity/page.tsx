@@ -9,6 +9,13 @@ import { createClient } from "@/lib/supabase/client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import {
   Pagination,
@@ -21,6 +28,13 @@ import {
 
 const ITEMS_PER_PAGE = 10;
 
+type Currency = {
+  id: string;
+  acronym: string;
+  name: string;
+  symbol: string;
+};
+
 type Transaction = {
   id: string;
   created_at: string;
@@ -30,6 +44,7 @@ type Transaction = {
   advertiser_id: string;
   network_id: string;
   user_commission_reward_pct: number;
+  currency_id: string;
   advertiser: {
     name: string;
     image_url: string | null;
@@ -43,17 +58,36 @@ export default function ActivityPage() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [currencies, setCurrencies] = useState<Currency[]>([]);
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("");
+
+  // Fetch currencies
+  useEffect(() => {
+    async function fetchCurrencies() {
+      const supabase = createClient();
+      const { data } = await supabase.from("currencies").select("*");
+      if (data) {
+        setCurrencies(data);
+        const usd = data.find((c) => c.acronym === "USD");
+        if (usd) {
+          setSelectedCurrency(usd.id);
+        }
+      }
+    }
+    fetchCurrencies();
+  }, []);
 
   useEffect(() => {
     async function fetchTransactions() {
-      if (!user?.id) return;
+      if (!user?.id || !selectedCurrency) return;
 
       const supabase = createClient();
 
       const { count } = await supabase
         .from("user_transactions")
         .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id);
+        .eq("user_id", user.id)
+        .eq("currency_id", selectedCurrency);
 
       setTotalPages(Math.ceil((count || 0) / ITEMS_PER_PAGE));
 
@@ -66,6 +100,7 @@ export default function ActivityPage() {
         `
         )
         .eq("user_id", user.id)
+        .eq("currency_id", selectedCurrency)
         .order("created_at", { ascending: false })
         .range(
           (currentPage - 1) * ITEMS_PER_PAGE,
@@ -77,7 +112,7 @@ export default function ActivityPage() {
     }
 
     fetchTransactions();
-  }, [user?.id, currentPage]);
+  }, [user?.id, currentPage, selectedCurrency]);
 
   const getStatusVariant = (status: Transaction["transaction_status"]) => {
     switch (status) {
@@ -96,8 +131,27 @@ export default function ActivityPage() {
     }
   };
 
+  const selectedCurrencyData = currencies.find(
+    (c) => c.id === selectedCurrency
+  );
+
   return (
     <div className="space-y-6">
+      <div className="flex justify-end">
+        <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select currency" />
+          </SelectTrigger>
+          <SelectContent>
+            {currencies.map((currency) => (
+              <SelectItem key={currency.id} value={currency.id}>
+                {currency.acronym} - {currency.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <Card>
         <CardHeader>
           <CardTitle>Transaction History</CardTitle>
@@ -150,10 +204,12 @@ export default function ActivityPage() {
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-green-600">
-                        +${earnedAmount.toFixed(2)}
+                        +{selectedCurrencyData?.symbol || "$"}
+                        {earnedAmount.toFixed(2)}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        ${transaction.sale_amount.toFixed(2)} purchase
+                        {selectedCurrencyData?.symbol || "$"}
+                        {transaction.sale_amount.toFixed(2)} purchase
                       </p>
                       <Badge
                         variant={getStatusVariant(
