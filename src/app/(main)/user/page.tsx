@@ -28,6 +28,7 @@ type TransactionStats = {
 
 export default function UserPage() {
   const { user } = useAuth();
+
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [selectedCurrency, setSelectedCurrency] = useState<string>("");
   const [stats, setStats] = useState<TransactionStats>({
@@ -43,7 +44,6 @@ export default function UserPage() {
       const { data } = await supabase.from("currencies").select("*");
       if (data) {
         setCurrencies(data);
-        // Set default currency to USD if available
         const usd = data.find((c) => c.acronym === "USD");
         if (usd) {
           setSelectedCurrency(usd.id);
@@ -53,7 +53,6 @@ export default function UserPage() {
     fetchCurrencies();
   }, []);
 
-  // Fetch stats when currency changes
   useEffect(() => {
     async function fetchStats() {
       if (!user?.id || !selectedCurrency) return;
@@ -93,35 +92,38 @@ export default function UserPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end">
-        <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select currency" />
-          </SelectTrigger>
-          <SelectContent>
-            {currencies.map((currency) => (
-              <SelectItem key={currency.id} value={currency.id}>
-                {currency.acronym} - {currency.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
             <CardTitle>Total Earnings</CardTitle>
           </CardHeader>
           <CardContent>
-            {loading ? (
-              <div className="h-8 w-24 animate-pulse bg-muted rounded" />
-            ) : (
-              <p className="text-3xl font-bold">
-                {selectedCurrencyData?.symbol || "$"}
-                {stats.totalEarnings.toFixed(2)}
-              </p>
-            )}
+            <div className="flex items-center justify-between">
+              {loading ? (
+                <div className="h-8 w-24 animate-pulse bg-muted rounded" />
+              ) : (
+                <p className="text-3xl font-bold">
+                  {selectedCurrencyData?.symbol || "$"}
+                  {stats.totalEarnings.toFixed(2)}
+                </p>
+              )}
+
+              <Select
+                value={selectedCurrency}
+                onValueChange={setSelectedCurrency}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select currency" />
+                </SelectTrigger>
+                <SelectContent>
+                  {currencies.map((currency) => (
+                    <SelectItem key={currency.id} value={currency.id}>
+                      {currency.acronym} - {currency.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </CardContent>
         </Card>
 
