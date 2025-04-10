@@ -54,7 +54,7 @@ export default function About() {
           <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Sooo.... meet our team</h2>
           <div className="prose prose-lg mb-12">
             <p className="text-xl text-muted-foreground leading-relaxed mb-6">
-              We're designers, developers, and everyday online shoppers.
+              We're students, entrepreneurs, and everyday online shoppers.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
               What we have in common? We care about building something useful, honest, and sustainable — something that works quietly in the background to put money back in your hands.
