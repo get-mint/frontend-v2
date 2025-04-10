@@ -18,9 +18,40 @@ export default function About() {
           </div>
         </header>
 
+        {/* Our Story - More narrative and engaging */}
+        <section className="max-w-3xl mx-auto mb-24">
+          <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Our Story</h2>
+          <div className="prose prose-lg space-y-8">
+            <div className="bg-muted/30 p-8 rounded-lg">
+              <p className="text-2xl text-secondary font-medium italic mb-4">
+                "Why does saving money online feel like a scam?"
+              </p>
+              <p className="text-lg text-muted-foreground">
+                This question kept coming up in our conversations.
+              </p>
+            </div>
+            
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Between fake discounts, sketchy coupon sites, and rewards platforms that overcomplicate everything, we realized the system just wasn't built for people — it was built for companies to win.
+            </p>
+            
+            <p className="text-2xl font-medium text-secondary">
+              So, we flipped the model.
+            </p>
+            
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Mint was created by a small team of tech-savvy friends who were tired of watching big platforms keep all the affiliate revenue. We believed that users deserve more — more transparency, more fairness, and more cash back for simply… doing what they already do: shopping online.
+            </p>
+            
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              We're not backed by venture capital or owned by a giant corporation. We're independent, product-obsessed, and building something we'd actually use ourselves — and already do.
+            </p>
+          </div>
+        </section>
+
         {/* The Team - More personal */}
         <section className="max-w-3xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold text-secondary mb-10 text-center">The Team</h2>
+          <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Sooo.... meet our team</h2>
           <div className="prose prose-lg mb-12">
             <p className="text-xl text-muted-foreground leading-relaxed mb-6">
               We're designers, developers, and everyday online shoppers.
@@ -54,37 +85,6 @@ export default function About() {
                 <p className="text-sm text-white/90">University of Chicago</p>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Our Story - More narrative and engaging */}
-        <section className="max-w-3xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Our Story</h2>
-          <div className="prose prose-lg space-y-8">
-            <div className="bg-muted/30 p-8 rounded-lg">
-              <p className="text-2xl text-secondary font-medium italic mb-4">
-                "Why does saving money online feel like a scam?"
-              </p>
-              <p className="text-lg text-muted-foreground">
-                This question kept coming up in our conversations.
-              </p>
-            </div>
-            
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Between fake discounts, sketchy coupon sites, and rewards platforms that overcomplicate everything, we realized the system just wasn't built for people — it was built for companies to win.
-            </p>
-            
-            <p className="text-2xl font-medium text-secondary">
-              So, we flipped the model.
-            </p>
-            
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Mint was created by a small team of tech-savvy friends who were tired of watching big platforms keep all the affiliate revenue. We believed that users deserve more — more transparency, more fairness, and more cash back for simply… doing what they already do: shopping online.
-            </p>
-            
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              We're not backed by venture capital or owned by a giant corporation. We're independent, product-obsessed, and building something we'd actually use ourselves — and already do.
-            </p>
           </div>
         </section>
 
