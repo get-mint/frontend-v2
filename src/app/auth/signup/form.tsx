@@ -72,7 +72,7 @@ export function SignupForm() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/signup/confirm-email`,
+          emailRedirectTo: `https://getmint.lol/auth/signup/confirm-email`,
         },
       });
 
