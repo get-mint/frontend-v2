@@ -42,16 +42,16 @@ export default function About() {
             <div className="relative aspect-[4/5] overflow-hidden bg-[#E6FFF6] rounded-[2.5rem_1rem_2.5rem_1rem] group">
               <div className="absolute inset-0 bg-gradient-to-t from-secondary/70 via-secondary/20 to-transparent opacity-75"></div>
               <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
-                <h3 className="font-semibold text-lg text-white mb-1">Ashwin Balamaran</h3>
-                <p className="text-sm text-white/90">University of Chicago</p>
+                <h3 className="font-semibold text-lg text-white mb-1">Stelios Papapanagiotou</h3>
+                <p className="text-sm text-white/90">Bentley University</p>
               </div>
             </div>
 
             <div className="relative aspect-[4/5] overflow-hidden bg-[#E6FFF6] rounded-[2.5rem_1rem_2.5rem_1rem] group">
               <div className="absolute inset-0 bg-gradient-to-t from-secondary/70 via-secondary/20 to-transparent opacity-75"></div>
               <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
-                <h3 className="font-semibold text-lg text-white mb-1">Stelios Papapanagiotou</h3>
-                <p className="text-sm text-white/90">Bentley University</p>
+                <h3 className="font-semibold text-lg text-white mb-1">Ashwin Balamaran</h3>
+                <p className="text-sm text-white/90">University of Chicago</p>
               </div>
             </div>
           </div>
