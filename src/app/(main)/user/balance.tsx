@@ -78,9 +78,8 @@ export function Balance() {
         .select("total_commission, user_commission_reward_pct")
         .eq("user_id", user.id)
         .eq("currency_id", selectedCurrency)
-        .in("transaction_status", ["approved", "pending"])
-        .is("credited", false);
-
+        .in("transaction_status", ["approved", "pending"]);
+        
       const currentBalance = balanceEntries?.[0]?.updated_balance || 0;
       const pendingBalance = pendingTransactions?.reduce((sum, t) => {
         return sum + (t.total_commission * (t.user_commission_reward_pct / 100));
