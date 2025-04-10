@@ -166,6 +166,64 @@ export type Database = {
         }
         Relationships: []
       }
+      user_balance_entries: {
+        Row: {
+          amount: number
+          created_at: string
+          currency_id: string
+          id: string
+          note: string | null
+          transaction_id: string | null
+          type: Database["public"]["Enums"]["balance_entry_type"]
+          updated_balance: number
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          currency_id: string
+          id?: string
+          note?: string | null
+          transaction_id?: string | null
+          type: Database["public"]["Enums"]["balance_entry_type"]
+          updated_balance?: number
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency_id?: string
+          id?: string
+          note?: string | null
+          transaction_id?: string | null
+          type?: Database["public"]["Enums"]["balance_entry_type"]
+          updated_balance?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_balance_entries_currency_id_fkey"
+            columns: ["currency_id"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_balance_entries_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "user_transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_balance_entries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -206,7 +264,7 @@ export type Database = {
         Row: {
           advertiser_id: string
           created_at: string
-          currency_id: string | null
+          currency_id: string
           id: string
           metadata: Json | null
           network_id: string
@@ -221,7 +279,7 @@ export type Database = {
         Insert: {
           advertiser_id: string
           created_at?: string
-          currency_id?: string | null
+          currency_id: string
           id?: string
           metadata?: Json | null
           network_id: string
@@ -236,7 +294,7 @@ export type Database = {
         Update: {
           advertiser_id?: string
           created_at?: string
-          currency_id?: string | null
+          currency_id?: string
           id?: string
           metadata?: Json | null
           network_id?: string
@@ -311,12 +369,14 @@ export type Database = {
       }
     }
     Enums: {
+      balance_entry_type: "credit" | "redeem" | "adjustment"
       transaction_status:
-        | "PENDING"
-        | "APPROVED"
-        | "DECLINED"
-        | "EXPIRED"
-        | "PAID"
+        | "pending"
+        | "approved"
+        | "declined"
+        | "expired"
+        | "paid"
+        | "credited"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -435,12 +495,14 @@ export const Constants = {
   },
   public: {
     Enums: {
+      balance_entry_type: ["credit", "redeem", "adjustment"],
       transaction_status: [
-        "PENDING",
-        "APPROVED",
-        "DECLINED",
-        "EXPIRED",
-        "PAID",
+        "pending",
+        "approved",
+        "declined",
+        "expired",
+        "paid",
+        "credited",
       ],
     },
   },

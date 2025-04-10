@@ -6,13 +6,7 @@ import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { UserBalance } from "@/components/user/balance";
 
 type Currency = {
   id: string;
@@ -92,6 +86,8 @@ export default function UserPage() {
 
   return (
     <div className="space-y-6">
+      <UserBalance />
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
@@ -107,22 +103,6 @@ export default function UserPage() {
                   {stats.totalEarnings.toFixed(2)}
                 </p>
               )}
-
-              <Select
-                value={selectedCurrency}
-                onValueChange={setSelectedCurrency}
-              >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select currency" />
-                </SelectTrigger>
-                <SelectContent>
-                  {currencies.map((currency) => (
-                    <SelectItem key={currency.id} value={currency.id}>
-                      {currency.acronym} - {currency.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </div>
           </CardContent>
         </Card>
