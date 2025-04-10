@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UserBalance } from "@/components/user/balance";
+import { Balance } from "./balance";
 
 type Currency = {
   id: string;
@@ -86,7 +86,7 @@ export default function UserPage() {
 
   return (
     <div className="space-y-6">
-      <UserBalance />
+      <Balance />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>

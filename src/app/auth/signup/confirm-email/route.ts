@@ -43,7 +43,7 @@ export async function GET(request: Request) {
     }
 
     const tracking_id = createHash("sha256")
-      .update(session.user.email.trim().toLowerCase())
+      .update(session.user.email.toLowerCase())
       .digest("hex");
 
     const supabaseAdmin = createAdminClient();
@@ -56,8 +56,6 @@ export async function GET(request: Request) {
       });
 
     if (createUserError) {
-      await supabaseAdmin.auth.admin.deleteUser(session.user.id);
-
       throw new AuthenticationError(
         "Failed to create user: ",
         createUserError.message
