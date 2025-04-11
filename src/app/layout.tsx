@@ -11,6 +11,8 @@ import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
+import "@mint-cashback/ui/styles.css";
+
 const figtree = Figtree({
   subsets: ["latin"],
   variable: "--font-figtree",
