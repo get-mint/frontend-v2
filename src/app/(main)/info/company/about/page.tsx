@@ -7,10 +7,10 @@ export default function About() {
     <article className="bg-background">
       {/* Step 1: The Core Insight */}
       <div className="container mx-auto px-4 py-6">
-        <div className="bg-secondary rounded-3xl overflow-hidden">
-          <div className="w-full text-white py-16 text-center px-16">
+        <div className="bg-[#E6FFF6] rounded-3xl overflow-hidden">
+          <div className="w-full text-secondary py-16 text-center px-16">
             <h1 className="text-5xl font-bold mb-6">Why does saving money online feel so unreliable?</h1>
-            <p className="text-lg text-white/90">Over $35B is earned through affiliate links every year — yet most people never see a cent.</p>
+            <p className="text-lg text-secondary/90">Over $35B is earned through affiliate links every year — yet most people never see a cent.</p>
           </div>
         </div>
       </div>
@@ -19,12 +19,17 @@ export default function About() {
         {/* Step 2: Reframing the Obvious */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
-            <div className="bg-secondary/5 rounded-3xl p-10 w-full text-center">
-              <h2 className="text-3xl font-bold text-secondary mb-4">If you're the one making the purchase… why aren't you earning?</h2>
-              <p className="text-lg text-muted-foreground">
-                This question led us to look more closely at how most online "rewards" actually work.
-              </p>
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
+            <div className="relative">
+              <div className="bg-[#f5f5f5] rounded-[80px_80px_80px_80px] p-10 w-full text-center relative">
+                <h2 className="text-3xl font-bold text-secondary mb-4">If you're the one making the purchase… why aren't you earning?</h2>
+                <p className="text-lg text-muted-foreground">
+                  This question led us to look more closely at how most online "rewards" actually work.
+                </p>
+              </div>
+              {/* Thought bubble circles */}
+              <div className="absolute -bottom-8 right-[30%] w-8 h-8 bg-[#f5f5f5] rounded-full"></div>
+              <div className="absolute -bottom-16 right-[28%] w-6 h-6 bg-[#f5f5f5] rounded-full"></div>
             </div>
           </div>
         </section>
@@ -32,7 +37,7 @@ export default function About() {
         {/* Step 3: The System Behind the Scenes */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="text-center">
               <h2 className="text-3xl font-bold text-secondary mb-4">It wasn't designed with the user in mind</h2>
               <p className="text-lg text-muted-foreground">
@@ -45,12 +50,15 @@ export default function About() {
         {/* Step 4: A Different Approach */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-secondary mb-4">We set out to design something better</h2>
+              <h2 className="text-3xl font-bold text-secondary mb-4">So, we flipped the model</h2>
               <p className="text-lg text-muted-foreground">
-                Mint was built with a single principle: transparency. If a platform earns from your purchase, you should too. Our extension ensures users receive a fair share of the affiliate earnings — automatically and effortlessly.
-              </p>
+              Mint was built with a single principle: <span className="font-bold">transparency</span>. If a platform earns from your purchase, you should too. Our extension ensures users receive a fair share of affiliate earnings — automatically and effortlessly.
+
+We created Mint as a small, independent team of tech-savvy users who were tired of watching big platforms keep all the affiliate revenue. We believed users deserve more — more transparency, more fairness, and more cash back for simply doing what they already do: shop online.
+
+We're not backed by venture capital or owned by a giant corporation. We're product-obsessed, user-first, and building something we'd actually use ourselves — and already do.              </p>
             </div>
           </div>
         </section>
@@ -58,7 +66,7 @@ export default function About() {
         {/* Step 5: Who We Are */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="text-center">
               <h2 className="text-3xl font-bold text-secondary mb-4">A small team with a clear purpose</h2>
               <p className="text-lg text-muted-foreground mb-8">
@@ -90,18 +98,7 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center items-center gap-8 py-8">
-                <img 
-                  src="/team/UChicago.png" 
-                  alt="University of Chicago" 
-                  className="h-16 w-auto object-contain" 
-                />
-                <img 
-                  src="/team/Bentley Logo .png" 
-                  alt="Bentley University" 
-                  className="h-16 w-auto object-contain" 
-                />
-              </div>
+
             </div>
           </div>
         </section>
@@ -109,7 +106,7 @@ export default function About() {
         {/* Step 6: Our Guiding Values */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div>
               <h2 className="text-3xl font-bold text-secondary mb-8 text-center">What Mint stands for</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -160,7 +157,7 @@ export default function About() {
         {/* Step 7: Looking Ahead */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="bg-secondary/5 rounded-3xl p-10 w-full text-center">
               <h2 className="text-3xl font-bold text-secondary mb-4">A platform built to grow with its users</h2>
               <p className="text-lg text-muted-foreground">
