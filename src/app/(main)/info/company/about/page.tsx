@@ -90,9 +90,17 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center py-4">
-                <img src="/team/UChicago.png" alt="UChicago" className="w-16 h-16" />
-                <img src="/team/Bentley Logo .png" alt="Bentley" className="w-16 h-16" />
+              <div className="flex justify-center items-center gap-8 py-8">
+                <img 
+                  src="/team/UChicago.png" 
+                  alt="University of Chicago" 
+                  className="h-16 w-auto object-contain" 
+                />
+                <img 
+                  src="/team/Bentley Logo .png" 
+                  alt="Bentley University" 
+                  className="h-16 w-auto object-contain" 
+                />
               </div>
             </div>
           </div>
