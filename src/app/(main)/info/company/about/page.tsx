@@ -4,11 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 export default function About() {
   return (
     <article className="bg-background">
-      <div className="w-full bg-secondary text-white py-16 text-center mb-24">
-        <h1 className="text-5xl font-bold mb-4">"Why does saving money online feel like a scam?"
-
-</h1>
-        <p className="text-2xl">Powered by People, Not Points.</p>
+      <div className="w-full bg-secondary text-white py-24 text-center">
+        <div className="container mx-auto">
+          <h1 className="text-6xl font-bold mb-6">"Why does saving money online feel like a scam?"</h1>
+          <p className="text-2xl">Over $35B is earned through affiliate links every year — but users rarely see any of it.</p>
+        </div>
       </div>
 
       <div className="container mx-auto px-4 py-16">
@@ -18,11 +18,12 @@ export default function About() {
           <div className="prose prose-lg space-y-8">
             <div className="bg-muted/30 p-8 rounded-lg">
               <p className="text-2xl text-secondary font-medium italic mb-4">
-                "Why does saving money online feel like a scam?"
+              So we asked ourselves — if you're the one clicking, why aren't you the one earning?
+
+
               </p>
-              <p className="text-lg text-muted-foreground">
-                This question kept coming up in our conversations.
-              </p>
+
+          
             </div>
             
             <p className="text-lg text-muted-foreground leading-relaxed">
