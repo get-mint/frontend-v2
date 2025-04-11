@@ -5,8 +5,6 @@ import FAQ from "./faq";
 import { FeaturesTable } from "./features-table";
 import { About } from "./about";
 
-import { Button } from "@mint-cashback/ui";
-
 export default async function LandingPage() {
   return (
     <>
@@ -16,10 +14,6 @@ export default async function LandingPage() {
       <FAQ />
       <About />
       <FeaturesTable />
-
-      <Button>
-        Hey there
-      </Button>
     </>
   );
 }
