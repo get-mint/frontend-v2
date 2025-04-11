@@ -19,7 +19,7 @@ export default function About() {
         {/* Step 2: Reframing the Obvious */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="bg-secondary/5 rounded-3xl p-10 w-full text-center">
               <h2 className="text-3xl font-bold text-secondary mb-4">If you're the one making the purchase… why aren't you earning?</h2>
               <p className="text-lg text-muted-foreground">
@@ -32,7 +32,7 @@ export default function About() {
         {/* Step 3: The System Behind the Scenes */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="text-center">
               <h2 className="text-3xl font-bold text-secondary mb-4">It wasn't designed with the user in mind</h2>
               <p className="text-lg text-muted-foreground">
@@ -45,7 +45,7 @@ export default function About() {
         {/* Step 4: A Different Approach */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="text-center">
               <h2 className="text-3xl font-bold text-secondary mb-4">So, we flipped the model</h2>
               <p className="text-lg text-muted-foreground">
@@ -61,7 +61,7 @@ We're not backed by venture capital or owned by a giant corporation. We're produ
         {/* Step 5: Who We Are */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="text-center">
               <h2 className="text-3xl font-bold text-secondary mb-4">A small team with a clear purpose</h2>
               <p className="text-lg text-muted-foreground mb-8">
@@ -101,7 +101,7 @@ We're not backed by venture capital or owned by a giant corporation. We're produ
         {/* Step 6: Our Guiding Values */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div>
               <h2 className="text-3xl font-bold text-secondary mb-8 text-center">What Mint stands for</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -152,7 +152,7 @@ We're not backed by venture capital or owned by a giant corporation. We're produ
         {/* Step 7: Looking Ahead */}
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-6" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
             <div className="bg-secondary/5 rounded-3xl p-10 w-full text-center">
               <h2 className="text-3xl font-bold text-secondary mb-4">A platform built to grow with its users</h2>
               <p className="text-lg text-muted-foreground">
