@@ -5,17 +5,17 @@ export default function About() {
   return (
     <article className="bg-background">
       {/* Banner */}
-      <div className="container mx-auto px-4 py-24">
+      <div className="container mx-auto px-4 py-12">
         <div className="bg-secondary rounded-3xl overflow-hidden">
           <div className="w-full text-white py-24 text-center px-16">
             <h1 className="text-5xl font-bold mb-6">"Why does saving money online feel like a scam?"</h1>
-            <p className="text-lg text-white/90">Over $35B is earned through affiliate links every year — but users rarely see any of it.</p>
+            <p className="text-xl max-w-2xl mx-auto">Over $35B is earned through affiliate links every year — but users rarely see any of it.</p>
           </div>
         </div>
       </div>
 
       {/* Our Story - More narrative and engaging */}
-      <section className="py-12">
+      <section className="py-">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Our Story</h2>
