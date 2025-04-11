@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, User, History } from "lucide-react";
+import { LayoutDashboard, User, History, Settings } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -10,6 +10,7 @@ const navItems = [
   { href: "/user", label: "Dashboard", icon: LayoutDashboard },
   { href: "/user/activity", label: "Activity", icon: History },
   { href: "/user/profile", label: "Profile", icon: User },
+  { href: "/user/settings", label: "Settings", icon: Settings },
 ];
 
 export default function UserLayout({
