@@ -8,21 +8,28 @@ export default function About() {
         <h1 className="text-5xl font-bold mb-4">"Why does saving money online feel like a scam?"
 
 </h1>
-        <p className="text-2xl">Powered by People, Not Points.</p>
+        <p className="text-2xl">Over $35B is earned through affiliate links every year — but users rarely see any of it.
+
+
+
+
+
+</p>
       </div>
 
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-">
         {/* Our Story - More narrative and engaging */}
         <section className="max-w-3xl mx-auto mb-24">
           <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Our Story</h2>
           <div className="prose prose-lg space-y-8">
             <div className="bg-muted/30 p-8 rounded-lg">
               <p className="text-2xl text-secondary font-medium italic mb-4">
-                "Why does saving money online feel like a scam?"
+              So we asked ourselves — if you're the one clicking, why aren't you the one earning?
+
+
               </p>
-              <p className="text-lg text-muted-foreground">
-                This question kept coming up in our conversations.
-              </p>
+
+          
             </div>
             
             <p className="text-lg text-muted-foreground leading-relaxed">
