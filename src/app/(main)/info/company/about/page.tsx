@@ -9,7 +9,7 @@ export default function About() {
         <div className="bg-secondary rounded-3xl overflow-hidden">
           <div className="w-full text-white py-24 text-center px-16">
             <h1 className="text-5xl font-bold mb-6">"Why does saving money online feel like a scam?"</h1>
-            <p className="text-xl max-w-2xl mx-auto">Over $35B is earned through affiliate links every year — but users rarely see any of it.</p>
+            <p className="text-xl max-w-2xl mx-auto">Over $35B is earned through affiliate links every year — but users rarely see or earn any of it.</p>
           </div>
         </div>
       </div>
@@ -18,11 +18,11 @@ export default function About() {
       <section className="py-">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Our Story</h2>
+            <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Why we built Mint?</h2>
             <div className="prose prose-lg space-y-8">
               <div className="bg-muted/30 p-8 rounded-lg">
                 <p className="text-2xl text-secondary font-medium italic mb-4">
-                  So we asked ourselves — if you're the one clicking, why aren't you the one earning?
+                  Well... we asked ourselves — if you're the one clicking, why aren't you the one earning?
                 </p>
               </div>
               
