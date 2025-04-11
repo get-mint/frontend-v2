@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export default function About() {
   return (
     <article className="bg-background">
-      <div className="w-full bg-secondary text-white py-16 text-center mb-24">
+      <div className="w-full bg-secondary text-white py-16 text-center mb-17">
         <h1 className="text-5xl font-bold mb-4">"Why does saving money online feel like a scam?"
 
 </h1>
