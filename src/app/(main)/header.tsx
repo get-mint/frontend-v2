@@ -22,7 +22,7 @@ import { DropdownMenu } from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/info/company/about", label: "About" },
+  { href: "/info/company/about", label: "About Us" },
   { href: "/download", label: "Download" },
 ];
 

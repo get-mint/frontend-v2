@@ -25,9 +25,10 @@ const features = [
 
 export function FeaturesTable() {
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-16">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-secondary">
+    <div className="bg-muted/55">
+      <div className="container max-w-6xl mx-auto px-4 py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-secondary">
           Why Mint?
         </h2>
         <p className="text-muted-foreground text-lg">
@@ -66,6 +67,7 @@ export function FeaturesTable() {
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </div>
