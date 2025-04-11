@@ -4,20 +4,14 @@ import { Card, CardContent } from "@/components/ui/card";
 export default function About() {
   return (
     <article className="bg-background">
-      <div className="container mx-auto px-4 py-16">
-        {/* Hero Section - More subtle and editorial */}
-        <header className="max-w-3xl mx-auto mb-24">
-          <h1 className="text-5xl font-bold text-secondary mb-8 text-center">About Us</h1>
-          <div className="prose prose-lg">
-            <p className="text-3xl font-medium text-secondary leading-snug mb-8">
-              A Smarter Way to Save — Powered by People, Not Points.
-            </p>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              We're Mint — a cashback browser extension designed to make saving effortless and transparent. No gimmicks, no gamified points, no mystery. Just a clean 50/50 split on affiliate rewards, so when you shop online and we earn a commission, you get half. Real money, straight to you.
-            </p>
-          </div>
-        </header>
+      <div className="w-full bg-secondary text-white py-16 text-center mb-24">
+        <h1 className="text-5xl font-bold mb-4">"Why does saving money online feel like a scam?"
 
+</h1>
+        <p className="text-2xl">Powered by People, Not Points.</p>
+      </div>
+
+      <div className="container mx-auto px-4 py-16">
         {/* Our Story - More narrative and engaging */}
         <section className="max-w-3xl mx-auto mb-24">
           <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Our Story</h2>
@@ -54,7 +48,7 @@ export default function About() {
           <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Sooo.... meet our team</h2>
           <div className="prose prose-lg mb-12">
             <p className="text-xl text-muted-foreground leading-relaxed mb-6">
-              We're students, entrepreneurs, and everyday online shoppers.
+              We're designers, developers, and everyday online shoppers.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
               What we have in common? We care about building something useful, honest, and sustainable — something that works quietly in the background to put money back in your hands.
