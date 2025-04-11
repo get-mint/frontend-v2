@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { LogOutIcon, LayoutDashboardIcon, MenuIcon } from "lucide-react";
+import { LogOutIcon, LayoutDashboardIcon, MenuIcon, User } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
@@ -39,32 +39,16 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
   return (
     <div className="flex items-center">
       {authUser ? (
-        <div className="flex items-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild className="cursor-pointer">
-              <Avatar className="border size-11">
-                <AvatarImage src={authUser.user_metadata?.avatar_url} />
-                <AvatarFallback className="text-muted-foreground font-semibold">
-                  {authUser.email?.[0].toUpperCase() || "U"}
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent>
-              <DropdownMenuItem asChild>
-                <Link href="/user">
-                  <LayoutDashboardIcon />
-                  Dashboard
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleSignOut}>
-                <LogOutIcon className="text-destructive" />
-                Sign out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <>
+          <Link
+            key="about"
+            href="/user"
+            className="text-foreground flex flex-row items-center gap-4 font-semibold hover:text-secondary/80 transition-colors duration-300"
+          >
+            My Account
+            <User className="bg-muted size-11 rounded-full p-2 text-muted-foreground" />
+          </Link>
+        </>
       ) : (
         <div className="flex gap-2">
           <Link href="/auth/login">
@@ -115,7 +99,7 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-              <AuthNav authUser={authUser} />
+            <AuthNav authUser={authUser} />
 
             {isMobile && (
               <>
