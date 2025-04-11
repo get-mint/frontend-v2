@@ -34,8 +34,9 @@ export default function ProfilePage() {
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="max-w-xs">
-                        Email changes require support assistance to maintain tracking accuracy. 
-                        Please contact support if you need to update your email.
+                        Email changes require support assistance to maintain
+                        tracking accuracy. Please contact support if you need to
+                        update your email.
                       </p>
                     </TooltipContent>
                   </Tooltip>
