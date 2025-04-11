@@ -20,11 +20,16 @@ export default function About() {
         <section className="py-12 relative">
           <div className="flex flex-col items-center">
             <ChevronDown className="text-secondary/30 w-8 h-8 -mt-6 mb-12" />
-            <div className="bg-secondary/5 rounded-3xl p-10 w-full text-center">
-              <h2 className="text-3xl font-bold text-secondary mb-4">If you're the one making the purchase… why aren't you earning?</h2>
-              <p className="text-lg text-muted-foreground">
-                This question led us to look more closely at how most online "rewards" actually work.
-              </p>
+            <div className="relative">
+              <div className="bg-[#f5f5f5] rounded-[80px_80px_80px_80px] p-10 w-full text-center relative">
+                <h2 className="text-3xl font-bold text-secondary mb-4">If you're the one making the purchase… why aren't you earning?</h2>
+                <p className="text-lg text-muted-foreground">
+                  This question led us to look more closely at how most online "rewards" actually work.
+                </p>
+              </div>
+              {/* Thought bubble circles */}
+              <div className="absolute -bottom-8 right-[30%] w-8 h-8 bg-[#f5f5f5] rounded-full"></div>
+              <div className="absolute -bottom-16 right-[28%] w-6 h-6 bg-[#f5f5f5] rounded-full"></div>
             </div>
           </div>
         </section>
