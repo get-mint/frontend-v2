@@ -6,7 +6,7 @@ export default function About() {
   return (
     <article className="bg-background">
       {/* Step 1: The Core Insight */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8">
         <div className="bg-secondary rounded-3xl overflow-hidden">
           <div className="w-full text-white py-24 text-center px-16">
             <h1 className="text-5xl font-bold mb-6">Why does saving money online feel so unreliable?</h1>
@@ -17,9 +17,9 @@ export default function About() {
 
       <div className="max-w-3xl mx-auto px-4">
         {/* Step 2: Reframing the Obvious */}
-        <section className="py-24 relative">
+        <section className="py-16 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-12" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 mb-8" />
             <div className="bg-secondary/5 rounded-3xl p-12 w-full">
               <h2 className="text-3xl font-bold text-secondary mb-6">If you're the one making the purchase… why aren't you earning?</h2>
               <p className="text-lg text-muted-foreground">
@@ -30,9 +30,9 @@ export default function About() {
         </section>
 
         {/* Step 3: The System Behind the Scenes */}
-        <section className="py-24 relative">
+        <section className="py-16 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-12" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 mb-8" />
             <div>
               <h2 className="text-3xl font-bold text-secondary mb-6">It wasn't designed with the user in mind</h2>
               <p className="text-lg text-muted-foreground">
@@ -43,9 +43,9 @@ export default function About() {
         </section>
 
         {/* Step 4: A Different Approach */}
-        <section className="py-24 relative">
+        <section className="py-16 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-12" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 mb-8" />
             <div>
               <h2 className="text-3xl font-bold text-secondary mb-6">We set out to design something better</h2>
               <p className="text-lg text-muted-foreground">
@@ -56,9 +56,9 @@ export default function About() {
         </section>
 
         {/* Step 5: Who We Are */}
-        <section className="py-24 relative">
+        <section className="py-16 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-12" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 mb-8" />
             <div>
               <h2 className="text-3xl font-bold text-secondary mb-6">A small team with a clear purpose</h2>
               <p className="text-lg text-muted-foreground mb-12">
@@ -95,9 +95,9 @@ export default function About() {
         </section>
 
         {/* Step 6: Our Guiding Values */}
-        <section className="py-24 relative">
+        <section className="py-16 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-12" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 mb-8" />
             <div>
               <h2 className="text-3xl font-bold text-secondary mb-12 text-center">What Mint stands for</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -154,9 +154,9 @@ export default function About() {
         </section>
 
         {/* Step 7: Looking Ahead */}
-        <section className="py-24 relative">
+        <section className="py-16 relative">
           <div className="flex flex-col items-center">
-            <ChevronDown className="text-secondary/30 w-8 h-8 mb-12" />
+            <ChevronDown className="text-secondary/30 w-8 h-8 mb-8" />
             <div className="bg-secondary/5 rounded-3xl p-12 w-full">
               <h2 className="text-3xl font-bold text-secondary mb-6">A platform built to grow with its users</h2>
               <p className="text-lg text-muted-foreground">
