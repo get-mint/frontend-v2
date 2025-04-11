@@ -54,10 +54,10 @@ export default function ProfilePage() {
               </p>
             </div>
             <div>
-              <h2 className="text-sm font-medium text-muted-foreground">
+              <h2 className="text-sm font-medium text-muted-foreground text-wrap">
                 Tracking ID
               </h2>
-              <p className="text-lg font-mono">{user?.tracking_id}</p>
+              <p className="text-lg font-mono break-all">{user?.tracking_id}</p>
             </div>
           </div>
         </CardContent>

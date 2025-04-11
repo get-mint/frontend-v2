@@ -1,3 +1,5 @@
+"use client";
+
 import { useAuth } from "@/lib/hooks/use-auth";
 
 import { LogOut } from "lucide-react";
@@ -14,11 +16,11 @@ export default function UserSettingsPage() {
         <CardHeader>
           <CardTitle>Settings</CardTitle>
         </CardHeader>
-        
+
         <CardContent>
           <Button
-            variant="destructive"
-            className="w-full sm:w-auto"
+            variant="outline"
+            className="w-full sm:w-auto text-destructive"
             onClick={() => logOut()}
           >
             <LogOut className="mr-2 h-4 w-4" />
