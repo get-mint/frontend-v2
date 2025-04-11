@@ -46,7 +46,7 @@ const AuthNav = ({ authUser }: { authUser: any }) => {
             className="text-foreground flex flex-row items-center gap-4 font-semibold hover:text-secondary/80 transition-colors duration-300"
           >
             My Account
-            <User className="bg-muted size-11 rounded-full p-2 text-muted-foreground" />
+            <User className="bg-muted size-11 rounded-full p-2 text-muted-foreground border" />
           </Link>
         </>
       ) : (
