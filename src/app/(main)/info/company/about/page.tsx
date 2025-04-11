@@ -90,10 +90,8 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center py-4">
                 <img src="/team/UChicago.png" alt="UChicago" className="w-16 h-16" />
-              </div>
-              <div className="flex justify-center">
                 <img src="/team/Bentley Logo .png" alt="Bentley" className="w-16 h-16" />
               </div>
             </div>
