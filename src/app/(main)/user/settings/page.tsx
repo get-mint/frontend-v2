@@ -1,7 +1,9 @@
+import { useAuth } from "@/lib/hooks/use-auth";
+
+import { LogOut } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/hooks/use-auth";
-import { LogOut } from "lucide-react";
 
 export default function UserSettingsPage() {
   const { logOut } = useAuth();
@@ -12,6 +14,7 @@ export default function UserSettingsPage() {
         <CardHeader>
           <CardTitle>Settings</CardTitle>
         </CardHeader>
+        
         <CardContent>
           <Button
             variant="destructive"
