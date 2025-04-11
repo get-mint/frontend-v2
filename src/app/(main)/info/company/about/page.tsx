@@ -13,7 +13,7 @@ export default function About() {
       </div>
 
       {/* Our Story - More narrative and engaging */}
-      <section className="py-24">
+      <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold text-secondary mb-10 text-center">Our Story</h2>
