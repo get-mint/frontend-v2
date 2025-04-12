@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import NextTopLoader from "nextjs-toploader";
 
@@ -11,7 +12,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
-import "@mint-cashback/ui/styles.css";
+import "@/ui/styles.css";
 
 const figtree = Figtree({
   subsets: ["latin"],
