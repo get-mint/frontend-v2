@@ -1,3 +1,3 @@
-# Frontend v2 💻
+# Frontend 💻
 
-Mint's website built in Next.js.
+User-facing Mint interface — shop, earn cashback, and track rewards
