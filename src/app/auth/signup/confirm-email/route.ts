@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { createHash } from "crypto";
 
-import { createClient, createAdminClient } from "@/lib/supabase/server/client";
+import { createAdminClient } from "@/lib/supabase/server/client";
 import { AuthenticationError, handleApiError } from "@/lib/utils/errors";
 
 /**
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       throw new AuthenticationError("No authentication code provided");
     }
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const {
       data: { session },
