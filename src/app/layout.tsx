@@ -19,6 +19,38 @@ const figtree = Figtree({
 export const metadata: Metadata = {
   title: "Mint CashBack",
   description: "It's your money, we help you grab it",
+  keywords: ["cashback", "rewards", "money", "ecommerce", "savings", "mint"],
+  authors: [{ name: "Mint CashBack Team" }],
+  creator: "Mint CashBack",
+  publisher: "Mint CashBack",
+  metadataBase: new URL("https://mintcashback.com"),
+  applicationName: "Mint CashBack",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://mintcashback.com",
+    title: "Mint CashBack",
+    description: "It's your money, we help you grab it",
+    siteName: "Mint CashBack",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  themeColor: "#39d992",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  category: "ecommerce",
 };
 
 export default function Layout({
