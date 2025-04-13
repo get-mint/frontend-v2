@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { createClient } from "@/lib/supabase/server/client";
+import { createAdminClient } from "@/lib/supabase/server/client";
 
 import type { Database } from "@/types/supabase";
 
@@ -10,7 +10,7 @@ export async function LandingBrandShowcase() {
   let brands: Advertiser[] = [];
 
   try {
-    const supabase = await createClient();
+    const supabase = await createAdminClient();
 
     const { data, error } = await supabase
       .from("advertisers")

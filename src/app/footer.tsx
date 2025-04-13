@@ -13,8 +13,6 @@ import {
   Twitch,
 } from "lucide-react";
 
-import { brand } from "@/lib/constants/brand";
-
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -66,27 +64,11 @@ export function Footer() {
             <Logo />
 
             <p className="mt-1 text-sm text-muted-foreground mb-4">
-              {brand.description}
+              "asdasdasd"
             </p>
 
             <div className="flex items-center gap-8">
-              {Object.entries(brand.social).map(([platform, href]) => {
-                if (href !== "https://example.com") {
-                  return (
-                    <Link
-                      key={platform}
-                      href={href}
-                      className="text-muted-foreground hover:text-primary"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span className="sr-only">{platform}</span>
-                      {socialIcons[platform as keyof typeof socialIcons]}
-                    </Link>
-                  );
-                }
-                return null;
-              })}
+
             </div>
           </div>
 
@@ -122,7 +104,7 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-8">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} {brand.name}. All rights reserved.
+            © {currentYear} Mint CashBack. All rights reserved.
           </p>
         </div>
       </div>

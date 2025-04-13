@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-import { createClient } from "@/lib/supabase/server/client";
+import { createAdminClient } from "@/lib/supabase/server/client";
 
 import { Marquee } from "@/components/magicui/marquee";
 
@@ -9,7 +9,7 @@ import { Database } from "@/types/supabase";
 type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
 
 const getAdvertisers = cache(async () => {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
 
   const { data: advertisers, error } = await supabase
     .from("advertisers")

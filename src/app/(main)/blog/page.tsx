@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { type SanityDocument } from "next-sanity";
 
-import { client } from "@/lib/sanity/client";
+import { client } from "../../sanity/client";
 
 export default async function IndexPage() {
   const posts = await client.fetch<SanityDocument[]>(

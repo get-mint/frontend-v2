@@ -43,8 +43,8 @@ export default function Layout({
         </Script>
       </head>
 
-      <AuthProvider>
-        <body className={`${figtree.className} antialiased`}>
+      <body className={`${figtree.className} antialiased`}>
+        <AuthProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
@@ -53,11 +53,12 @@ export default function Layout({
             storageKey="theme-preference"
           >
             <NextTopLoader showSpinner={false} color="#39d992" />
-            {children}
             <Toaster position="top-center" />
+
+            {children}
           </ThemeProvider>
-        </body>
-      </AuthProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils/tailwind";
-import { brand } from "@/lib/constants/brand";
+import { LeafIcon } from "lucide-react";
 
 const logoVariants = cva("flex items-center gap-1", {
   variants: {
@@ -35,7 +35,7 @@ export interface LogoProps extends VariantProps<typeof logoVariants> {
 export function Logo({ size, className }: LogoProps) {
   return (
     <div className={cn(logoVariants({ size, className }))}>
-      <brand.lucideIcon
+      <LeafIcon
         className={cn("text-primary", {
           "size-6": size === "default",
           "size-4": size === "sm",
@@ -43,7 +43,7 @@ export function Logo({ size, className }: LogoProps) {
           "size-8": size === "lg",
         })}
       />
-      <span className="font-bold text-secondary">{brand.name}</span>
+      <span className="font-bold text-secondary">Mint Cashback</span>
     </div>
   );
 }
