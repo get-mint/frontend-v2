@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -34,6 +33,8 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-tertiary-foreground: var(--tertiary-foreground);
+  --color-tertiary: var(--tertiary);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -54,10 +55,12 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.78 0.15 160);
-  --primary-foreground: oklch(0.3 0.15 160);
-  --secondary: oklch(0.59 0.1223 155.9519902370979);
+  --primary: oklch(0.79 0.1653 158.92);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.72 0.1401 159.52);
   --secondary-foreground: oklch(1 0 0);
+  --tertiary: oklch(0.83 0.1196 163.59);
+  --tertiary-foreground: oklch(1 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
@@ -89,10 +92,12 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0 0 0);
-  --primary: oklch(0.78 0.15 160);
-  --primary-foreground: oklch(0.5 0.15 160);
-  --secondary: oklch(0.59 0.1223 155.9519902370979);
+  --primary: oklch(0.79 0.1653 158.92);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.72 0.1401 159.52);
   --secondary-foreground: oklch(1 0 0);
+  --tertiary: oklch(0.83 0.1196 163.59);
+  --tertiary-foreground: oklch(1 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
