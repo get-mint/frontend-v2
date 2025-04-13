@@ -1,18 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
+
 import { createServerClient } from "@supabase/ssr";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { checkAuth } from "./auth";
-
-async function isAuthenticated(supabase: SupabaseClient) {
-  return await checkAuth(supabase);
-}
-
-function redirectToLogin(request: NextRequest) {
-  const redirectUrl = new URL("/auth/login", request.url);
-  const previousPage = request.headers.get("referer") || "/";
-  redirectUrl.searchParams.set("from", previousPage);
-  return NextResponse.redirect(redirectUrl);
-}
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -44,22 +32,20 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  try {
-    if (request.nextUrl.pathname.startsWith("/user")) {
-      const authenticated = await isAuthenticated(supabase);
-      if (!authenticated) {
-        return redirectToLogin(request);
-      }
-    }
+  if (request.nextUrl.pathname.startsWith("/user")) {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    return NextResponse.next();
-  } catch (error: any) {
-    if (
-      error.name === "AuthApiError" &&
-      error.code === "refresh_token_not_found"
-    ) {
-      return redirectToLogin(request);
+    const authenticated = !!session;
+
+    if (!authenticated) {
+      const redirectUrl = new URL("/auth/login", request.url);
+      const previousPage = request.headers.get("referer") || "/";
+      redirectUrl.searchParams.set("from", previousPage);
+      return NextResponse.redirect(redirectUrl);
     }
-    return NextResponse.next();
   }
+
+  return NextResponse.next();
 }
