@@ -46,15 +46,13 @@ export async function Hero() {
           </p>
 
           <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-3">
-            It's your money,
-            <br />
-            we grab it for you
+            Cashback, Finally Done Right
+
           </h1>
 
           <p className="text-xl text-secondary font-bold">
-            Get Cash Back at {stats.advertisersCount || "100+"} stores,
-            restaurants, travel bookings and even more. Join and watch your
-            rewards add up.
+          Recieve cash back from {stats.advertisersCount || "100+"} stores, travel sites and more — no codes, no effort, just extra cash. 
+          Join and watch your rewards add up.
           </p>
         </div>
 

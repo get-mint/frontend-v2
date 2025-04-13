@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import NextTopLoader from "nextjs-toploader";
 
