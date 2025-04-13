@@ -24,6 +24,7 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/info/company/about", label: "About Us" },
   { href: "/download", label: "Download" },
+  { href: "/blog", label: "Blog" },
 ];
 
 const AuthNav = ({ authUser }: { authUser: any }) => {

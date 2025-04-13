@@ -6,7 +6,6 @@ import NextTopLoader from "nextjs-toploader";
 
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { AuthProvider } from "@/lib/providers/auth-provider";
-import { brand } from "@/lib/constants/brand";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -18,8 +17,8 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: brand.name,
-  description: brand.description,
+  title: "Mint CashBack",
+  description: "It's your money, we help you grab it",
 };
 
 export default function Layout({
@@ -53,9 +52,9 @@ export default function Layout({
             disableTransitionOnChange
             storageKey="theme-preference"
           >
-            <NextTopLoader showSpinner={false} color="oklch(0.78 0.15 160)" />
+            <NextTopLoader showSpinner={false} color="#39d992" />
             {children}
-            <Toaster position="bottom-right" />
+            <Toaster position="top-center" />
           </ThemeProvider>
         </body>
       </AuthProvider>
