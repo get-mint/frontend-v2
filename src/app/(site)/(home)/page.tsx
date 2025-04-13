@@ -1,5 +1,5 @@
 import { Hero } from "./hero";
-import { LogoBanner } from "./logo-banner";
+import { LogoBanner } from "./logos";
 import { HowMintWorks } from "./how-mint-works";
 import FAQ from "./faq";
 import { FeaturesTable } from "./features-table";

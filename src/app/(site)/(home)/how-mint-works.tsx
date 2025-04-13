@@ -4,9 +4,23 @@ import { createAdminClient } from "@/lib/supabase/server/client";
 
 import type { Database } from "@/types/supabase";
 
-import { BrandShowcase } from "./brand-showcase";
-
 type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
+
+const BrandShowcase = () => {
+  const placeholders = Array(12).fill(null);
+
+  return (
+    <div className="grid grid-cols-3 gap-2 animate-in fade-in duration-700">
+      {placeholders.map((_, index) => (
+        <div
+          key={index}
+          className="bg-gray-200 rounded-lg h-10 w-full"
+          style={{ animationDelay: `${index * 50}ms` }}
+        />
+      ))}
+    </div>
+  );
+};
 
 const steps = [
   {
