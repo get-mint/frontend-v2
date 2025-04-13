@@ -1,42 +1,9 @@
-import { cache } from "react";
 import Link from "next/link";
-
 import { Star } from "lucide-react";
-
-import { createAdminClient } from "@/lib/supabase/server/client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-const getStats = cache(async () => {
-  try {
-    const supabase = createAdminClient();
-
-    const [{ count: usersCount }, { count: advertisersCount }] =
-      await Promise.all([
-        supabase.from("users").select("*", { count: "exact", head: true }),
-        supabase
-          .from("advertisers")
-          .select("*", { count: "exact", head: true })
-          .eq("active", true),
-      ]);
-
-    return {
-      usersCount: usersCount?.toLocaleString() || "1,000+",
-      advertisersCount: advertisersCount?.toLocaleString() || "100+",
-    };
-  } catch (error) {
-    console.error("Failed to fetch stats:", error);
-    return {
-      usersCount: "1,000+",
-      advertisersCount: "100+",
-    };
-  }
-});
-
-export async function Hero() {
-  const stats = await getStats();
-
+export function Hero() {
   return (
     <div className="w-full bg-primary/40 animate-in fade-in">
       <div className="max-w-6xl mx-auto px-4 py-12 sm:py-24 flex flex-col sm:flex-row items-center gap-6 sm:gap-12 justify-between">
@@ -47,12 +14,11 @@ export async function Hero() {
 
           <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-3">
             Cashback, Finally Done Right
-
           </h1>
 
           <p className="text-xl text-secondary font-bold">
-          Recieve cash back from {stats.advertisersCount || "100+"} stores, travel sites and more — no codes, no effort, just extra cash. 
-          Join and watch your rewards add up.
+            Recieve cash back from 50+ stores, travel sites and more — no codes,
+            no effort, just extra cash. Join and watch your rewards add up.
           </p>
         </div>
 
@@ -64,9 +30,7 @@ export async function Hero() {
 
             <p className="sm:text-lg font-semibold mb-4">
               Join our community of{" "}
-              <span className="text-secondary underline font-bold">
-                {stats.usersCount || "1,000+"}
-              </span>{" "}
+              <span className="text-secondary underline font-bold">100+</span>{" "}
               happy users and growing every day! 💸
             </p>
 

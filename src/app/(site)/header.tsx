@@ -29,42 +29,44 @@ export function Header() {
   return (
     <header>
       <nav className="sticky top-0 z-50 bg-background border-b">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
-            <LeafIcon className="size-6 text-primary" />
-            <span className="font-bold">Mint CashBack</span>
-          </div>
+            <div className="flex items-center gap-2">
+              <LeafIcon className="size-6 text-primary" />
+              <span className="font-bold text-xl">Mint CashBack</span>
+            </div>
 
-          {!isMobile ? (
-            <nav className="flex gap-8 px-8">
-              {items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-foreground font-semibold hover:text-secondary/80 transition-colors duration-300"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          ) : (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="h-10 w-10">
-                  <MenuIcon className="size-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
+            {!isMobile ? (
+              <nav className="flex gap-8 px-8">
                 {items.map((item) => (
-                  <DropdownMenuItem key={item.href} asChild>
-                    <Link href={item.href} className="cursor-pointer">
-                      {item.label}
-                    </Link>
-                  </DropdownMenuItem>
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="text-foreground font-semibold hover:text-secondary/80 transition-colors duration-300"
+                  >
+                    {item.label}
+                  </Link>
                 ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+              </nav>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" className="h-10 w-10">
+                    <MenuIcon className="size-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  {items.map((item) => (
+                    <DropdownMenuItem key={item.href} asChild>
+                      <Link href={item.href} className="cursor-pointer">
+                        {item.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
 
           {authUser ? (
             <Link
