@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { createClient } from "@/lib/supabase/server/server";
+import { createClient } from "@/lib/supabase/server/client";
 
 import type { Database } from "@/types/supabase";
 

@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-import { createClient } from "@/lib/supabase/server/server";
+import { createClient } from "@/lib/supabase/server/client";
 
 import { Marquee } from "@/components/magicui/marquee";
 

@@ -1,6 +1,6 @@
 import { Search, Shirt } from "lucide-react";
 
-import { createAdminClient } from "@/lib/supabase/server/server";
+import { createAdminClient } from "@/lib/supabase/server/client";
 
 import type { Database } from "@/types/supabase";
 

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { createHash } from "crypto";
 
-import { createClient, createAdminClient } from "@/lib/supabase/server/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server/client";
 import { AuthenticationError, handleApiError } from "@/lib/utils/errors";
 
 /**

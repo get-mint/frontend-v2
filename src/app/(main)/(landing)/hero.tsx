@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Star } from "lucide-react";
 
-import { createAdminClient } from "@/lib/supabase/server/server";
+import { createAdminClient } from "@/lib/supabase/server/client";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
