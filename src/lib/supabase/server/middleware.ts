@@ -1,73 +1,18 @@
 import { NextResponse, type NextRequest } from "next/server";
-
 import { createServerClient } from "@supabase/ssr";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { checkAuth } from "./auth";
 
-import { checkAllRoles, checkAuth, checkRole } from "./auth";
-
-/**
- * Protects a path by checking if the user is authenticated and has the required
- * roles. If the user is not authenticated or does not have the required roles,
- * they are redirected to the unauthorized path.
- *
- * @param supabase - The Supabase client.
- * @param roles - The roles required to access the path.
- * @param allRequired - Whether all roles are required.
- * @param unauthorizedPath - The path to redirect to if the user is not
- *                           authorized.
- *
- * @returns The path to redirect to if the user is not authorized, or null if
- *          the user is authorized.
- */
-async function protectPath(
-  supabase: SupabaseClient,
-  roles: string[] | null,
-  allRequired: boolean = false,
-  unauthorizedPath: string = "/unauthorized"
-) {
-  let authorized = false;
-
-  const isAuthenticated = await checkAuth(supabase);
-  if (!isAuthenticated) {
-    return unauthorizedPath;
-  }
-
-  if (!roles || roles.length === 0) {
-    return null;
-  }
-
-  if (allRequired) {
-    authorized = await checkAllRoles(supabase, roles);
-  } else {
-    authorized = await checkRole(supabase, roles);
-  }
-
-  if (!authorized) {
-    return unauthorizedPath;
-  }
-
-  return null;
+async function isAuthenticated(supabase: SupabaseClient) {
+  return await checkAuth(supabase);
 }
 
-const protectedRoutes = [
-  {
-    path: "/admin",
-    roles: ["Admin"], // This route only requires authentication, no specific roles
-    unauthorizedPath: "/unauthorized",
-  },
-  {
-    path: "/user",
-    roles: [],
-    unauthorizedPath: "/auth/login",
-  },
-  // Add more protected routes here as needed
-  // Example:
-  // {
-  //   path: "/admin",
-  //   roles: ["admin"],
-  //   unauthorizedPath: "/unauthorized"
-  // }
-];
+function redirectToLogin(request: NextRequest) {
+  const redirectUrl = new URL("/auth/login", request.url);
+  const previousPage = request.headers.get("referer") || "/";
+  redirectUrl.searchParams.set("from", previousPage);
+  return NextResponse.redirect(redirectUrl);
+}
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -100,34 +45,21 @@ export async function updateSession(request: NextRequest) {
   );
 
   try {
-    for (const route of protectedRoutes) {
-      if (request.nextUrl.pathname.startsWith(route.path)) {
-        const unauthorizedPath = await protectPath(
-          supabase,
-          route.roles,
-          false,
-          route.unauthorizedPath
-        );
-        if (unauthorizedPath) {
-          const redirectUrl = new URL(unauthorizedPath, request.url);
-          const previousPage = request.headers.get("referer") || "/";
-          redirectUrl.searchParams.set("from", previousPage);
-          return NextResponse.redirect(redirectUrl);
-        }
+    if (request.nextUrl.pathname.startsWith("/user")) {
+      const authenticated = await isAuthenticated(supabase);
+      if (!authenticated) {
+        return redirectToLogin(request);
       }
     }
 
     return NextResponse.next();
   } catch (error: any) {
-    // Handle the case where refresh token is not found
-    if (error.name === "AuthApiError" && error.code === "refresh_token_not_found") {
-      const redirectUrl = new URL("/auth/login", request.url);
-      const previousPage = request.headers.get("referer") || "/";
-      redirectUrl.searchParams.set("from", previousPage);
-      return NextResponse.redirect(redirectUrl);
+    if (
+      error.name === "AuthApiError" &&
+      error.code === "refresh_token_not_found"
+    ) {
+      return redirectToLogin(request);
     }
-    
-    // For other errors, just continue with the request
     return NextResponse.next();
   }
 }
