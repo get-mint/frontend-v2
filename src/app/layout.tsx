@@ -11,7 +11,8 @@ import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
-import "@mint-cashback/ui/styles.css";
+import { Header } from "./header";
+import { Footer } from "./footer";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -40,7 +41,9 @@ export default function Layout({
             storageKey="theme-preference"
           >
             <NextTopLoader showSpinner={false} color="oklch(0.78 0.15 160)" />
+            <Header />
             {children}
+            <Footer />
             <Toaster position="bottom-right" />
           </ThemeProvider>
         </body>
