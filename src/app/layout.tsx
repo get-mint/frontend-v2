@@ -84,10 +84,12 @@ export default function Layout({
             disableTransitionOnChange
             storageKey="theme-preference"
           >
-            <NextTopLoader showSpinner={false} color="#39d992" />
-            <Toaster position="top-center" />
+            <main>
+              <NextTopLoader showSpinner={false} color="#39d992" />
+              <Toaster position="top-center" />
 
-            {children}
+              {children}
+            </main>
           </ThemeProvider>
         </AuthProvider>
       </body>
