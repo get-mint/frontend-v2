@@ -36,6 +36,7 @@ export async function generateMetadata({
     title: post.title,
     description: post.excerpt || "Read this blog post",
     openGraph: {
+      type: "article",
       title: post.title,
       description: post.excerpt || "Read this blog post",
       images: postImageUrl ? [postImageUrl] : [],
@@ -76,24 +77,33 @@ export default async function PostPage({
     : null;
 
   return (
-    <main className="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
+    <main
+      className="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4"
+      role="main"
+    >
       <Link href="/" className="hover:underline">
         ← Back to posts
       </Link>
-      {postImageUrl && (
-        <img
-          src={postImageUrl}
-          alt={post.title}
-          className="aspect-video rounded-xl"
-          width="550"
-          height="310"
-        />
-      )}
-      <h1 className="text-4xl font-bold mb-8">{post.title}</h1>
-      <div className="prose">
-        <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p>
-        {Array.isArray(post.body) && <PortableText value={post.body} />}
-      </div>
+      <article itemScope itemType="http://schema.org/BlogPosting">
+        {postImageUrl && (
+          <img
+            src={postImageUrl}
+            alt={post.title}
+            className="aspect-video rounded-xl"
+            width="550"
+            height="310"
+          />
+        )}
+        <h1 itemProp="headline" className="text-4xl font-bold mb-8">
+          {post.title}
+        </h1>
+        <p itemProp="datePublished">
+          {new Date(post.publishedAt).toLocaleDateString()}
+        </p>
+        <div itemProp="articleBody" className="prose">
+          {Array.isArray(post.body) && <PortableText value={post.body} />}
+        </div>
+      </article>
     </main>
   );
 }
