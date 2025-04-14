@@ -166,18 +166,19 @@ export default async function PostPage({
               </div>
 
               {post.author?.bio && (
-                <p className="text-sm text-muted-foreground">{post.author.bio}</p>
+                <p className="text-sm text-muted-foreground">
+                  {post.author.bio}
+                </p>
               )}
             </div>
-            
+
             {/* Call to action card */}
             <div className="p-6 border border-green-100 rounded-lg shadow-sm bg-gradient-to-br from-green-50 to-teal-50">
               <h3 className="mb-2 font-semibold text-green-800">
                 Have you installed Mint yet?
               </h3>
               <p className="mb-4 text-sm text-green-700">
-                Get automatic cashback on your purchases and start saving
-                today!
+                Get automatic cashback on your purchases and start saving today!
               </p>
               <Link href="/download">
                 <Button className="w-full bg-green-600 hover:bg-green-700">

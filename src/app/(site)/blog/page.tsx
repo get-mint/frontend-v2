@@ -57,10 +57,10 @@ async function getPosts(categoryId?: string) {
 export default async function IndexPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams?: { category?: string };
 }) {
   const categoriesPromise = getCategories();
-  const postsPromise = getPosts(searchParams.category);
+  const postsPromise = getPosts(searchParams?.category);
 
   return (
     <main className="container max-w-6xl min-h-screen p-8 mx-auto">
@@ -78,7 +78,7 @@ export default async function IndexPage({
                 <Suspense fallback={<div>Loading categories...</div>}>
                   <CategoryFilter 
                     categories={await categoriesPromise} 
-                    selectedCategoryId={searchParams.category} 
+                    selectedCategoryId={searchParams?.category} 
                   />
                 </Suspense>
               </div>
