@@ -5,7 +5,7 @@ import { PortableText, type SanityDocument } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
-import { client } from "@/app/sanity/client";
+import { client } from "@/app/studio/client";
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 
