@@ -13,7 +13,6 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import CategoryFilter from "./components/CategoryFilter";
-import PostsGrid from "./components/PostsGrid";
 
 // Fetch all categories (Server Component)
 async function getCategories() {
@@ -54,13 +53,17 @@ async function getPosts(categoryId?: string) {
   );
 }
 
+// Define proper page props type for Next.js pages
+interface PageProps {
+  params: {};
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
 export default async function IndexPage({
   searchParams,
-}: {
-  searchParams?: { category?: string };
-}) {
+}: PageProps) {
   const categoriesPromise = getCategories();
-  const postsPromise = getPosts(searchParams?.category);
+  const postsPromise = getPosts(searchParams.category as string | undefined);
 
   return (
     <main className="container max-w-6xl min-h-screen p-8 mx-auto">
@@ -78,7 +81,7 @@ export default async function IndexPage({
                 <Suspense fallback={<div>Loading categories...</div>}>
                   <CategoryFilter 
                     categories={await categoriesPromise} 
-                    selectedCategoryId={searchParams?.category} 
+                    selectedCategoryId={searchParams.category as string | undefined} 
                   />
                 </Suspense>
               </div>
@@ -89,10 +92,64 @@ export default async function IndexPage({
         {/* Main content with posts */}
         <div className="md:col-span-3">
           <Suspense fallback={<div>Loading posts...</div>}>
-            <PostsGrid posts={await postsPromise} />
+            <PostsList posts={await postsPromise} />
           </Suspense>
         </div>
       </div>
     </main>
+  );
+}
+
+// Inline PostsList component to avoid import issues
+function PostsList({ posts }: { posts: SanityDocument[] }) {
+  return (
+    <ul className="flex flex-col gap-y-6">
+      {posts.map((post) => (
+        <li key={post._id}>
+          <Card className="overflow-hidden transition-all hover:shadow-md">
+            {post.imageUrl && (
+              <div className="p-4 pt-6">
+                <Image
+                  src={post.imageUrl}
+                  alt={post.title}
+                  width={800}
+                  height={400}
+                  className="object-contain w-full h-auto rounded-md"
+                />
+              </div>
+            )}
+            <CardContent>
+              <h2 className="text-xl font-semibold">{post.title}</h2>
+              <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
+                {post.authorName && <span>By {post.authorName}</span>}
+                {post.authorName && post.publishedAt && (
+                  <Separator orientation="vertical" className="h-4" />
+                )}
+                {post.publishedAt && (
+                  <span>
+                    {new Date(post.publishedAt).toLocaleDateString()}
+                  </span>
+                )}
+              </div>
+
+              {post.categories && post.categories.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {post.categories.map((category: any) => (
+                    <Badge key={category._id} variant="outline">
+                      {category.title}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+            <CardFooter>
+              <Link href={`/blog/${post.slug.current}`}>
+                <Button>Read more</Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        </li>
+      ))}
+    </ul>
   );
 }
