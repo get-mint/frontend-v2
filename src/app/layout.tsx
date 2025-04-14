@@ -40,13 +40,13 @@ export const metadata: Metadata = {
     title: "Mint CashBack",
     description: "It's your money, we help you grab it",
     siteName: "Mint CashBack",
-    images: ["/og-cover.jpg"],
+    images: ["https://mintcashback.com/og-cover.jpg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mint CashBack",
     description: "It's your money, we help you grab it",
-    images: ["/og-cover.jpg"],
+    images: ["https://mintcashback.com/og-cover.jpg"],
     creator: "@mintcashback",
   },
   viewport: {

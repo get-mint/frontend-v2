@@ -43,6 +43,21 @@ export async function generateMetadata({
     alternates: {
       canonical: `https://mintcashback.com/blog/${post.slug.current}`,
     },
+    other: {
+      "application/ld+json": JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.excerpt || "Read this blog post",
+        image: postImageUrl,
+        url: `https://mintcashback.com/blog/${post.slug.current}`,
+        datePublished: post.publishedAt,
+        author: {
+          "@type": "Person",
+          name: "Mint Team",
+        },
+      }),
+    },
   };
 }
 
