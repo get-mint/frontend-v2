@@ -40,6 +40,14 @@ export const metadata: Metadata = {
     title: "Mint CashBack",
     description: "It's your money, we help you grab it",
     siteName: "Mint CashBack",
+    images: ["/og-cover.jpg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mint CashBack",
+    description: "It's your money, we help you grab it",
+    images: ["/favicon.ico"],
+    creator: "@mintcashback",
   },
   viewport: {
     width: "device-width",
@@ -47,6 +55,12 @@ export const metadata: Metadata = {
     maximumScale: 1,
   },
   themeColor: "#39d992",
+  other: {
+    "theme-color": "#39d992",
+    "msapplication-TileColor": "#39d992",
+    "og:color": "#39d992",
+    "discord:color": "#39d992",
+  },
   icons: {
     icon: "/favicon.ico",
   },
