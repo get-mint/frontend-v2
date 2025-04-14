@@ -17,14 +17,14 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: "Mint CashBack",
+  title: "Mint Cashback",
   description: "Cashback, finally done right",
   keywords: ["cashback", "rewards", "money", "ecommerce", "savings", "mint"],
-  authors: [{ name: "Mint CashBack Team" }],
-  creator: "Mint CashBack",
-  publisher: "Mint CashBack",
+  authors: [{ name: "Mint Cashback Team" }],
+  creator: "Mint Cashback",
+  publisher: "Mint Cashback",
   metadataBase: new URL("https://mintcashback.com"),
-  applicationName: "Mint CashBack",
+  applicationName: "Mint Cashback",
   robots: {
     index: true,
     follow: true,
