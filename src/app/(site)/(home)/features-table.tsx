@@ -12,14 +12,14 @@ const features = [
       "You only need $5 to cash out, making it easy to actually access your rewards.",
   },
   {
-    name: "Popular gift cards",
+    name: "Focus on Transparency",
     description:
-      "Choose from brands you actually use — Amazon, Target, Starbucks, and more — or just get cash.",
+      "We'll keep you updated every step of the way — from when your cashback is pending to when it's ready to withdraw.",
   },
   {
-    name: "Fast processing",
+    name: "Get Paid Your Way",
     description:
-      "Your money is ready to withdraw within 3 days — not weeks or months like other platforms.",
+      "Redeem your rewards for popular gift cards or straight cash — no weird points, no gimmicks.",
   },
 ];
 
