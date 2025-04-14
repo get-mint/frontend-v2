@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Mint CashBack",
     description: "It's your money, we help you grab it",
-    images: ["/favicon.ico"],
+    images: ["/og-cover.jpg"],
     creator: "@mintcashback",
   },
   viewport: {
