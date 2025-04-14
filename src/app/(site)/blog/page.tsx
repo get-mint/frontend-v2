@@ -53,15 +53,14 @@ async function getPosts(categoryId?: string) {
   );
 }
 
-// Define proper page props type for Next.js pages
-interface PageProps {
-  params: {};
-  searchParams: { [key: string]: string | string[] | undefined };
-}
+// Define proper page props type for Next.js pages - using the standard Next.js type format
+type SearchParams = { [key: string]: string | string[] | undefined };
 
 export default async function IndexPage({
   searchParams,
-}: PageProps) {
+}: {
+  searchParams: SearchParams;
+}) {
   const categoriesPromise = getCategories();
   const postsPromise = getPosts(searchParams.category as string | undefined);
 
