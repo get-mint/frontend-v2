@@ -40,6 +40,9 @@ export async function generateMetadata({
       description: post.excerpt || "Read this blog post",
       images: postImageUrl ? [postImageUrl] : [],
     },
+    alternates: {
+      canonical: `https://mintcashback.com/blog/${post.slug.current}`,
+    },
   };
 }
 
