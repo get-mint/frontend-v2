@@ -28,14 +28,14 @@ export function Header() {
 
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
-      <div className="flex items-center justify-between h-16 mx-auto max-w-7xl">
+      <div className="flex items-center justify-between h-16 max-w-6xl mx-auto">
         <Link href="/">
-          <span className="text-2xl font-extrabold text-primary">
+          <span className="text-2xl font-extrabold transition-all text-primary hover:text-primary/90">
             mint cashback
           </span>
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           {!isMobile ? (
             <nav className="flex gap-6">
               {items.map((item) => (
@@ -67,15 +67,18 @@ export function Header() {
             </DropdownMenu>
           )}
 
-          {!authUser ? (
-            <Button variant="outline">
-              Join
-            </Button>
-          ) : (
-            <Button variant="outline" size="icon" className="w-10 h-10">
-              <UserIcon className="size-5" />
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {!authUser ? (
+              <>
+                <Button variant="outline">Log In</Button>
+                <Button className="font-semibold">Join Mint</Button>
+              </>
+            ) : (
+              <Button variant="outline" size="icon" className="w-10 h-10">
+                <UserIcon className="size-5" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>
