@@ -2,10 +2,10 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { createServerClient } from "@supabase/ssr";
 
+import { isUserAdmin, isUserAuthenticated } from "./auth";
+
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  });
+  let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -16,36 +16,41 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
 
-          supabaseResponse = NextResponse.next({
-            request,
-          });
+          response = NextResponse.next({ request });
 
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
+            response.cookies.set(name, value, options)
           );
         },
       },
     }
   );
 
-  if (request.nextUrl.pathname.startsWith("/user")) {
+  const previousPage = request.headers.get("referer") || "/";
+
+  if (request.nextUrl.pathname.startsWith("/admin")) {
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    const authenticated = !!session;
-
-    if (!authenticated) {
+    if (!user || !(await isUserAdmin(supabase))) {
       const redirectUrl = new URL("/auth/login", request.url);
-      const previousPage = request.headers.get("referer") || "/";
       redirectUrl.searchParams.set("from", previousPage);
       return NextResponse.redirect(redirectUrl);
     }
   }
 
-  return NextResponse.next();
+  if (request.nextUrl.pathname.startsWith("/user")) {
+    if (!(await isUserAuthenticated(supabase))) {
+      const redirectUrl = new URL("/auth/login", request.url);
+      redirectUrl.searchParams.set("from", previousPage);
+      return NextResponse.redirect(redirectUrl);
+    }
+  }
+
+  return response;
 }

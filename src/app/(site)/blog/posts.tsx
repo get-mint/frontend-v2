@@ -1,26 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SanityDocument } from "next-sanity";
 
-import { client } from "@/app/studio/client";
+import { createAdminClient } from "@/lib/supabase/server/client";
+
+import { Tables } from "@/types/supabase";
 
 async function fetchPosts() {
-  return client.fetch<SanityDocument[]>(
-    `
-    *[_type == "post" && defined(slug.current)] |
-    order(publishedAt desc)[0...12]{
-      _id, 
-      title, 
-      slug, 
-      publishedAt, 
-      "imageUrl": mainImage.asset->url,
-      "authorName": author->name,
-      "categories": categories[]->{ _id, title, slug }
-    }
-    `,
-    {},
-    { next: { revalidate: 30 } }
-  );
+  const supabase = createAdminClient();
+  
+  const { data: posts, error } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .eq("published", true)
+    .order("published_at", { ascending: false })
+    .limit(12);
+    
+  if (error) {
+    console.error("Error fetching blog posts:", error);
+    return [];
+  }
+  
+  return posts;
 }
 
 export default async function Posts() {
@@ -28,14 +28,16 @@ export default async function Posts() {
 
   return (
     <div className="grid grid-cols-1 gap-6 cursor-pointer md:grid-cols-3">
-      {posts.map((post) => (
+      {posts.map((post: Tables<"blog_posts">) => (
         <Link
-          href={`/blog/${post.slug.current}`}
-          key={post._id}
+          href={`/blog/${post.slug}`}
+          key={post.id}
           className="space-y-3"
         >
           <Image
-            src={post.imageUrl ? post.imageUrl : "/images/placeholder.svg"}
+            src={post.content && typeof post.content === 'object' && 'imageUrl' in post.content 
+              ? (post.content.imageUrl as string) 
+              : "/images/placeholder.svg"}
             alt={post.title}
             width={512}
             height={512}
@@ -45,8 +47,8 @@ export default async function Posts() {
           <div className="space-y-1">
             <h2 className="text-2xl font-bold">{post.title}</h2>
             <p className="font-semibold text-md text-muted-foreground">
-              {post.publishedAt &&
-                new Date(post.publishedAt).toLocaleDateString()}
+              {post.published_at &&
+                new Date(post.published_at).toLocaleDateString()}
             </p>
           </div>
         </Link>

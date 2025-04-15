@@ -45,7 +45,6 @@ export type Database = {
           metadata: Json | null
           name: string
           network_id: string | null
-          showcase_image_url: string | null
           updated_at: string
         }
         Insert: {
@@ -58,7 +57,6 @@ export type Database = {
           metadata?: Json | null
           name: string
           network_id?: string | null
-          showcase_image_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -71,7 +69,6 @@ export type Database = {
           metadata?: Json | null
           name?: string
           network_id?: string | null
-          showcase_image_url?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -90,6 +87,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      blog_posts: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          published: boolean
+          published_at: string | null
+          slug: string
+          title: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          id?: string
+          published?: boolean
+          published_at?: string | null
+          slug: string
+          title: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          published?: boolean
+          published_at?: string | null
+          slug?: string
+          title?: string
+        }
+        Relationships: []
       }
       currencies: {
         Row: {
