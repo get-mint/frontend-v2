@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createAdminClient } from "@/lib/supabase/server/server";
+import { createAdminClient } from "@/lib/supabase/server/client";
 import { checkIsAdminFromJwt } from "@/lib/supabase/server/auth";
 import {
   handleApiError,
