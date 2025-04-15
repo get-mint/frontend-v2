@@ -22,6 +22,7 @@ async function fetchPost(slug: string) {
   return post;
 }
 
+/*
 export async function generateMetadata({
   params,
 }: {
@@ -78,6 +79,7 @@ export async function generateMetadata({
     },
   };
 }
+  */
 
 export default async function PostPage({
   params,
