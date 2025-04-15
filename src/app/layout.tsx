@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Figtree } from "next/font/google";
 
-import NextTopLoader from "nextjs-toploader";
-
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { AuthProvider } from "@/lib/providers/auth-provider";
 
@@ -99,7 +97,6 @@ export default function Layout({
             storageKey="theme-preference"
           >
             <main>
-              <NextTopLoader showSpinner={false} color="#39d992" />
               <Toaster position="top-center" />
 
               {children}

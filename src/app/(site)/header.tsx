@@ -18,8 +18,6 @@ import {
 
 const items = [
   { href: "/", label: "Home" },
-  { href: "/info/company/about", label: "About Us" },
-  { href: "/download", label: "Download" },
   { href: "/brands", label: "Brands" },
   { href: "/blog", label: "Blog" },
 ];
@@ -29,79 +27,57 @@ export function Header() {
   const { authUser } = useAuth();
 
   return (
-    <header>
-      <nav className="sticky top-0 z-50 border-b bg-background">
-        <div className="container flex items-center justify-between h-20 px-4 mx-auto">
-          <div className="flex items-center gap-4">
-            <Link href="/">
-              <div className="flex items-center gap-2">
-                <Image
-                  src="/logo.png"
-                  alt="Mint Cashback Logo"
-                  width={32}
-                  height={32}
-                />
-                <span className="text-lg font-bold sm:text-xl">
-                  Mint CashBack
-                </span>
-              </div>
-            </Link>
+    <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
+      <div className="flex items-center justify-between h-16 mx-auto max-w-7xl">
+        <Link href="/">
+          <span className="text-2xl font-extrabold text-primary">
+            mint cashback
+          </span>
+        </Link>
 
-            {!isMobile ? (
-              <nav className="flex gap-8 px-8">
-                {items.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="font-semibold transition-colors duration-300 text-foreground hover:text-secondary/80"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="icon" className="w-10 h-10">
-                    <MenuIcon className="size-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  {items.map((item) => (
-                    <DropdownMenuItem key={item.href} asChild>
-                      <Link href={item.href} className="cursor-pointer">
-                        {item.label}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          </div>
-
-          {authUser ? (
-            <Link
-              key="about"
-              href="/user"
-              className="flex flex-row items-center gap-4 font-semibold transition-colors duration-300 text-foreground hover:text-secondary/80"
-            >
-              My Account
-              <UserIcon className="p-2 border rounded-full bg-muted size-11 text-muted-foreground" />
-            </Link>
+        <div className="flex items-center gap-6">
+          {!isMobile ? (
+            <nav className="flex gap-6">
+              {items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="font-semibold transition-all hover:text-primary"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
           ) : (
-            <div className="flex gap-2">
-              <Link href="/auth/login">
-                <Button variant="outline" className="px-6 rounded-full">
-                  Log In
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="w-10 h-10">
+                  <MenuIcon className="size-5" />
                 </Button>
-              </Link>
-              <Link href="/auth/signup">
-                <Button className="px-6 rounded-full">Sign Up</Button>
-              </Link>
-            </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                {items.map((item) => (
+                  <DropdownMenuItem key={item.href} asChild>
+                    <Link href={item.href} className="cursor-pointer">
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+
+          {!authUser ? (
+            <Button variant="outline">
+              Join
+            </Button>
+          ) : (
+            <Button variant="outline" size="icon" className="w-10 h-10">
+              <UserIcon className="size-5" />
+            </Button>
           )}
         </div>
-      </nav>
-    </header>
+      </div>
+    </div>
   );
 }
