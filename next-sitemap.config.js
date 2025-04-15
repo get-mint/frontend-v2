@@ -8,6 +8,15 @@ const client = createClient({
   useCdn: false,
 });
 
+// Create Supabase admin client
+const { createClient: createSupabaseClient } = require("@supabase/supabase-js");
+
+// Supabase client to fetch brands data
+const supabase = createSupabaseClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+  process.env.SUPABASE_SERVICE_ROLE_KEY || ""
+);
+
 module.exports = {
   siteUrl: "https://www.mintcashback.com",
   generateRobotsTxt: true,
@@ -42,6 +51,32 @@ module.exports = {
       priority: 0.8,
       lastmod: new Date().toISOString(),
     });
+
+    // Fetch brands from Supabase
+    const { data: brands } = await supabase
+      .from("advertisers")
+      .select("id, updated_at")
+      .eq("active", true);
+
+    // Add brands to sitemap
+    if (brands && brands.length > 0) {
+      brands.forEach((brand) => {
+        result.push({
+          loc: `${config.siteUrl}/brands/${brand.id}`,
+          changefreq: "weekly",
+          priority: 0.7,
+          lastmod: brand.updated_at || new Date().toISOString(),
+        });
+      });
+
+      // Add the main brands index page
+      result.push({
+        loc: `${config.siteUrl}/brands`,
+        changefreq: "daily",
+        priority: 0.8,
+        lastmod: new Date().toISOString(),
+      });
+    }
 
     return result;
   },

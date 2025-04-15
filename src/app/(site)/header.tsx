@@ -20,6 +20,7 @@ const items = [
   { href: "/", label: "Home" },
   { href: "/info/company/about", label: "About Us" },
   { href: "/download", label: "Download" },
+  { href: "/brands", label: "Brands" },
   { href: "/blog", label: "Blog" },
 ];
 
