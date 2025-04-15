@@ -59,13 +59,16 @@ type SearchParams = { [key: string]: string | string[] | undefined };
 export default async function IndexPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
+  const reseolvedSearchParmas = await searchParams; 
   const categoriesPromise = getCategories();
-  const postsPromise = getPosts(searchParams.category as string | undefined);
+  const postsPromise = getPosts(
+    reseolvedSearchParmas.category as string | undefined
+  );
 
   return (
-    <main className="container max-w-6xl min-h-screen p-8 mx-auto">
+    <main className="container max-w-5xl min-h-screen p-8 mx-auto">
       <h1 className="mb-8 text-4xl font-bold">Posts</h1>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
@@ -80,7 +83,7 @@ export default async function IndexPage({
                 <Suspense fallback={<div>Loading categories...</div>}>
                   <CategoryFilter 
                     categories={await categoriesPromise} 
-                    selectedCategoryId={searchParams.category as string | undefined} 
+                    selectedCategoryId={reseolvedSearchParmas.category as string | undefined} 
                   />
                 </Suspense>
               </div>
