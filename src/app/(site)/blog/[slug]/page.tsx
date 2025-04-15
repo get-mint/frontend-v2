@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { createAdminClient } from "@/lib/supabase/server/client";
 
-export async function fetchPost(slug: string) {
+async function fetchPost(slug: string) {
   const supabase = createAdminClient();
   
   const { data: post, error } = await supabase
