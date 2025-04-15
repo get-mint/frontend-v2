@@ -28,14 +28,14 @@ export function Header() {
 
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
-      <div className="flex items-center justify-between h-16 max-w-6xl mx-auto">
+      <div className="container flex items-center justify-between h-16 px-6 mx-auto max-w-7xl">
         <Link href="/">
           <span className="text-2xl font-extrabold transition-all text-primary hover:text-primary/90">
             mint cashback
           </span>
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-3 md:gap-6 lg:gap-8">
           {!isMobile ? (
             <nav className="flex gap-6">
               {items.map((item) => (
