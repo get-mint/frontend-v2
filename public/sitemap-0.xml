@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://www.mintcashback.com/info/company/faq</loc><lastmod>2025-04-15T00:03:28.335Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com/info/legal/terms-of-service</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com/info/legal/privacy-policy</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com/auth/login</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com/auth/signup</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com/info/company/about</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com/user/account</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com/user/activity</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.mintcashback.com/user</loc><lastmod>2025-04-15T00:03:28.336Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/auth/login</loc><lastmod>2025-04-15T00:13:11.720Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/info/legal/privacy-policy</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/info/company/faq</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/user</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/info/company/about</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/auth/signup</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/user/activity</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/info/legal/terms-of-service</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/user/account</loc><lastmod>2025-04-15T00:13:11.721Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/blog/how-cashback-works</loc><lastmod>2025-04-15T14:45:00.000Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/blog/top-10-ways-to-invest-your-spare-cashback</loc><lastmod>2025-04-13T14:43:00.000Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/blog/cashback-vs-coupons-which-saves-more</loc><lastmod>2025-04-17T17:24:00.000Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/blog/cashback-is-it-a-scam</loc><lastmod>2025-04-14T14:37:00.000Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/blog/cashback-extension-benefits-for-students</loc><lastmod>2025-04-18T19:55:00.000Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/blog/best-cashback-browser-extensions-compared</loc><lastmod>2025-04-16T14:54:00.000Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.mintcashback.com/blog</loc><lastmod>2025-04-15T00:13:12.152Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
 </urlset>
