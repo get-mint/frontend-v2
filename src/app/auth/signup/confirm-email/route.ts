@@ -33,8 +33,7 @@ export async function GET(request: Request) {
 
     if (sessionError || !session?.user?.id) {
       throw new AuthenticationError(
-        "Failed to exchange code for session: ",
-        sessionError?.message
+        `Failed to exchange code for session: ${sessionError?.message || ""}`
       );
     }
 
@@ -57,8 +56,7 @@ export async function GET(request: Request) {
 
     if (lookupError) {
       throw new AuthenticationError(
-        "Failed to lookup user: ",
-        lookupError.message
+        `Failed to lookup user: ${lookupError.message}`
       );
     }
 
@@ -84,8 +82,7 @@ export async function GET(request: Request) {
 
     if (error) {
       throw new AuthenticationError(
-        "Failed to create/update user: ",
-        error.message
+        `Failed to create/update user: ${error.message}`
       );
     }
 
@@ -93,6 +90,31 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));
   } catch (error) {
     const { error: message, status } = handleApiError(error);
-    return Response.json({ error: message }, { status });
+
+    // Attempt to delete the user if we have a session
+    if (error instanceof AuthenticationError) {
+      try {
+        // If we have a session with a user ID, delete the user
+        if (code) {
+          const supabase = createAdminClient();
+
+          // First try to exchange the code for a session to get the user ID
+          const { data } = await supabase.auth.exchangeCodeForSession(code);
+
+          if (data?.session?.user?.id) {
+            // Delete the user from auth
+            await supabase.auth.admin.deleteUser(data.session.user.id);
+          }
+        }
+      } catch (deleteError) {
+        console.error("Failed to delete user account:", deleteError);
+      }
+    }
+
+    // Redirect to the error page instead of returning a JSON response
+    const requestUrl = new URL(request.url);
+    return NextResponse.redirect(
+      new URL("/auth/signup/confirmation-error", requestUrl.origin)
+    );
   }
 }
