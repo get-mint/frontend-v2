@@ -54,21 +54,42 @@ export async function GET(request: Request) {
     .update(email.toLowerCase())
     .digest("hex");
 
-  const { data: userData, error: userError } = await supabase
+  // Try insert first
+  const { error: insertError } = await supabase
     .from("users")
-    .upsert({ user_id: userId, tracking_id }, { onConflict: "tracking_id" })
-    .select();
+    .insert({ user_id: userId, tracking_id });
 
-  if (userError) {
+  if (insertError?.code === "23505" /* duplicate */) {
+    // Conflict: update instead
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ user_id: userId })
+      .eq("tracking_id", tracking_id);
+
+    if (updateError) {
+      await sendFormattedMessage(
+        "auth",
+        "error",
+        "User Update Failed After Duplicate",
+        `Update failed for existing tracking_id`,
+        [
+          { name: "User ID", value: userId },
+          { name: "Tracking ID", value: tracking_id },
+          { name: "Error", value: JSON.stringify(updateError, null, 2) },
+        ]
+      );
+    }
+  } else if (insertError) {
+    // Not a conflict, real error
     await sendFormattedMessage(
       "auth",
       "error",
-      "User Database Update Failed",
-      `Failed to save user data to the users table for ${email}`,
+      "User Insert Failed",
+      `Insert failed for user ${email}`,
       [
         { name: "User ID", value: userId },
         { name: "Tracking ID", value: tracking_id },
-        { name: "Error", value: JSON.stringify(userError, null, 2) },
+        { name: "Error", value: JSON.stringify(insertError, null, 2) },
       ]
     );
 
@@ -77,18 +98,12 @@ export async function GET(request: Request) {
     await sendFormattedMessage(
       "auth",
       deleteError ? "error" : "warning",
-      "Auth User Deleted After Database Failure",
-      `Deleted auth user ${userId} because users table entry failed`,
+      "Auth User Deleted After DB Failure",
+      `Deleted auth user ${userId}`,
       [
-        { name: "User ID", value: userId },
         { name: "Email", value: email },
         ...(deleteError
-          ? [
-              {
-                name: "Deletion Error",
-                value: JSON.stringify(deleteError, null, 2),
-              },
-            ]
+          ? [{ name: "Deletion Error", value: JSON.stringify(deleteError) }]
           : []),
       ]
     );
@@ -96,22 +111,18 @@ export async function GET(request: Request) {
     return NextResponse.redirect(
       new URL("/auth/signup/confirmation-error", requestUrl.origin)
     );
-  } else {
-    await sendFormattedMessage(
-      "auth",
-      "success",
-      "Email Verification Successful",
-      `User ${email} has verified their email and data saved to users table`,
-      [
-        { name: "User ID", value: userId },
-        { name: "Tracking ID", value: tracking_id },
-        {
-          name: "Record Created/Updated",
-          value: Boolean(userData && userData.length > 0).toString(),
-        },
-      ]
-    );
   }
+
+  await sendFormattedMessage(
+    "auth",
+    "success",
+    "Email Verification Successful",
+    `User ${email} verified and saved`,
+    [
+      { name: "User ID", value: userId },
+      { name: "Tracking ID", value: tracking_id },
+    ]
+  );
 
   return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));
 }
