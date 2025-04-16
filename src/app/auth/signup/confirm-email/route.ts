@@ -53,6 +53,8 @@ export async function GET(request: Request) {
     type: type as "email",
   });
 
+  const adminClient = createAdminClient();
+
   if (error || !data?.user?.id || !data.user.email) {
     await sendFormattedMessage(
       "auth",
@@ -76,7 +78,7 @@ export async function GET(request: Request) {
     .update(email.toLowerCase())
     .digest("hex");
 
-  const { data: existingUser, error: selectError } = await supabase
+  const { data: existingUser, error: selectError } = await adminClient
     .from("users")
     .select("*")
     .eq("user_id", userId)
@@ -98,7 +100,7 @@ export async function GET(request: Request) {
   }
 
   if (existingUser) {
-    const { error: updateError } = await supabase
+    const { error: updateError } = await adminClient
       .from("users")
       .update({ tracking_id: trackingId })
       .eq("user_id", userId);
@@ -118,7 +120,7 @@ export async function GET(request: Request) {
       return deleteAuthUserAndLog(userId, requestUrl);
     }
   } else {
-    const { error: insertError } = await supabase
+    const { error: insertError } = await adminClient
       .from("users")
       .insert({ user_id: userId, tracking_id: trackingId });
 
