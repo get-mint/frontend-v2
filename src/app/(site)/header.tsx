@@ -24,7 +24,7 @@ import {
 
 const items = [
   { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/brands", label: "Brands", icon: ShirtIcon },
+  { href: "/about", label: "About", icon: ShirtIcon },
   { href: "/blog", label: "Blog", icon: NewspaperIcon },
 ];
 
