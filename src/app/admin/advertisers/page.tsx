@@ -1,7 +1,6 @@
+import { Metadata } from "next";
 import { Suspense } from "react";
 import { Search } from "lucide-react";
-
-import { Metadata } from "next";
 
 import {
   Card,
@@ -24,10 +23,12 @@ export const metadata: Metadata = {
 export default async function AdvertisersPage({
   searchParams,
 }: {
-  searchParams: { page?: string; search?: string };
+  searchParams: Promise<{ page?: string; search?: string }>;
 }) {
-  const currentPage = parseInt(searchParams.page || "1", 10);
-  const searchQuery = searchParams.search || "";
+  const { page, search } = await searchParams;
+
+  const currentPage = parseInt(page || "1", 10);
+  const searchQuery = search || "";
 
   return (
     <div className="space-y-6">
