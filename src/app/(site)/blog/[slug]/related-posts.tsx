@@ -6,6 +6,8 @@ import { createAdminClient } from "@/lib/supabase/server/client";
 
 import { Tables } from "@/types/supabase";
 
+import { BlurFade } from "@/components/magicui/blur-fade";
+
 const fetchRelatedPostsData = async (postId: string) => {
   const supabase = createAdminClient();
 
@@ -91,26 +93,24 @@ export async function RelatedPosts({ slug }: { slug: string }) {
 
   return (
     <div className="mt-4 space-y-6">
-      {relatedPosts.map((post: Tables<"blog_posts">) => (
-        <Link
-          href={`/blog/${post.slug}`}
-          key={post.id}
-          className="flex flex-col space-y-2"
-        >
-          <div className="relative w-full h-32 overflow-hidden rounded-md">
-            <Image
-              src={post.image_url || "/images/placeholder.svg"}
-              alt={post.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-          <h3 className="font-medium">{post.title}</h3>
-          <p className="text-sm text-muted-foreground">
-            {post.published_at &&
-              new Date(post.published_at).toLocaleDateString()}
-          </p>
-        </Link>
+      {relatedPosts.map((post: Tables<"blog_posts">, index: number) => (
+        <BlurFade key={post.id} delay={0.1 * index}>
+          <Link href={`/blog/${post.slug}`} className="flex flex-col space-y-2">
+            <div className="relative w-full h-32 overflow-hidden rounded-md">
+              <Image
+                src={post.image_url || "/images/placeholder.svg"}
+                alt={post.title}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <h3 className="font-medium">{post.title}</h3>
+            <p className="text-sm text-muted-foreground">
+              {post.published_at &&
+                new Date(post.published_at).toLocaleDateString()}
+            </p>
+          </Link>
+        </BlurFade>
       ))}
     </div>
   );

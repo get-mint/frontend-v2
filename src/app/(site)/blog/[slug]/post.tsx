@@ -2,6 +2,9 @@ import { createElement, Fragment, JSX } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import { TextAnimate } from "@/components/magicui/text-animate";
+import { BlurFade } from "@/components/magicui/blur-fade";
+
 import { fetchPost } from "./data";
 
 function renderNode(node: any, index?: number): JSX.Element | null {
@@ -53,29 +56,29 @@ export async function Post({ slug }: { slug: string }) {
     notFound();
   }
 
-  const content = (post.content as Record<string, unknown>) || {};
-
   return (
     <article
-      className="prose prose-lg prose-slate max-w-none"
+      className="prose prose-lg prose-neutral max-w-none"
       itemScope
       itemType="http://schema.org/BlogPosting"
     >
-      <p className="text-muted-foreground">
+      <TextAnimate animation="slideDown" className="text-muted-foreground">
         {new Date(post.published_at).toLocaleDateString()}
-      </p>
+      </TextAnimate>
 
-      <h1 className="text-6xl font-bold" itemProp="headline">
+      <TextAnimate animation="slideUp" by="word" className="text-6xl font-bold">
         {post.title}
-      </h1>
+      </TextAnimate>
 
-      <Image
-        src={post.image_url || "/images/placeholder.svg"}
-        alt={post.title}
-        width={1200}
-        height={600}
-        className="w-full h-auto mt-4 rounded-xl"
-      />
+      <BlurFade delay={0.5}>
+        <Image
+          src={post.image_url || "/images/placeholder.svg"}
+          alt={post.title}
+          width={1200}
+          height={600}
+          className="w-full h-auto mt-4 rounded-xl"
+        />
+      </BlurFade>
 
       <div className="mt-6" itemProp="articleBody">
         {post.content.content.map((node: any, index: number) =>
