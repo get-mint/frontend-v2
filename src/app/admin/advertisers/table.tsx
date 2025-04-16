@@ -87,11 +87,22 @@ export function AdvertisersTable({
           >
             <TableCell onClick={(e) => e.stopPropagation()}>
               {advertiser.image_url && (
-                <img
-                  src={advertiser.image_url}
-                  alt={advertiser.name}
-                  className="object-contain w-auto h-8"
-                />
+                <div
+                  className={`flex items-center justify-center p-3 rounded-md ${
+                    !advertiser.brand_hex_color ? "border" : ""
+                  }`}
+                  style={
+                    advertiser.brand_hex_color
+                      ? { backgroundColor: advertiser.brand_hex_color }
+                      : undefined
+                  }
+                >
+                  <img
+                    src={advertiser.image_url}
+                    alt={advertiser.name}
+                    className="object-contain w-auto h-8"
+                  />
+                </div>
               )}
             </TableCell>
             <TableCell className="font-medium">{advertiser.name}</TableCell>

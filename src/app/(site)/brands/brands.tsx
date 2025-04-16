@@ -1,86 +1,106 @@
-import Link from "next/link";
-import { unstable_cache } from "next/cache";
-import { cn } from "@/lib/utils/tailwind";
+"use client";
 
-import { createAdminClient } from "@/lib/supabase/server/client";
+import { useState, useRef, useCallback } from "react";
+import Link from "next/link";
+
+import { cn } from "@/lib/utils/tailwind";
 
 import { Tables } from "@/types/supabase";
 
 import { BlurFade } from "@/components/magicui/blur-fade";
-import { BrandsPagination } from "./pagination";
 
-const ITEMS_PER_PAGE = 8;
+export default function BrandsClient({
+  initialBrands,
+  initialTotalPages,
+}: {
+  initialBrands: Tables<"advertisers">[];
+  initialTotalPages: number;
+}) {
+  const [brands, setBrands] = useState<Tables<"advertisers">[]>(initialBrands);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(initialTotalPages > 1);
 
-const fetchBrandsData = async (page: number) => {
-  const supabase = createAdminClient();
+  const observer = useRef<IntersectionObserver | null>(null);
 
-  const start = (page - 1) * ITEMS_PER_PAGE;
-  const end = start + ITEMS_PER_PAGE - 1;
+  const lastBrandElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
 
-  let query = supabase
-    .from("advertisers")
-    .select("*", { count: "exact" })
-    .eq("active", true);
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          loadMoreBrands();
+        }
+      });
 
-  const { data, count, error } = await query
-    .range(start, end)
-    .order("name", { ascending: true });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
 
-  if (error) {
-    console.error("Error fetching brands:", error);
-    return { brands: [], totalPages: 0 };
-  }
+  const loadMoreBrands = async () => {
+    if (loading || !hasMore) return;
 
-  return {
-    brands: data || [],
-    totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE),
+    setLoading(true);
+    const nextPage = page + 1;
+
+    try {
+      const response = await fetch(`/api/brands?page=${nextPage}`);
+      const data = await response.json();
+
+      if (data.brands.length > 0) {
+        setBrands((prevBrands) => [...prevBrands, ...data.brands]);
+        setPage(nextPage);
+        setHasMore(nextPage < data.totalPages);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error("Error loading more brands:", error);
+    } finally {
+      setLoading(false);
+    }
   };
-};
-
-const fetchBrands = unstable_cache(fetchBrandsData, ["brands-list"], {
-  revalidate: 3600,
-});
-
-interface BrandsProps {
-  page: number;
-}
-
-export default async function Brands({ page = 1 }: BrandsProps) {
-  const { brands, totalPages } = await fetchBrands(page);
 
   return (
     <>
       <div className="grid grid-cols-2 gap-4 mb-6 md:grid-cols-4">
-        {brands.map((brand: Tables<"advertisers">, index: number) => (
-          <BlurFade delay={0.1 * (index % 4)} key={brand.id} inView>
-            <Link href={`/brands/${brand.slug}`}>
-              <div
-                className={cn(
-                  "p-8 rounded-3xl hover:scale-102 transition-all",
-                  !brand.brand_hex_color && "border"
-                )}
-                style={
-                  brand.brand_hex_color
-                    ? { backgroundColor: brand.brand_hex_color }
-                    : undefined
-                }
-              >
-                <img
-                  src={brand.image_url || "/images/placeholder.svg"}
-                  alt={brand.name}
-                  width={512}
-                  height={512}
-                  className="object-contain w-full aspect-video"
-                />
-              </div>
-            </Link>
-          </BlurFade>
-        ))}
-      </div>
+        {brands.map((brand, index) => {
+          const isLastElement = index === brands.length - 1;
 
-      {totalPages > 1 && (
-        <BrandsPagination currentPage={page} totalPages={totalPages} />
-      )}
+          return (
+            <div
+              ref={isLastElement ? lastBrandElementRef : null}
+              key={brand.id}
+            >
+              <BlurFade delay={0.1 * (index % 4)} inView>
+                <Link href={`/brands/${brand.slug}`}>
+                  <div
+                    className={cn(
+                      "p-8 rounded-3xl hover:scale-102 transition-all",
+                      !brand.brand_hex_color && "border"
+                    )}
+                    style={
+                      brand.brand_hex_color
+                        ? { backgroundColor: brand.brand_hex_color }
+                        : undefined
+                    }
+                  >
+                    <img
+                      src={brand.image_url || "/images/placeholder.svg"}
+                      alt={brand.name}
+                      width={512}
+                      height={512}
+                      className="object-contain w-full aspect-video"
+                    />
+                  </div>
+                </Link>
+              </BlurFade>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }

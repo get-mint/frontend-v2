@@ -53,7 +53,14 @@ export function AppearanceTab({ form }: AppearanceTabProps) {
               {field.value && (
                 <div className="mt-2">
                   <p className="mb-2 text-sm font-medium">Logo Preview:</p>
-                  <div className="flex justify-center p-4 border rounded-md">
+                  <div 
+                    className={`flex justify-center p-4 rounded-md ${!form.watch("brand_hex_color") ? "border" : ""}`}
+                    style={
+                      form.watch("brand_hex_color")
+                        ? { backgroundColor: form.watch("brand_hex_color") }
+                        : undefined
+                    }
+                  >
                     <img 
                       src={field.value} 
                       alt="Logo Preview" 

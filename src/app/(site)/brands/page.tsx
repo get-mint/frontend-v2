@@ -1,15 +1,48 @@
-import { Suspense } from "react";
 import { Metadata } from "next";
+import { unstable_cache } from "next/cache";
+
+import { createAdminClient } from "@/lib/supabase/server/client";
 
 import { TextAnimate } from "@/components/magicui/text-animate";
-import { Loader } from "@/components/loader";
 
-import Brands from "./brands";
+import BrandsClient from "./brands";
+
+const ITEMS_PER_PAGE = 12;
+
+const fetchBrandsData = async (page: number) => {
+  const supabase = createAdminClient();
+
+  const start = (page - 1) * ITEMS_PER_PAGE;
+  const end = start + ITEMS_PER_PAGE - 1;
+
+  let query = supabase
+    .from("advertisers")
+    .select("*", { count: "exact" })
+    .eq("active", true);
+
+  const { data, count, error } = await query
+    .range(start, end)
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching brands:", error);
+    return { brands: [], totalPages: 0 };
+  }
+
+  return {
+    brands: data || [],
+    totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE),
+  };
+};
+
+const fetchBrands = unstable_cache(fetchBrandsData, ["brands-list"], {
+  revalidate: 3600,
+});
 
 export const metadata: Metadata = {
-  title: "Mint | Brands",
+  title: "Brands | Mint Cashback",
   description:
-    "Mint automatically finds the best cashback offers for you on all of your favorite brands",
+    "Earn cashback every time you shop — automatically! Mint Cashback helps you find the best cashback deals on your favorite brands.",
 };
 
 export default async function BrandsPage({
@@ -17,7 +50,8 @@ export default async function BrandsPage({
 }: {
   searchParams: { page?: string };
 }) {
-  const currentPage = parseInt(searchParams.page || "1", 10);
+  const page = parseInt(searchParams.page || "1", 10);
+  const { brands, totalPages } = await fetchBrands(page);
 
   return (
     <>
@@ -63,9 +97,7 @@ export default async function BrandsPage({
           brands
         </TextAnimate>
 
-        <Suspense fallback={<Loader />}>
-          <Brands page={currentPage} />
-        </Suspense>
+        <BrandsClient initialBrands={brands} initialTotalPages={totalPages} />
       </div>
     </>
   );
