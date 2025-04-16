@@ -21,18 +21,15 @@ export const metadata: Metadata = {
   description: "Manage all advertisers in the system",
 };
 
-interface SearchParams {
-  page?: string;
-  search?: string;
-}
-
-export default function AdvertisersPage({
-  searchParams,
+export default async function AdvertisersPage({
+  params,
 }: {
-  searchParams: SearchParams;
+  params: Promise<{ page: string; search: string }>;
 }) {
-  const currentPage = parseInt(searchParams.page || "1", 10);
-  const searchQuery = searchParams.search || "";
+  const { page, search } = await params;
+
+  const currentPage = parseInt(page || "1", 10);
+  const searchQuery = search || "";
 
   return (
     <div className="space-y-6">
@@ -59,7 +56,6 @@ export default function AdvertisersPage({
                   className="pl-8"
                   defaultValue={searchQuery}
                 />
-                {/* Maintain current page when searching */}
                 <input type="hidden" name="page" value="1" />
               </div>
             </form>
