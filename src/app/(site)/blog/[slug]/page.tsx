@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Loader } from "@/components/loader";
 
 import { fetchPost } from "./data";
 import { Post } from "./post";
@@ -81,7 +82,7 @@ export default async function BlogPostPage({
         </Button>
       </Link>
       
-      <Suspense fallback={undefined}>
+      <Suspense fallback={<Loader />}>
         <Post slug={slug} />
       </Suspense>
       </div>

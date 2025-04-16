@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 
 import { Separator } from "@/components/ui/separator";
+import { Loader } from "@/components/loader";
 
 import Posts from "./posts";
 
@@ -16,7 +17,7 @@ export default function BlogPage() {
       <h1 className="text-5xl font-bold">Mint Cashback's Blog</h1>
       <Separator className="my-6" />
 
-      <Suspense fallback={undefined}>
+      <Suspense fallback={<Loader />}>
         <Posts />
       </Suspense>
     </div>
