@@ -6,6 +6,7 @@ import { ArrowLeftIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { BlurFade } from "@/components/magicui/blur-fade";
+import { TextAnimate } from "@/components/magicui/text-animate";
 
 import { fetchPost } from "./data";
 import { Post } from "./post";
@@ -90,7 +91,10 @@ export default async function BlogPostPage({
       </div>
 
       <div className="w-full sm:w-1/5">
-        <h2 className="text-2xl font-bold">Related Posts</h2>
+        <TextAnimate animation="slideUp" by="character" className="text-2xl font-bold" delay={0.25}>
+          Related Posts
+        </TextAnimate>
+        
         <Suspense fallback={undefined}>
           <RelatedPosts slug={slug} />
         </Suspense>
