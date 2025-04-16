@@ -4,15 +4,15 @@ const sections = [
   {
     title: "Company",
     links: [
-      { href: "/info/company/about", label: "About Us" },
-      { href: "/info/company/faq", label: "FAQ" },
+      { href: "/about", label: "About" },
+      { href: "/faq", label: "FAQ" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { href: "/info/legal/privacy-policy", label: "Privacy Policy" },
-      { href: "/info/legal/terms-of-service", label: "Terms of Service" },
+      { href: "/privacy-policy", label: "Privacy Policy" },
+      { href: "/terms-of-service", label: "Terms of Service" },
     ],
   },
 ];
@@ -21,19 +21,19 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t bg-background mt-12">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-wrap gap-8 max-w-3xl">
-          <div className="flex flex-wrap gap-12 w-full md:w-auto">
+    <footer className="mt-12 border-t bg-background">
+      <div className="container px-4 py-8 mx-auto">
+        <div className="flex flex-wrap max-w-3xl gap-8">
+          <div className="flex flex-wrap w-full gap-12 md:w-auto">
             {sections.map((section) => (
               <div key={section.title} className="min-w-[100px]">
-                <h3 className="font-semibold mb-4">{section.title}</h3>
+                <h3 className="mb-4 font-semibold">{section.title}</h3>
                 <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                        className="text-sm transition-colors text-muted-foreground hover:text-primary"
                         target={
                           link.href.startsWith("/info/") ? "_blank" : undefined
                         }
@@ -53,7 +53,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t mt-8 pt-8">
+        <div className="pt-8 mt-8 border-t">
           <p className="text-sm text-muted-foreground">
             © {currentYear} Mint CashBack. All rights reserved.
           </p>
