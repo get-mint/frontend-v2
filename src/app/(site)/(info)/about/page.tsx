@@ -143,38 +143,28 @@ export default function About() {
         </div>
       </div>
 
-      {/* Global Presence */}
-      <div className="container mx-auto px-4 py-16 border-t">
-        <div className="max-w-[80rem] mx-auto text-center">
-          <span className="text-sm font-medium tracking-widest uppercase text-black/60">Our Reach</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
-            <span className="text-black">Available </span>
-            <span className="text-[#39d992]">worldwide</span>
-          </h2>
-          
-          <div className="mt-12">
-            <div className="bg-[#f5f5f5] rounded-2xl p-8 max-w-2xl mx-auto">
-              <p className="text-lg text-black/80">
-                Our extension works with major retailers and travel sites across the globe, ensuring you never miss out on cashback opportunities, no matter where you shop.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Vision Section */}
       <div className="container mx-auto px-4 py-16 border-t">
         <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Vision</span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
-            <span className="text-[#39d992]">Discover </span>
-            <span className="text-black">the future of </span>
-            <span className="text-[#39d992]">online savings</span>
+            <span className="text-[#39d992]">Redefining </span>
+            <span className="text-black">how people </span>
+            <span className="text-[#39d992]">earn online.</span>
           </h2>
           
-          <div className="mt-12">
-            <p className="text-lg text-black/80 max-w-2xl mx-auto">
-              We're building more than just a cashback platform - we're creating a new standard for how people should be rewarded for their online purchases. Join us in making this vision a reality.
+          <div className="mt-12 max-w-3xl mx-auto">
+            <p className="text-xl text-black/80 mb-8">
+              We're not just building a cashback tool — we're building a shift in how value is shared.
+            </p>
+            <p className="text-xl text-black/80 mb-8">
+              Our vision is simple: if brands profit from your purchase, you should too.
+            </p>
+            <p className="text-xl text-black/80 mb-8">
+              We're here to make that the new normal.
+            </p>
+            <p className="text-xl text-black/80">
+              Join us in creating a more transparent, rewarding future for online shopping.
             </p>
           </div>
         </div>
