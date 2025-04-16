@@ -26,7 +26,7 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-screen bg-background">
+      <div className="flex w-screen h-screen bg-background">
         <DashboardSidebar />
 
         <div className="flex-1 w-full">
@@ -35,7 +35,7 @@ export default function DashboardLayout({
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                  <BreadcrumbLink href="/admin">Admin</BreadcrumbLink>
                 </BreadcrumbItem>
                 {pathSegments.slice(1).map((segment, index) => (
                   <React.Fragment key={segment}>
@@ -62,7 +62,7 @@ export default function DashboardLayout({
             </Breadcrumb>
           </div>
 
-          <div className="container mx-auto overflow-auto px-6 py-4 space-y-5">
+          <div className="container px-6 py-4 mx-auto space-y-5 overflow-auto">
             {children}
           </div>
         </div>

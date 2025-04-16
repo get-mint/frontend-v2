@@ -1,9 +1,10 @@
 "use client";
 
-import { LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { LoaderCircle, ExternalLink, Trash2 } from "lucide-react";
 
-import { Database } from "@/types/supabase";
-import { EditAdvertiserDialog } from "./edit-dialog";
+import { Tables } from "@/types/supabase";
 import { DeleteAdvertiserDialog } from "./delete-dialog";
 
 import {
@@ -15,31 +16,49 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 
-type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"] & {
+type Advertiser = Tables<"advertisers"> & {
   network?: { name: string };
   currency?: { acronym: string };
 };
 
 interface AdvertisersTableProps {
   advertisers: Advertiser[];
-  isLoading: boolean;
-  onAdvertiserUpdate: (id: string, active: boolean) => void;
-  onAdvertiserEdit: () => void;
-  onAdvertiserDelete: () => void;
+  toggleActiveAction: (formData: FormData) => Promise<void>;
 }
 
 export function AdvertisersTable({
   advertisers,
-  isLoading,
-  onAdvertiserUpdate,
-  onAdvertiserEdit,
-  onAdvertiserDelete,
+  toggleActiveAction,
 }: AdvertisersTableProps) {
-  if (isLoading) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const handleRowClick = (id: string) => {
+    router.push(`/admin/advertisers/${id}`);
+  };
+
+  const handleToggleActive = (id: string, currentActive: boolean) => {
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("active", String(currentActive));
+
+    startTransition(() => {
+      toggleActiveAction(formData).then(() => {
+        router.refresh();
+      });
+    });
+  };
+
+  const handleUpdate = () => {
+    router.refresh();
+  };
+
+  if (advertisers.length === 0) {
     return (
-      <div className="flex justify-center py-8">
-        <LoaderCircle className="animate-spin size-8" />
+      <div className="py-6 text-center text-muted-foreground">
+        No advertisers found
       </div>
     );
   }
@@ -53,15 +72,20 @@ export function AdvertisersTable({
           <TableHead>Domain</TableHead>
           <TableHead>Network</TableHead>
           <TableHead>Currency</TableHead>
+          <TableHead>Cashback</TableHead>
+          <TableHead>Brand Color</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead>Created</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {advertisers.map((advertiser) => (
-          <TableRow key={advertiser.id}>
-            <TableCell>
+          <TableRow 
+            key={advertiser.id} 
+            className="cursor-pointer hover:bg-muted/50"
+            onClick={() => handleRowClick(advertiser.id)}
+          >
+            <TableCell onClick={(e) => e.stopPropagation()}>
               {advertiser.image_url && (
                 <img
                   src={advertiser.image_url}
@@ -75,25 +99,50 @@ export function AdvertisersTable({
             <TableCell>{advertiser.network?.name || "N/A"}</TableCell>
             <TableCell>{advertiser.currency?.acronym || "N/A"}</TableCell>
             <TableCell>
-              <Switch
-                checked={advertiser.active}
-                onCheckedChange={() =>
-                  onAdvertiserUpdate(advertiser.id, advertiser.active)
-                }
-              />
+              {advertiser.up_to_pct ? `Up to ${advertiser.up_to_pct}%` : "N/A"}
             </TableCell>
             <TableCell>
-              {new Date(advertiser.created_at).toLocaleDateString()}
+              {advertiser.brand_hex_color ? (
+                <div className="flex items-center gap-2">
+                  <div 
+                    className="w-4 h-4 rounded-full" 
+                    style={{ backgroundColor: advertiser.brand_hex_color }}
+                  ></div>
+                  <span className="text-xs">{advertiser.brand_hex_color}</span>
+                </div>
+              ) : (
+                "N/A"
+              )}
             </TableCell>
-            <TableCell>
-              <div className="flex justify-end gap-2">
-                <EditAdvertiserDialog
-                  advertiser={advertiser}
-                  onAdvertiserUpdate={onAdvertiserEdit}
+            <TableCell onClick={(e) => e.stopPropagation()}>
+              <div className="relative">
+                <Switch
+                  checked={advertiser.active}
+                  onCheckedChange={() => 
+                    handleToggleActive(advertiser.id, advertiser.active)
+                  }
+                  disabled={isPending}
                 />
+                {isPending && (
+                  <LoaderCircle className="absolute top-0 right-0 h-3 w-3 animate-spin text-primary" />
+                )}
+              </div>
+            </TableCell>
+            <TableCell onClick={(e) => e.stopPropagation()}>
+              <div className="flex justify-end gap-2">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(`/admin/advertisers/${advertiser.id}`);
+                  }}
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
                 <DeleteAdvertiserDialog
                   advertiser={advertiser}
-                  onAdvertiserUpdate={onAdvertiserDelete}
+                  onAdvertiserUpdate={handleUpdate}
                 />
               </div>
             </TableCell>

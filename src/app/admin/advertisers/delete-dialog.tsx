@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { LoaderCircle, Trash2 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
-import { Database } from "@/types/supabase";
+import { Tables } from "@/types/supabase";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +17,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
+type Advertiser = Tables<"advertisers">;
 
 interface DeleteAdvertiserDialogProps {
   advertiser: Advertiser;
@@ -27,26 +28,40 @@ export function DeleteAdvertiserDialog({
   advertiser,
   onAdvertiserUpdate,
 }: DeleteAdvertiserDialogProps) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const supabase = createClient();
 
   const handleDelete = async () => {
-    setIsLoading(true);
-    try {
-      const { error } = await supabase
-        .from("advertisers")
-        .delete()
-        .eq("id", advertiser.id);
+    startTransition(async () => {
+      try {
+        const { error } = await supabase
+          .from("advertisers")
+          .delete()
+          .eq("id", advertiser.id);
 
-      if (error) throw error;
-      setOpen(false);
-      onAdvertiserUpdate();
-    } catch (error) {
-      console.error("Error deleting advertiser:", error);
-    } finally {
-      setIsLoading(false);
-    }
+        if (error) throw error;
+        
+        // Attempt to revalidate cache
+        try {
+          await fetch(`/api/revalidate`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tag: 'advertisers' }),
+          });
+        } catch (revalidateError) {
+          console.error("Failed to revalidate:", revalidateError);
+        }
+        
+        setOpen(false);
+        onAdvertiserUpdate();
+      } catch (error) {
+        console.error("Error deleting advertiser:", error);
+      }
+    });
   };
 
   return (
@@ -80,9 +95,9 @@ export function DeleteAdvertiserDialog({
             type="button"
             variant="destructive"
             onClick={handleDelete}
-            disabled={isLoading}
+            disabled={isPending}
           >
-            {isLoading && (
+            {isPending && (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             )}
             Delete

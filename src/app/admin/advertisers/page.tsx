@@ -1,12 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { Suspense } from "react";
 import { Search } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/client";
-import { useAuth } from "@/lib/hooks/use-auth";
-
-import { Database } from "@/types/supabase";
+import { Metadata } from "next";
 
 import {
   Card,
@@ -18,86 +13,23 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { AddNewAdvertiser } from "./add-dialog";
-import { AdvertisersTable } from "./table";
+import AdvertisersContent from "./content";
 import { AdvertisersPagination } from "./pagination";
+import { Loader } from "@/components/loader";
 
-type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"] & {
-  network?: { name: string };
-  currency?: { acronym: string };
+export const metadata: Metadata = {
+  title: "Admin | Advertisers",
+  description: "Manage all advertisers in the system",
 };
 
-const ITEMS_PER_PAGE = 10;
+interface SearchParams {
+  page?: string;
+  search?: string;
+}
 
-export default function AdvertisersPage() {
-  const { isAuthenticated } = useAuth();
-  const [advertisers, setAdvertisers] = useState<Advertiser[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const fetchAdvertisers = async () => {
-    setIsLoading(true);
-    const supabase = createClient();
-
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE - 1;
-
-    let query = supabase.from("advertisers").select(
-      `
-        *,
-        network: networks(name),
-        currency: currencies(acronym)
-      `,
-      { count: "exact" }
-    );
-
-    if (searchQuery) {
-      query = query.or(
-        `name.ilike.%${searchQuery}%,domain.ilike.%${searchQuery}%`
-      );
-    }
-
-    const { data, count, error } = await query
-      .range(start, end)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching advertisers:", error);
-      return;
-    }
-
-    setAdvertisers(data || []);
-    setTotalPages(Math.ceil((count || 0) / ITEMS_PER_PAGE));
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchAdvertisers();
-    }
-  }, [isAuthenticated, currentPage, searchQuery]);
-
-  const handleToggleActive = async (id: string, currentActive: boolean) => {
-    const supabase = createClient();
-    const { error } = await supabase
-      .from("advertisers")
-      .update({ active: !currentActive })
-      .eq("id", id);
-
-    if (error) {
-      console.error("Error updating advertiser:", error);
-      return;
-    }
-
-    setAdvertisers((prev) =>
-      prev.map((advertiser) =>
-        advertiser.id === id
-          ? { ...advertiser, active: !currentActive }
-          : advertiser
-      )
-    );
-  };
+export default function AdvertisersPage({ searchParams }: { searchParams: SearchParams }) {
+  const currentPage = parseInt(searchParams.page || "1", 10);
+  const searchQuery = searchParams.search || "";
 
   return (
     <div className="space-y-6">
@@ -115,30 +47,28 @@ export default function AdvertisersPage() {
         </CardHeader>
         <CardContent>
           <div className="mb-4">
-            <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search advertisers..."
-                className="pl-8"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
+            <form action="/admin/advertisers" method="GET">
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  name="search"
+                  placeholder="Search advertisers..."
+                  className="pl-8"
+                  defaultValue={searchQuery}
+                />
+                {/* Maintain current page when searching */}
+                <input type="hidden" name="page" value="1" />
+              </div>
+            </form>
           </div>
 
           <div className="space-y-4">
-            <AdvertisersTable
-              advertisers={advertisers}
-              isLoading={isLoading}
-              onAdvertiserUpdate={handleToggleActive}
-              onAdvertiserEdit={fetchAdvertisers}
-              onAdvertiserDelete={fetchAdvertisers}
-            />
-            <AdvertisersPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+            <Suspense fallback={<Loader />}>
+              <AdvertisersContent
+                page={currentPage}
+                searchQuery={searchQuery}
+              />
+            </Suspense>
           </div>
         </CardContent>
       </Card>

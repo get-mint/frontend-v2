@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   Pagination,
   PaginationContent,
@@ -12,42 +13,71 @@ import {
 interface AdvertisersPaginationProps {
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
+  searchQuery?: string;
 }
 
 export function AdvertisersPagination({
   currentPage,
   totalPages,
-  onPageChange,
+  searchQuery = "",
 }: AdvertisersPaginationProps) {
+  const getPageUrl = (page: number) => {
+    const params = new URLSearchParams();
+    params.set("page", page.toString());
+    if (searchQuery) {
+      params.set("search", searchQuery);
+    }
+    return `/admin/advertisers?${params.toString()}`;
+  };
+
+  // Don't render pagination if there's only one page
+  if (totalPages <= 1) {
+    return null;
+  }
+
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious
-            onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-            className={
-              currentPage === 1 ? "pointer-events-none opacity-50" : ""
-            }
-          />
+          <Link 
+            href={getPageUrl(Math.max(1, currentPage - 1))}
+            passHref
+            legacyBehavior
+          >
+            <PaginationPrevious
+              className={
+                currentPage === 1 ? "pointer-events-none opacity-50" : ""
+              }
+            />
+          </Link>
         </PaginationItem>
+        
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <PaginationItem key={page}>
-            <PaginationLink
-              onClick={() => onPageChange(page)}
-              isActive={currentPage === page}
+            <Link 
+              href={getPageUrl(page)}
+              passHref
+              legacyBehavior
             >
-              {page}
-            </PaginationLink>
+              <PaginationLink isActive={currentPage === page}>
+                {page}
+              </PaginationLink>
+            </Link>
           </PaginationItem>
         ))}
+        
         <PaginationItem>
-          <PaginationNext
-            onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-            className={
-              currentPage === totalPages ? "pointer-events-none opacity-50" : ""
-            }
-          />
+          <Link 
+            href={getPageUrl(Math.min(totalPages, currentPage + 1))}
+            passHref
+            legacyBehavior
+          >
+            <PaginationNext
+              className={
+                currentPage === totalPages ? "pointer-events-none opacity-50" : ""
+              }
+            />
+          </Link>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

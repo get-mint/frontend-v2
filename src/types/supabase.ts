@@ -37,8 +37,10 @@ export type Database = {
       advertisers: {
         Row: {
           active: boolean
+          brand_hex_color: string | null
           created_at: string
           currency_id: string | null
+          description: string | null
           domain: string
           id: string
           image_url: string | null
@@ -46,12 +48,15 @@ export type Database = {
           name: string
           network_id: string | null
           slug: string
+          up_to_pct: number | null
           updated_at: string
         }
         Insert: {
           active?: boolean
+          brand_hex_color?: string | null
           created_at?: string
           currency_id?: string | null
+          description?: string | null
           domain: string
           id?: string
           image_url?: string | null
@@ -59,12 +64,15 @@ export type Database = {
           name: string
           network_id?: string | null
           slug?: string
+          up_to_pct?: number | null
           updated_at?: string
         }
         Update: {
           active?: boolean
+          brand_hex_color?: string | null
           created_at?: string
           currency_id?: string | null
+          description?: string | null
           domain?: string
           id?: string
           image_url?: string | null
@@ -72,6 +80,7 @@ export type Database = {
           name?: string
           network_id?: string | null
           slug?: string
+          up_to_pct?: number | null
           updated_at?: string
         }
         Relationships: [
