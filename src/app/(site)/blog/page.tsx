@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <div className="px-6 py-6 mx-auto max-w-7xl">
-      <h1 className="text-5xl font-bold">Mint Cashback's Blog</h1>
+      <h1 className="text-5xl font-bold">Mint's Blog</h1>
       <Separator className="my-6" />
 
       <Suspense fallback={<Loader />}>
