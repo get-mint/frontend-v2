@@ -1,9 +1,9 @@
 import Image from "next/image";
 
 const ArrowDown = () => (
-  <div className="flex justify-center py-8">
+  <div className="flex justify-center -mt-8">
     <div className="animate-bounce">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 4L12 20M12 20L18 14M12 20L6 14" stroke="#39d992" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     </div>
@@ -14,7 +14,7 @@ export default function About() {
   return (
     <article className="min-h-screen bg-white">
       {/* Question Section */}
-      <div className="container mx-auto px-4 pt-32 pb-24">
+      <div className="container mx-auto px-4 pt-32 pb-16">
         <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-base font-medium tracking-widest uppercase text-black/60">Question</span>
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-balance mt-6 mx-auto">
