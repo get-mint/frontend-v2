@@ -66,46 +66,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Principles Section */}
-      <div className="container mx-auto px-4 py-16 border-t">
-        <div className="max-w-[80rem] mx-auto text-center">
-          <span className="text-sm font-medium tracking-widest uppercase text-black/60">Principles</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
-            <span className="text-black">We're building a </span>
-            <span className="text-[#39d992]">cashback platform </span>
-            <span className="text-black">that puts </span>
-            <span className="text-[#39d992]">users first</span>
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 max-w-4xl mx-auto">
-            {[
-              {
-                title: "Transparency",
-                description: "No more black boxes. See exactly how much you earn and why — every single time."
-              },
-              {
-                title: "Simplicity",
-                description: "Install once, earn forever. We handle the complex stuff while you shop normally."
-              },
-              {
-                title: "Fairness",
-                description: "A true 50/50 split on every deal. Your purchase, your rewards — shared fairly."
-              },
-              {
-                title: "Privacy First",
-                description: "Shop freely without being tracked. We only collect what's needed, nothing more."
-              }
-            ].map((principle) => (
-              <div key={principle.title} className="bg-white rounded-[24px] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_32px_rgba(0,0,0,0.08)] transition-shadow">
-                <h3 className="text-[#39d992] text-xl font-medium mb-3">{principle.title}</h3>
-                <div className="h-[1px] w-8 bg-[#39d992]/20 mb-4 mx-auto"></div>
-                <p className="text-base text-black/60 leading-relaxed">{principle.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* Team Section */}
       <div className="container mx-auto px-4 py-16 border-t">
         <div className="max-w-[80rem] mx-auto text-center">
@@ -132,13 +92,51 @@ export default function About() {
             ].map((member) => (
               <div 
                 key={member.name} 
-                className="group relative h-[300px] bg-[#39d992]/5 hover:bg-[#39d992]/10 rounded-3xl p-6 transition-all duration-300 cursor-pointer overflow-hidden"
+                className="group relative h-[500px] bg-[#39d992]/5 hover:bg-[#39d992]/10 rounded-3xl p-6 transition-all duration-300 cursor-pointer overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#39d992]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute bottom-6 left-6 right-6 text-center">
                   <h3 className="text-xl font-medium text-[#39d992] mb-1">{member.name}</h3>
                   <p className="text-black/60 text-base">{member.role}</p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Principles Section */}
+      <div className="container mx-auto px-4 py-16 border-t">
+        <div className="max-w-[80rem] mx-auto text-center">
+          <span className="text-sm font-medium tracking-widest uppercase text-black/60">Principles</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
+            <span className="text-[#39d992]">Our </span>
+            <span className="text-black">non-negotiables</span>
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 max-w-4xl mx-auto">
+            {[
+              {
+                title: "Transparency",
+                description: "No more black boxes. See exactly how much you earn and why — every single time."
+              },
+              {
+                title: "Simplicity",
+                description: "Install once, earn forever. We handle the complex stuff while you shop normally."
+              },
+              {
+                title: "Fairness",
+                description: "A true 50/50 split on every deal. Your purchase, your rewards — shared fairly."
+              },
+              {
+                title: "Privacy First",
+                description: "Shop freely without being tracked. We only collect what's needed, nothing more."
+              }
+            ].map((principle) => (
+              <div key={principle.title} className="bg-white rounded-[24px] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_32px_rgba(0,0,0,0.08)] transition-shadow">
+                <h3 className="text-[#39d992] text-xl font-medium mb-3">{principle.title}</h3>
+                <div className="h-[1px] w-8 bg-[#39d992]/20 mb-4 mx-auto"></div>
+                <p className="text-base text-black/60 leading-relaxed">{principle.description}</p>
               </div>
             ))}
           </div>
