@@ -9,6 +9,7 @@ import {
   HomeIcon,
   ShirtIcon,
   NewspaperIcon,
+  BookIcon,
 } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
@@ -24,7 +25,7 @@ import {
 
 const items = [
   { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/about", label: "About", icon: ShirtIcon },
+  { href: "/about", label: "About", icon: BookIcon },
   { href: "/brands", label: "Brands", icon: ShirtIcon },
   { href: "/blog", label: "Blog", icon: NewspaperIcon },
 ];
@@ -56,7 +57,7 @@ export function Header() {
           )}
         </Link>
 
-        <div className="flex items-center gap-3 md:gap-6 lg:gap-8">
+        <div className="flex items-center gap-3 md:gap-6">
           {!isMobile && (
             <nav className="flex gap-6">
               {items.map((item) => (
@@ -83,16 +84,18 @@ export function Header() {
                 </Link>
               </>
             ) : (
-              <Button variant="outline" size="icon" className="w-10 h-10">
-                <UserIcon className="size-5" />
-              </Button>
+              <Link href="/user" passHref>
+                <Button variant="outline" size="icon" className="size-10">
+                  <UserIcon className="size-6" />
+                </Button>
+              </Link>
             )}
 
             {isMobile && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="icon" className="w-10 h-10">
-                    <MenuIcon className="size-5" />
+                    <MenuIcon className="size-6" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-32 mr-4">
