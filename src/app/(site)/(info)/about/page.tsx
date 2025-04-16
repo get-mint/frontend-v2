@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ArrowDown = () => (
   <div className="flex justify-center -mt-8">
-    <div className="animate-bounce">
+    <div>
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 4L12 20M12 20L18 14M12 20L6 14" stroke="#39d992" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
@@ -31,7 +31,7 @@ export default function About() {
       <ArrowDown />
 
       {/* Story Section */}
-      <div className="container mx-auto px-4 py-16 border-t">
+      <div className="container mx-auto px-4 py-16">
         <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Realization</span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
@@ -57,7 +57,7 @@ export default function About() {
       <ArrowDown />
 
       {/* Mission Section */}
-      <div className="container mx-auto px-4 py-16 border-t">
+      <div className="container mx-auto px-4 py-16">
         <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Our Approach</span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
@@ -83,7 +83,7 @@ export default function About() {
       <ArrowDown />
 
       {/* Team Section */}
-      <div className="container mx-auto px-4 py-16 border-t">
+      <div className="container mx-auto px-4 py-16">
         <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Team</span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
@@ -124,7 +124,7 @@ export default function About() {
       <ArrowDown />
 
       {/* Principles Section */}
-      <div className="container mx-auto px-4 py-16 border-t">
+      <div className="container mx-auto px-4 py-16">
         <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Principles</span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
@@ -164,7 +164,7 @@ export default function About() {
       <ArrowDown />
 
       {/* Vision Section */}
-      <div className="container mx-auto px-4 py-16 border-t">
+      <div className="container mx-auto px-4 py-16">
         <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Vision</span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
