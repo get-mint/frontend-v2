@@ -4,21 +4,16 @@ import { ChevronDown } from "lucide-react";
 
 export default function About() {
   return (
-    <article className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
+    <article className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 pt-24 pb-12">
-        <div className="bg-[#E6FFF6] rounded-[2.5rem] overflow-hidden shadow-xl transform hover:scale-[1.01] transition-all duration-300">
-          <div className="w-full py-24 text-center px-6 sm:px-16 relative">
-            <div className="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10"></div>
-            <div className="relative">
-              <h1 className="text-4xl sm:text-6xl font-bold mb-8 bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                Why does saving money online feel so unreliable?
-              </h1>
-              <p className="text-xl sm:text-2xl text-secondary/90 max-w-3xl mx-auto">
-                Over $35B is earned through affiliate links every year — yet most people never see a cent.
-              </p>
-            </div>
-          </div>
+      <div className="container mx-auto px-4 pt-24 pb-32">
+        <div className="max-w-[90rem] mx-auto">
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-balance">
+            <span className="text-[#39d992]">Why does saving money online feel so unreliable?</span>
+          </h1>
+          <p className="text-xl sm:text-2xl text-secondary/80 max-w-3xl mt-8">
+            Over $35B is earned through affiliate links every year — yet most people never see a cent.
+          </p>
         </div>
       </div>
 
