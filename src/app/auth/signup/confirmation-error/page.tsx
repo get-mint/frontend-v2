@@ -1,27 +1,23 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-
-import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-export default function ConfirmationErrorPage({
+export default async function ConfirmationErrorPage({
   searchParams,
 }: {
-  searchParams: { error?: string; details?: string };
+  searchParams: Promise<{ error?: string; details?: string }>;
 }) {
-  const [showDetails, setShowDetails] = useState(false);
+  const params = await searchParams;
 
-  const errorMessage = searchParams.error || "Unknown error";
-  const errorDetails = searchParams.details || "No additional details available";
+  const errorMessage = params.error || "Unknown error";
+  const errorDetails = params.details || "No additional details available";
 
   return (
     <div className="flex flex-col items-center justify-center p-6 min-h-svh bg-muted md:p-10">
@@ -37,32 +33,25 @@ export default function ConfirmationErrorPage({
               <p className="text-sm text-muted-foreground">
                 Please try signing up again with the same email address.
               </p>
-              
-              <Collapsible
-                className="w-full p-2 border rounded-md"
-                open={showDetails}
-                onOpenChange={setShowDetails}
-              >
-                <CollapsibleTrigger className="flex items-center justify-between w-full text-sm">
-                  <span>Technical Details</span>
-                  {showDetails ? (
-                    <ChevronUp className="w-4 h-4" />
-                  ) : (
-                    <ChevronDown className="w-4 h-4" />
-                  )}
-                </CollapsibleTrigger>
-                <CollapsibleContent className="pt-2">
-                  <div className="p-3 text-sm text-left rounded-md bg-muted">
-                    <p className="font-semibold">Error: {errorMessage}</p>
-                    {errorDetails && (
-                      <p className="mt-2 text-xs whitespace-pre-wrap text-muted-foreground">
-                        {errorDetails}
-                      </p>
-                    )}
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-              
+
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="error-details">
+                  <AccordionTrigger className="text-sm">
+                    Technical Details
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="p-3 text-sm text-left rounded-md bg-muted">
+                      <p className="font-semibold">Error: {errorMessage}</p>
+                      {errorDetails && (
+                        <p className="mt-2 text-xs whitespace-pre-wrap text-muted-foreground">
+                          {errorDetails}
+                        </p>
+                      )}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
               <Button asChild className="w-full">
                 <Link href="/auth/signup">Sign up again</Link>
               </Button>
