@@ -38,7 +38,7 @@ export default function AdministratorsPage() {
       const usersWithAdminStatus = await Promise.all(
         usersData.map(async (user) => {
           const { data: isAdmin } = await supabase.rpc("is_admin", {
-            user_id: user.id,
+            user_id: user.user_id,
           });
           return { ...user, is_admin: isAdmin };
         })
@@ -56,7 +56,7 @@ export default function AdministratorsPage() {
       const usersWithEmails = await Promise.all(
         usersWithAdminStatus.map(async (user) => {
           try {
-            const response = await fetch(`/api/users/email?userId=${user.id}`, {
+            const response = await fetch(`/api/users/email?userId=${user.user_id}`, {
               headers: {
                 Authorization: `Bearer ${session.access_token}`,
               },
@@ -75,7 +75,7 @@ export default function AdministratorsPage() {
               }
 
               console.error(
-                `Error fetching email for user ${user.id}:`,
+                `Error fetching email for user ${user.user_id}:`,
                 JSON.stringify(errorData, null, 2)
               );
 
@@ -91,7 +91,7 @@ export default function AdministratorsPage() {
             return { ...user, email: data.email };
           } catch (error) {
             console.error(
-              `Error processing email fetch for user ${user.id}:`,
+              `Error processing email fetch for user ${user.user_id}:`,
               error instanceof Error ? error.message : "Unknown error"
             );
             return {
@@ -144,7 +144,7 @@ export default function AdministratorsPage() {
 
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user.id === userId ? { ...user, is_admin } : user
+          user.user_id === userId ? { ...user, is_admin } : user
         )
       );
     } catch (error) {

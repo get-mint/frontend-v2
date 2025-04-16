@@ -71,7 +71,7 @@ export function SignupForm() {
         email,
         password,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/signup/confirm-email`,
+          emailRedirectTo: "https://mintcashback.com/auth/signup/confirm-email",
         },
       });
 
@@ -100,7 +100,7 @@ export function SignupForm() {
           </p>
         </div>
         {error && (
-          <div className="text-sm text-destructive text-center">{error}</div>
+          <div className="text-sm text-center text-destructive">{error}</div>
         )}
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
@@ -152,7 +152,7 @@ export function SignupForm() {
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Creating account..." : "Continue"}
         </Button>
-        <div className="text-center text-sm">
+        <div className="text-sm text-center">
           Already have an account?{" "}
           <a href="/auth/login" className="underline underline-offset-4">
             Login

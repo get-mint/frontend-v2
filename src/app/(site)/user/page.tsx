@@ -49,21 +49,21 @@ export default function UserPage() {
 
   useEffect(() => {
     async function fetchStats() {
-      if (!user?.id || !selectedCurrency) return;
+      if (!user?.user_id || !selectedCurrency) return;
 
       const supabase = createClient();
 
       const { data: earningsData } = await supabase
         .from("user_transactions")
         .select("total_commission")
-        .eq("user_id", user.id)
+        .eq("user_id", user.user_id)
         .eq("currency_id", selectedCurrency)
         .eq("transaction_status", "APPROVED");
 
       const { count } = await supabase
         .from("user_transactions")
         .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id)
+        .eq("user_id", user.user_id)
         .eq("currency_id", selectedCurrency);
 
       setStats({
@@ -78,7 +78,7 @@ export default function UserPage() {
     }
 
     fetchStats();
-  }, [user?.id, selectedCurrency]);
+  }, [user?.user_id, selectedCurrency]);
 
   const selectedCurrencyData = currencies.find(
     (c) => c.id === selectedCurrency

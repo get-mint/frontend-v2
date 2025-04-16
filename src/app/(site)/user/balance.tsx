@@ -59,7 +59,7 @@ export function Balance() {
 
   useEffect(() => {
     async function fetchBalance() {
-      if (!user?.id || !selectedCurrency) return;
+      if (!user?.user_id || !selectedCurrency) return;
 
       const supabase = createClient();
 
@@ -67,7 +67,7 @@ export function Balance() {
       const { data: balanceEntries } = await supabase
         .from("user_balance_entries")
         .select("amount, type, updated_balance")
-        .eq("user_id", user.id)
+        .eq("user_id", user.user_id)
         .eq("currency_id", selectedCurrency)
         .order("created_at", { ascending: false })
         .limit(1);
@@ -76,7 +76,7 @@ export function Balance() {
       const { data: pendingTransactions } = await supabase
         .from("user_transactions")
         .select("total_commission, user_commission_reward_pct")
-        .eq("user_id", user.id)
+        .eq("user_id", user.user_id)
         .eq("currency_id", selectedCurrency)
         .in("transaction_status", ["approved", "pending"]);
         
@@ -93,7 +93,7 @@ export function Balance() {
     }
 
     fetchBalance();
-  }, [user?.id, selectedCurrency]);
+  }, [user?.user_id, selectedCurrency]);
 
   const selectedCurrencyData = currencies.find(
     (c) => c.id === selectedCurrency

@@ -118,7 +118,7 @@ export default function DashboardPage() {
             {user && authUser ? (
               <div className="space-y-2">
                 <p>
-                  <span className="font-semibold">User ID:</span> {user.id}
+                  <span className="font-semibold">User ID:</span> {user.user_id}
                 </p>
                 <p>
                   <span className="font-semibold">Email:</span> {authUser.email}
