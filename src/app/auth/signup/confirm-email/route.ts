@@ -54,20 +54,64 @@ export async function GET(request: Request) {
     .update(email.toLowerCase())
     .digest("hex");
 
-  await supabase
+  const { data: userData, error: userError } = await supabase
     .from("users")
-    .upsert({ user_id: userId, tracking_id }, { onConflict: "tracking_id" });
+    .upsert({ user_id: userId, tracking_id }, { onConflict: "tracking_id" })
+    .select();
 
-  await sendFormattedMessage(
-    "auth",
-    "success",
-    "Email Verification Successful",
-    `User ${email} has verified their email`,
-    [
-      { name: "User ID", value: userId },
-      { name: "Tracking ID", value: tracking_id },
-    ]
-  );
+  if (userError) {
+    await sendFormattedMessage(
+      "auth",
+      "error",
+      "User Database Update Failed",
+      `Failed to save user data to the users table for ${email}`,
+      [
+        { name: "User ID", value: userId },
+        { name: "Tracking ID", value: tracking_id },
+        { name: "Error", value: JSON.stringify(userError, null, 2) },
+      ]
+    );
+
+    const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
+
+    await sendFormattedMessage(
+      "auth",
+      deleteError ? "error" : "warning",
+      "Auth User Deleted After Database Failure",
+      `Deleted auth user ${userId} because users table entry failed`,
+      [
+        { name: "User ID", value: userId },
+        { name: "Email", value: email },
+        ...(deleteError
+          ? [
+              {
+                name: "Deletion Error",
+                value: JSON.stringify(deleteError, null, 2),
+              },
+            ]
+          : []),
+      ]
+    );
+
+    return NextResponse.redirect(
+      new URL("/auth/signup/confirmation-error", requestUrl.origin)
+    );
+  } else {
+    await sendFormattedMessage(
+      "auth",
+      "success",
+      "Email Verification Successful",
+      `User ${email} has verified their email and data saved to users table`,
+      [
+        { name: "User ID", value: userId },
+        { name: "Tracking ID", value: tracking_id },
+        {
+          name: "Record Created/Updated",
+          value: Boolean(userData && userData.length > 0).toString(),
+        },
+      ]
+    );
+  }
 
   return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));
 }
