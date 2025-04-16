@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Figtree } from "next/font/google";
 
@@ -47,11 +47,6 @@ export const metadata: Metadata = {
     images: ["https://mintcashback.com/og-cover.jpg"],
     creator: "@mintcashback",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
   themeColor: "#39d992",
   other: {
     "theme-color": "#39d992",
@@ -63,6 +58,12 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
   category: "ecommerce",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function Layout({
