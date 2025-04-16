@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 
 import { TextAnimate } from "@/components/magicui/text-animate";
+import { Loader } from "@/components/loader";
 
 import Brands from "./brands";
 
@@ -10,10 +12,16 @@ export const metadata: Metadata = {
     "Mint automatically finds the best cashback offers for you on all of your favorite brands",
 };
 
-export default async function BrandsPage() {
+export default async function BrandsPage({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const currentPage = parseInt(searchParams.page || "1", 10);
+
   return (
     <>
-      <div className="px-6 py-8 sm:py-20 bg-gradient-to-br from-primary to-primary/70">
+      <div className="px-6 py-8 sm:py-20 bg-gradient-to-br from-primary to-primary/70 page-header">
         <div className="flex flex-col items-center gap-4 sm:gap-8">
           <TextAnimate
             animation="slideUp"
@@ -40,12 +48,14 @@ export default async function BrandsPage() {
           animation="slideUp"
           by="line"
           delay={0.25}
-          className="mb-8 text-4xl font-bold"
+          className="mb-8 text-4xl font-bold brands-title"
         >
           Featured Brands
         </TextAnimate>
 
-        <Brands />
+        <Suspense fallback={<Loader />}>
+          <Brands page={currentPage} />
+        </Suspense>
       </div>
     </>
   );

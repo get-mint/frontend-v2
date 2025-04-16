@@ -5,7 +5,7 @@ import { createAdminClient } from "@/lib/supabase/server/client";
 import { AdvertisersTable } from "./table";
 import { AdvertisersPagination } from "./pagination";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 20;
 
 const fetchAdvertisersData = async (page: number, searchQuery: string) => {
   const supabase = createAdminClient();
