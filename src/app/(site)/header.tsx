@@ -103,7 +103,7 @@ export function Header() {
                     <DropdownMenuItem
                       key={item.href}
                       asChild
-                      className="font-semibold transition-all text-md cursor-point"
+                      className="transition-all text-md cursor-point"
                     >
                       <Link href={item.href}>
                         <item.icon className="size-5 text-primary" />
