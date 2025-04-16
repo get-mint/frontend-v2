@@ -20,7 +20,7 @@ export default function About() {
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-balance mt-6 mx-auto">
             <span className="text-[#39d992]">Why</span>
             <span className="text-black"> does saving money<br />online feel so </span>
-            <span className="text-[#39d992]">unreliable?</span>
+            <span className="text-black">unreliable?</span>
           </h1>
           <p className="text-xl sm:text-2xl text-black/80 mt-12 max-w-3xl mx-auto leading-relaxed">
             If you're the one making the purchase… why aren't you earning? This question led us to look more closely at how most online "rewards" actually work.
