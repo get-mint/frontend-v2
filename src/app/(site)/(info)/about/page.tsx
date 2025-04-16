@@ -81,6 +81,45 @@ export default function About() {
         </div>
       </div>
 
+      {/* Team Section */}
+      <div className="container mx-auto px-4 py-24 border-t">
+        <div className="max-w-[90rem] mx-auto">
+          <span className="text-sm font-medium tracking-widest uppercase text-black/60">Team</span>
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-balance mt-4">
+            <span className="text-black">Meet the </span>
+            <span className="text-[#39d992]">team</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24">
+            {[
+              {
+                name: "Alexandros Lekkas",
+                role: "Co-Founder & CEO"
+              },
+              {
+                name: "Stelios Papapanagiotou",
+                role: "Co-Founder & CTO"
+              },
+              {
+                name: "Ashwin Balaraman",
+                role: "Co-Founder & COO"
+              }
+            ].map((member) => (
+              <div 
+                key={member.name} 
+                className="group relative h-[400px] bg-[#39d992]/5 hover:bg-[#39d992]/10 rounded-3xl p-8 transition-all duration-300 cursor-pointer overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#39d992]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-medium text-[#39d992] mb-2">{member.name}</h3>
+                  <p className="text-black/60">{member.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Global Presence */}
       <div className="container mx-auto px-4 py-24 border-t">
         <div className="max-w-[90rem] mx-auto">
