@@ -3,7 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { MenuIcon, UserIcon } from "lucide-react";
+import {
+  MenuIcon,
+  UserIcon,
+  HomeIcon,
+  ShirtIcon,
+  NewspaperIcon,
+} from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
 import { useIsMobile } from "@/lib/hooks/use-mobile";
@@ -17,9 +23,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const items = [
-  { href: "/", label: "Home" },
-  { href: "/brands", label: "Brands" },
-  { href: "/blog", label: "Blog" },
+  { href: "/", label: "Home", icon: HomeIcon },
+  { href: "/brands", label: "Brands", icon: ShirtIcon },
+  { href: "/blog", label: "Blog", icon: NewspaperIcon },
 ];
 
 export function Header() {
@@ -79,9 +85,12 @@ export function Header() {
                     <DropdownMenuItem
                       key={item.href}
                       asChild
-                      className="text-lg font-semibold transition-all cursor-pointer"
+                      className="font-semibold transition-all text-md cursor-point"
                     >
-                      <Link href={item.href}>{item.label}</Link>
+                      <Link href={item.href}>
+                        <item.icon className="size-5 text-primary" />
+                        {item.label}
+                      </Link>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
