@@ -5,6 +5,28 @@ import { sendFormattedMessage } from "@/lib/utils/discord";
 
 import { createHash } from "crypto";
 
+async function deleteAuthUserAndLog(userId: string, requestUrl: URL) {
+  const supabase = createAdminClient();
+
+  const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
+
+  await sendFormattedMessage(
+    "auth",
+    "error",
+    "Auth User Deleted After Database Failure",
+    `Deleted auth user ${userId}`,
+    [
+      ...(deleteError
+        ? [{ name: "Deletion Error", value: JSON.stringify(deleteError) }]
+        : []),
+    ]
+  );
+
+  return NextResponse.redirect(
+    new URL("/auth/signup/confirmation-error", requestUrl.origin)
+  );
+}
+
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const token_hash = requestUrl.searchParams.get("token_hash");
@@ -50,67 +72,70 @@ export async function GET(request: Request) {
 
   const userId = data.user.id;
   const email = data.user.email;
-  const tracking_id = createHash("sha256")
+  const trackingId = createHash("sha256")
     .update(email.toLowerCase())
     .digest("hex");
 
-  // Try insert first
-  const { error: insertError } = await supabase
+  const { data: existingUser, error: selectError } = await supabase
     .from("users")
-    .insert({ user_id: userId, tracking_id });
+    .select("*")
+    .eq("user_id", userId)
+    .maybeSingle();
 
-  if (insertError?.code === "23505" /* duplicate */) {
-    // Conflict: update instead
+  if (selectError) {
+    await sendFormattedMessage(
+      "auth",
+      "error",
+      "User Query Failed",
+      `Failed to query for existing user`,
+      [
+        { name: "User ID", value: userId },
+        { name: "Error", value: JSON.stringify(selectError, null, 2) },
+      ]
+    );
+
+    return deleteAuthUserAndLog(userId, requestUrl);
+  }
+
+  if (existingUser) {
     const { error: updateError } = await supabase
       .from("users")
-      .update({ user_id: userId })
-      .eq("tracking_id", tracking_id);
+      .update({ tracking_id: trackingId })
+      .eq("user_id", userId);
 
     if (updateError) {
       await sendFormattedMessage(
         "auth",
         "error",
-        "User Update Failed After Duplicate",
-        `Update failed for existing tracking_id`,
+        "User Update Failed",
+        `Failed to update existing user`,
         [
           { name: "User ID", value: userId },
-          { name: "Tracking ID", value: tracking_id },
           { name: "Error", value: JSON.stringify(updateError, null, 2) },
         ]
       );
+
+      return deleteAuthUserAndLog(userId, requestUrl);
     }
-  } else if (insertError) {
-    // Not a conflict, real error
-    await sendFormattedMessage(
-      "auth",
-      "error",
-      "User Insert Failed",
-      `Insert failed for user ${email}`,
-      [
-        { name: "User ID", value: userId },
-        { name: "Tracking ID", value: tracking_id },
-        { name: "Error", value: JSON.stringify(insertError, null, 2) },
-      ]
-    );
+  } else {
+    const { error: insertError } = await supabase
+      .from("users")
+      .insert({ user_id: userId, tracking_id: trackingId });
 
-    const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
+    if (insertError) {
+      await sendFormattedMessage(
+        "auth",
+        "error",
+        "User Insert Failed",
+        `Failed to insert new user`,
+        [
+          { name: "User ID", value: userId },
+          { name: "Error", value: JSON.stringify(insertError, null, 2) },
+        ]
+      );
 
-    await sendFormattedMessage(
-      "auth",
-      deleteError ? "error" : "warning",
-      "Auth User Deleted After DB Failure",
-      `Deleted auth user ${userId}`,
-      [
-        { name: "Email", value: email },
-        ...(deleteError
-          ? [{ name: "Deletion Error", value: JSON.stringify(deleteError) }]
-          : []),
-      ]
-    );
-
-    return NextResponse.redirect(
-      new URL("/auth/signup/confirmation-error", requestUrl.origin)
-    );
+      return deleteAuthUserAndLog(userId, requestUrl);
+    }
   }
 
   await sendFormattedMessage(
@@ -120,7 +145,7 @@ export async function GET(request: Request) {
     `User ${email} verified and saved`,
     [
       { name: "User ID", value: userId },
-      { name: "Tracking ID", value: tracking_id },
+      { name: "Tracking ID", value: trackingId },
     ]
   );
 
