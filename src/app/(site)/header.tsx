@@ -31,7 +31,7 @@ export function Header() {
       <div className="container flex items-center justify-between h-16 px-6 mx-auto max-w-7xl">
         <Link href="/">
           <span className="text-2xl font-extrabold transition-all text-primary hover:text-primary/90">
-            mint cashback
+            {isMobile ? "mint" : "mint cashback"}
           </span>
         </Link>
 

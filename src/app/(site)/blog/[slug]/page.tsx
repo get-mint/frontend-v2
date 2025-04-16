@@ -9,6 +9,7 @@ import { Loader } from "@/components/loader";
 
 import { fetchPost } from "./data";
 import { Post } from "./post";
+import { RelatedPosts } from "./related-posts";
 
 export async function generateMetadata({
   params,
@@ -72,8 +73,8 @@ export default async function BlogPostPage({
   const { slug } = await params;
 
   return (
-    <div className="flex flex-row gap-12 px-6 py-6 mx-auto max-w-7xl">
-      <div className="w-4/5">
+    <div className="flex flex-col gap-12 px-6 py-6 mx-auto sm:flex-row max-w-7xl">
+      <div className="w-full sm:w-4/5">
 
       <Link href="/blog" passHref>
         <Button variant="outline" className="mb-4">
@@ -87,8 +88,11 @@ export default async function BlogPostPage({
       </Suspense>
       </div>
 
-      <div className="w-1/5">
+      <div className="w-full sm:w-1/5">
         <h2 className="text-2xl font-bold">Related Posts</h2>
+        <Suspense fallback={<Loader />}>
+          <RelatedPosts slug={slug} />
+        </Suspense>
       </div>
     </div>
   );
