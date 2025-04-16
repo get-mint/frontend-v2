@@ -1,22 +1,15 @@
 import { unstable_cache } from "next/cache";
 
 import { createAdminClient } from "@/lib/supabase/server/client";
-import { Tables } from "@/types/supabase";
 
 import { AdvertisersTable } from "./table";
 import { AdvertisersPagination } from "./pagination";
 
-type Advertiser = Tables<"advertisers"> & {
-  network?: { name: string };
-  currency?: { acronym: string };
-};
-
 const ITEMS_PER_PAGE = 10;
 
-// Server-side data fetching function
 const fetchAdvertisersData = async (page: number, searchQuery: string) => {
   const supabase = createAdminClient();
-  
+
   const start = (page - 1) * ITEMS_PER_PAGE;
   const end = start + ITEMS_PER_PAGE - 1;
 
@@ -44,46 +37,43 @@ const fetchAdvertisersData = async (page: number, searchQuery: string) => {
     return { advertisers: [], totalPages: 0 };
   }
 
-  return { 
-    advertisers: data || [], 
-    totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE) 
+  return {
+    advertisers: data || [],
+    totalPages: Math.ceil((count || 0) / ITEMS_PER_PAGE),
   };
 };
 
-// Cache the results with unstable_cache
 const fetchAdvertisers = unstable_cache(
   fetchAdvertisersData,
   ["admin-advertisers-list"],
   { revalidate: 60, tags: ["advertisers"] }
 );
 
-// Server Action for toggling advertiser active status
 async function toggleAdvertiserActive(formData: FormData) {
   "use server";
-  
+
   const id = formData.get("id") as string;
   const currentActive = formData.get("active") === "true";
-  
+
   if (!id) return;
-  
+
   const supabase = createAdminClient();
-  
+
   try {
     const { error } = await supabase
       .from("advertisers")
       .update({ active: !currentActive })
       .eq("id", id);
-      
+
     if (error) throw error;
-    
-    // Revalidate the cache
+
     try {
       await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/revalidate`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ tag: 'advertisers' }),
+        body: JSON.stringify({ tag: "advertisers" }),
       });
     } catch (revalidateError) {
       console.error("Failed to revalidate:", revalidateError);
@@ -93,11 +83,11 @@ async function toggleAdvertiserActive(formData: FormData) {
   }
 }
 
-export default async function AdvertisersContent({ 
-  page, 
-  searchQuery 
-}: { 
-  page: number; 
+export async function AdvertisersContent({
+  page,
+  searchQuery,
+}: {
+  page: number;
   searchQuery: string;
 }) {
   const { advertisers, totalPages } = await fetchAdvertisers(page, searchQuery);
@@ -108,7 +98,7 @@ export default async function AdvertisersContent({
         advertisers={advertisers}
         toggleActiveAction={toggleAdvertiserActive}
       />
-      
+
       {totalPages > 0 && (
         <AdvertisersPagination
           currentPage={page}
@@ -118,4 +108,4 @@ export default async function AdvertisersContent({
       )}
     </>
   );
-} 
+}

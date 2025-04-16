@@ -2,14 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Editor from "@monaco-editor/react";
 
 import { createClient } from "@/lib/supabase/client";
-import { MetadataDialog } from "./metadata-dialog";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -40,9 +39,9 @@ import {
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   domain: z.string().min(1, "Domain is required"),
-  network_id: z.string().min(1, "Network is required"),
-  currency_id: z.string().min(1, "Currency is required"),
-  image_url: z.string().url().optional(),
+  network_id: z.string().optional(),
+  currency_id: z.string().optional(),
+  image_url: z.string().url().optional().or(z.literal("")),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -58,7 +57,9 @@ type Currency = {
   acronym: string;
 };
 
-export function AddNewAdvertiser() {
+export function CreateAdvertiser() {
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [networks, setNetworks] = useState<Network[]>([]);
@@ -96,14 +97,25 @@ export function AddNewAdvertiser() {
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true);
     try {
-      const { error } = await supabase.from("advertisers").insert([{
-        ...values,
-        metadata: metadata ? JSON.parse(metadata) : null,
-      }]);
+      const { data, error } = await supabase
+        .from("advertisers")
+        .insert([
+          {
+            ...values,
+            metadata: metadata ? JSON.parse(metadata) : null,
+          },
+        ])
+        .select();
+
       if (error) throw error;
+
       setOpen(false);
       form.reset();
       setMetadata("");
+
+      if (data && data[0]) {
+        router.push(`/admin/advertisers/${data[0].id}`);
+      }
     } catch (error) {
       console.error("Error adding advertiser:", error);
     } finally {
@@ -156,7 +168,7 @@ export function AddNewAdvertiser() {
               name="network_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Network</FormLabel>
+                  <FormLabel>Network (Optional)</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
@@ -183,7 +195,7 @@ export function AddNewAdvertiser() {
               name="currency_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Currency</FormLabel>
+                  <FormLabel>Currency (Optional)</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
@@ -214,7 +226,7 @@ export function AddNewAdvertiser() {
               name="image_url"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image URL</FormLabel>
+                  <FormLabel>Image URL (Optional)</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="https://example.com/image.png"
@@ -225,23 +237,7 @@ export function AddNewAdvertiser() {
                 </FormItem>
               )}
             />
-            <div className="flex items-center justify-between">
-              <FormLabel>Metadata</FormLabel>
-              <MetadataDialog
-                advertiser={{
-                  id: "new",
-                  name: "",
-                  domain: "",
-                  metadata: metadata ? JSON.parse(metadata) : null,
-                } as any}
-                onMetadataUpdate={(value) => setMetadata(value)}
-                trigger={
-                  <Button variant="outline" size="sm">
-                    {metadata ? "Edit Metadata" : "Add Metadata"}
-                  </Button>
-                }
-              />
-            </div>
+
             <div className="flex justify-end gap-2">
               <Button
                 type="button"
@@ -251,10 +247,14 @@ export function AddNewAdvertiser() {
                 Cancel
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading && (
-                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                {isLoading ? (
+                  <>
+                    <LoaderCircle className="w-4 h-4 mr-2 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  "Create"
                 )}
-                Add Advertiser
               </Button>
             </div>
           </form>

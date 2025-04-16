@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+
 import {
   Pagination,
   PaginationContent,
@@ -30,7 +31,6 @@ export function AdvertisersPagination({
     return `/admin/advertisers?${params.toString()}`;
   };
 
-  // Don't render pagination if there's only one page
   if (totalPages <= 1) {
     return null;
   }
@@ -39,7 +39,7 @@ export function AdvertisersPagination({
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <Link 
+          <Link
             href={getPageUrl(Math.max(1, currentPage - 1))}
             passHref
             legacyBehavior
@@ -51,30 +51,28 @@ export function AdvertisersPagination({
             />
           </Link>
         </PaginationItem>
-        
+
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <PaginationItem key={page}>
-            <Link 
-              href={getPageUrl(page)}
-              passHref
-              legacyBehavior
-            >
+            <Link href={getPageUrl(page)} passHref legacyBehavior>
               <PaginationLink isActive={currentPage === page}>
                 {page}
               </PaginationLink>
             </Link>
           </PaginationItem>
         ))}
-        
+
         <PaginationItem>
-          <Link 
+          <Link
             href={getPageUrl(Math.min(totalPages, currentPage + 1))}
             passHref
             legacyBehavior
           >
             <PaginationNext
               className={
-                currentPage === totalPages ? "pointer-events-none opacity-50" : ""
+                currentPage === totalPages
+                  ? "pointer-events-none opacity-50"
+                  : ""
               }
             />
           </Link>

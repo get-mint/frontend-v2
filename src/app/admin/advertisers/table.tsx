@@ -80,8 +80,8 @@ export function AdvertisersTable({
       </TableHeader>
       <TableBody>
         {advertisers.map((advertiser) => (
-          <TableRow 
-            key={advertiser.id} 
+          <TableRow
+            key={advertiser.id}
             className="cursor-pointer hover:bg-muted/50"
             onClick={() => handleRowClick(advertiser.id)}
           >
@@ -90,7 +90,7 @@ export function AdvertisersTable({
                 <img
                   src={advertiser.image_url}
                   alt={advertiser.name}
-                  className="h-8 w-auto object-contain"
+                  className="object-contain w-auto h-8"
                 />
               )}
             </TableCell>
@@ -104,8 +104,8 @@ export function AdvertisersTable({
             <TableCell>
               {advertiser.brand_hex_color ? (
                 <div className="flex items-center gap-2">
-                  <div 
-                    className="w-4 h-4 rounded-full" 
+                  <div
+                    className="w-4 h-4 rounded-full"
                     style={{ backgroundColor: advertiser.brand_hex_color }}
                   ></div>
                   <span className="text-xs">{advertiser.brand_hex_color}</span>
@@ -116,29 +116,20 @@ export function AdvertisersTable({
             </TableCell>
             <TableCell onClick={(e) => e.stopPropagation()}>
               <div className="relative">
-                <Switch
-                  checked={advertiser.active}
-                  onCheckedChange={() => 
-                    handleToggleActive(advertiser.id, advertiser.active)
-                  }
-                  disabled={isPending}
-                />
-                {isPending && (
-                  <LoaderCircle className="absolute top-0 right-0 h-3 w-3 animate-spin text-primary" />
-                )}
+                <Switch checked={advertiser.active} disabled={true} />
               </div>
             </TableCell>
             <TableCell onClick={(e) => e.stopPropagation()}>
               <div className="flex justify-end gap-2">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={(e) => {
                     e.stopPropagation();
                     router.push(`/admin/advertisers/${advertiser.id}`);
                   }}
                 >
-                  <ExternalLink className="h-4 w-4" />
+                  <ExternalLink className="w-4 h-4" />
                 </Button>
                 <DeleteAdvertiserDialog
                   advertiser={advertiser}

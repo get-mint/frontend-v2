@@ -12,10 +12,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
-import { AddNewAdvertiser } from "./add-dialog";
-import AdvertisersContent from "./content";
-import { AdvertisersPagination } from "./pagination";
+import { CreateAdvertiser } from "./create-dialog";
 import { Loader } from "@/components/loader";
+import { AdvertisersContent } from "./content";
 
 export const metadata: Metadata = {
   title: "Admin | Advertisers",
@@ -27,7 +26,11 @@ interface SearchParams {
   search?: string;
 }
 
-export default function AdvertisersPage({ searchParams }: { searchParams: SearchParams }) {
+export default function AdvertisersPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   const currentPage = parseInt(searchParams.page || "1", 10);
   const searchQuery = searchParams.search || "";
 
@@ -35,7 +38,7 @@ export default function AdvertisersPage({ searchParams }: { searchParams: Search
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-bold">Advertisers</h1>
-        <AddNewAdvertiser />
+        <CreateAdvertiser />
       </div>
 
       <Card>
