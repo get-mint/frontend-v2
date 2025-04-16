@@ -1,34 +1,17 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import Image from "next/image";
 
-import { createAdminClient } from "@/lib/supabase/server/client";
+import { fetchPost } from "./data";
+import { Post } from "./post";
 
-async function fetchPost(slug: string) {
-  const supabase = createAdminClient();
-  
-  const { data: post, error } = await supabase
-    .from("blog_posts")
-    .select("*")
-    .eq("slug", slug)
-    .eq("published", true)
-    .single();
-    
-  if (error || !post) {
-    console.error("Error fetching blog post:", error);
-    return null;
-  }
-  
-  return post;
-}
-
-/*
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const post = await fetchPost(params.slug);
+  const { slug } = await params;
+
+  const post = await fetchPost(slug);
   
   if (!post) {
     return {
@@ -79,48 +62,19 @@ export async function generateMetadata({
     },
   };
 }
-  */
 
-export default async function PostPage({
+export default async function BlogPostPage({ 
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const post = await fetchPost(params.slug);
-
-  if (!post) {
-    notFound();
-  }
-
-  const content = post.content as Record<string, unknown> || {};
-  const htmlContent = (content.html as string) || '';
-  const imageUrl = content.imageUrl as string || null;
+  const { slug } = await params;
 
   return (
-    <div className="px-6 py-6 mx-auto max-w-7xl">
-      <article
-        className="prose"
-        itemScope
-        itemType="http://schema.org/BlogPosting"
-      >
-        <h1 className="text-3xl font-bold">{post.title}</h1>
-
-        {imageUrl && (
-          <Image
-            src={imageUrl}
-            alt={post.title}
-            width={1200}
-            height={600}
-            className="w-full h-auto mt-4 rounded-xl"
-          />
-        )}
-
-        <div
-          itemProp="articleBody"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-          className="prose prose-lg prose-slate max-w-none"
-        />
-      </article>
+    <div className="max-w-6xl px-6 py-6 mx-auto">
+      <Suspense fallback={undefined}>
+        <Post slug={slug} />
+      </Suspense>
     </div>
   );
 }
