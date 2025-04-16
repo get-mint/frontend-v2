@@ -5,14 +5,14 @@ export default function About() {
     <article className="min-h-screen bg-white">
       {/* Question Section */}
       <div className="container mx-auto px-4 pt-16 pb-24">
-        <div className="max-w-[80rem] mx-auto">
+        <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Question</span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-balance mt-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-balance mt-4 mx-auto">
             <span className="text-[#39d992]">Why</span>
             <span className="text-black"> does saving money online feel so </span>
             <span className="text-[#39d992]">unreliable?</span>
           </h1>
-          <p className="text-lg text-black/80 mt-6 max-w-2xl">
+          <p className="text-lg text-black/80 mt-6 max-w-2xl mx-auto">
             If you're the one making the purchase… why aren't you earning? This question led us to look more closely at how most online "rewards" actually work.
           </p>
         </div>
@@ -20,23 +20,23 @@ export default function About() {
 
       {/* Story Section */}
       <div className="container mx-auto px-4 py-16 border-t">
-        <div className="max-w-[80rem] mx-auto">
+        <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Realization</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
             <span className="text-black">Most cashback platforms </span>
             <span className="text-[#39d992]">weren't built for you.</span>
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
             <div>
-              <p className="text-lg text-black/80">
-              We realized the game was rigged. While companies were raking in billions from your purchases through affiliate deals, you were left with confusing points, unreliable payouts, and cashback that often never showed up. The system was built to reward the platforms — not the people actually spending.              </p>
+              <p className="text-lg text-black/80 mx-auto">
+                Founded in 2023, Mint started with a simple observation: while billions are earned through affiliate marketing, most consumers never see those rewards. We set out to change that, building a platform that puts transparency and user benefits first.
+              </p>
             </div>
             <div>
-              <p className="text-lg text-black/80">
-              So we built Mint to flip that. Real money. Clear terms. A transparent 50/50 split that puts your share back where it belongs — in your wallet, not someone else’s balance sheet.
-
-</p>
+              <p className="text-lg text-black/80 mx-auto">
+                In our journey, we've assembled a team of passionate developers and designers united by a common goal: to make earning cashback as simple and transparent as possible.
+              </p>
             </div>
           </div>
         </div>
@@ -44,37 +44,37 @@ export default function About() {
 
       {/* Principles Section */}
       <div className="container mx-auto px-4 py-16 border-t">
-        <div className="max-w-[80rem] mx-auto">
+        <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Principles</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
             <span className="text-black">We're building a </span>
             <span className="text-[#39d992]">cashback platform </span>
             <span className="text-black">that puts </span>
             <span className="text-[#39d992]">users first</span>
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 max-w-4xl mx-auto">
             {[
               {
                 title: "Transparency",
-                description: "Clear, honest communication about how we operate and how you earn."
+                description: "No more black boxes. See exactly how much you earn and why — every single time."
               },
               {
                 title: "Simplicity",
-                description: "A streamlined experience that works automatically in the background."
+                description: "Install once, earn forever. We handle the complex stuff while you shop normally."
               },
               {
                 title: "Fairness",
-                description: "Equal distribution of earnings between platform and users."
+                description: "A true 50/50 split on every deal. Your purchase, your rewards — shared fairly."
               },
               {
                 title: "Privacy First",
-                description: "Your data remains yours, with no unnecessary tracking or sharing."
+                description: "Shop freely without being tracked. We only collect what's needed, nothing more."
               }
             ].map((principle) => (
               <div key={principle.title} className="bg-white rounded-[24px] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_32px_rgba(0,0,0,0.08)] transition-shadow">
                 <h3 className="text-[#39d992] text-xl font-medium mb-3">{principle.title}</h3>
-                <div className="h-[1px] w-8 bg-[#39d992]/20 mb-4"></div>
+                <div className="h-[1px] w-8 bg-[#39d992]/20 mb-4 mx-auto"></div>
                 <p className="text-base text-black/60 leading-relaxed">{principle.description}</p>
               </div>
             ))}
@@ -84,14 +84,14 @@ export default function About() {
 
       {/* Team Section */}
       <div className="container mx-auto px-4 py-16 border-t">
-        <div className="max-w-[80rem] mx-auto">
+        <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Team</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
             <span className="text-black">Meet the </span>
             <span className="text-[#39d992]">team</span>
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-5xl mx-auto">
             {[
               {
                 name: "Alexandros Lekkas",
@@ -111,7 +111,7 @@ export default function About() {
                 className="group relative h-[300px] bg-[#39d992]/5 hover:bg-[#39d992]/10 rounded-3xl p-6 transition-all duration-300 cursor-pointer overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#39d992]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-6 left-6 right-6">
+                <div className="absolute bottom-6 left-6 right-6 text-center">
                   <h3 className="text-xl font-medium text-[#39d992] mb-1">{member.name}</h3>
                   <p className="text-black/60 text-base">{member.role}</p>
                 </div>
@@ -123,16 +123,16 @@ export default function About() {
 
       {/* Global Presence */}
       <div className="container mx-auto px-4 py-16 border-t">
-        <div className="max-w-[80rem] mx-auto">
+        <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Our Reach</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
             <span className="text-black">Available </span>
             <span className="text-[#39d992]">worldwide</span>
           </h2>
           
           <div className="mt-12">
-            <div className="bg-[#f5f5f5] rounded-2xl p-8">
-              <p className="text-lg text-black/80 max-w-2xl">
+            <div className="bg-[#f5f5f5] rounded-2xl p-8 max-w-2xl mx-auto">
+              <p className="text-lg text-black/80">
                 Our extension works with major retailers and travel sites across the globe, ensuring you never miss out on cashback opportunities, no matter where you shop.
               </p>
             </div>
@@ -142,16 +142,16 @@ export default function About() {
 
       {/* Vision Section */}
       <div className="container mx-auto px-4 py-16 border-t">
-        <div className="max-w-[80rem] mx-auto">
+        <div className="max-w-[80rem] mx-auto text-center">
           <span className="text-sm font-medium tracking-widest uppercase text-black/60">Vision</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
             <span className="text-[#39d992]">Discover </span>
             <span className="text-black">the future of </span>
             <span className="text-[#39d992]">online savings</span>
           </h2>
           
           <div className="mt-12">
-            <p className="text-lg text-black/80 max-w-2xl">
+            <p className="text-lg text-black/80 max-w-2xl mx-auto">
               We're building more than just a cashback platform - we're creating a new standard for how people should be rewarded for their online purchases. Join us in making this vision a reality.
             </p>
           </div>
