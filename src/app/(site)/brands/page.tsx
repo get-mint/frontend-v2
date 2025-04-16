@@ -2,6 +2,8 @@ import { Metadata } from "next";
 
 import { TextAnimate } from "@/components/magicui/text-animate";
 
+import Brands from "./brands";
+
 export const metadata: Metadata = {
   title: "Mint | Brands",
   description:
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
 export default async function BrandsPage() {
   return (
     <>
-      <div className="px-6 py-8 sm:py-20 bg-gradient-to-b from-primary to-primary/70">
+      <div className="px-6 py-8 sm:py-20 bg-gradient-to-br from-primary to-primary/70">
         <div className="flex flex-col items-center gap-4 sm:gap-8">
           <TextAnimate
             animation="slideUp"
@@ -38,10 +40,12 @@ export default async function BrandsPage() {
           animation="slideUp"
           by="line"
           delay={0.25}
-          className="text-3xl font-bold"
+          className="mb-8 text-4xl font-bold"
         >
           Featured Brands
         </TextAnimate>
+
+        <Brands />
       </div>
     </>
   );
