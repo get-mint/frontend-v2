@@ -71,7 +71,9 @@ export default async function BlogPostPage({
   const { slug } = await params;
 
   return (
-    <div className="px-6 py-6 mx-auto max-w-7xl">
+    <div className="flex flex-row gap-12 px-6 py-6 mx-auto max-w-7xl">
+      <div className="w-4/5">
+
       <Link href="/blog" passHref>
         <Button variant="outline" className="mb-4">
           <ArrowLeftIcon />
@@ -82,6 +84,11 @@ export default async function BlogPostPage({
       <Suspense fallback={undefined}>
         <Post slug={slug} />
       </Suspense>
+      </div>
+
+      <div className="w-1/5">
+        <h2 className="text-2xl font-bold">Related Posts</h2>
+      </div>
     </div>
   );
 }

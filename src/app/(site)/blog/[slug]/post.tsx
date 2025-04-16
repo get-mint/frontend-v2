@@ -54,7 +54,6 @@ export async function Post({ slug }: { slug: string }) {
   }
 
   const content = (post.content as Record<string, unknown>) || {};
-  const imageUrl = (content.imageUrl as string) || null;
 
   return (
     <article
@@ -70,15 +69,13 @@ export async function Post({ slug }: { slug: string }) {
         {post.title}
       </h1>
 
-      {imageUrl && (
-        <Image
-          src={imageUrl}
-          alt={post.title}
-          width={1200}
-          height={600}
-          className="w-full h-auto mt-4 rounded-xl"
-        />
-      )}
+      <Image
+        src={post.image_url || "/images/placeholder.svg"}
+        alt={post.title}
+        width={1200}
+        height={600}
+        className="w-full h-auto mt-4 rounded-xl"
+      />
 
       <div className="mt-6" itemProp="articleBody">
         {post.content.content.map((node: any, index: number) =>

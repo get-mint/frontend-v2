@@ -33,17 +33,15 @@ export default async function Posts() {
   const posts = await fetchPosts();
 
   return (
-    <div className="grid grid-cols-1 gap-6 cursor-pointer md:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
       {posts.map((post: Tables<"blog_posts">) => (
         <Link
           href={`/blog/${post.slug}`}
           key={post.id}
-          className="space-y-3"
+          className="space-y-3 cursor-pointer"
         >
           <Image
-            src={post.content && typeof post.content === 'object' && 'imageUrl' in post.content 
-              ? (post.content.imageUrl as string) 
-              : "/images/placeholder.svg"}
+            src={post.image_url || "/images/placeholder.svg"}
             alt={post.title}
             width={512}
             height={512}
