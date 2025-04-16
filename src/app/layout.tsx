@@ -47,7 +47,6 @@ export const metadata: Metadata = {
     images: ["https://mintcashback.com/og-cover.jpg"],
     creator: "@mintcashback",
   },
-  themeColor: "#39d992",
   other: {
     "theme-color": "#39d992",
     "msapplication-TileColor": "#39d992",
@@ -64,6 +63,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  themeColor: "#39d992",
 };
 
 export default function Layout({

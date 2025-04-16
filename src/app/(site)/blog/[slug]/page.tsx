@@ -71,7 +71,7 @@ export default async function BlogPostPage({
   const { slug } = await params;
 
   return (
-    <div className="max-w-6xl px-6 py-6 mx-auto">
+    <div className="px-6 py-6 mx-auto max-w-7xl">
       <Suspense fallback={undefined}>
         <Post slug={slug} />
       </Suspense>
