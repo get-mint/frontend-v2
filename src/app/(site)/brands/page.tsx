@@ -18,6 +18,7 @@ const fetchBrandsData = async (page: number) => {
   let query = supabase
     .from("advertisers")
     .select("*", { count: "exact" })
+    .order("priority", { ascending: false })
     .eq("active", true);
 
   const { data, count, error } = await query

@@ -103,6 +103,28 @@ export function AppearanceTab({ form }: AppearanceTabProps) {
             </FormItem>
           )}
         />
+        
+        <FormField
+          control={form.control}
+          name="priority"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Priority</FormLabel>
+              <FormControl>
+                <Input 
+                  type="number"
+                  min="0"
+                  placeholder="100" 
+                  {...field} 
+                />
+              </FormControl>
+              <FormDescription>
+                Display priority (lower values = higher priority, default is 100)
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </CardContent>
     </Card>
   );

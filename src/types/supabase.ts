@@ -47,6 +47,7 @@ export type Database = {
           metadata: Json | null
           name: string
           network_id: string | null
+          priority: number
           slug: string
           up_to_pct: number | null
           updated_at: string
@@ -63,6 +64,7 @@ export type Database = {
           metadata?: Json | null
           name: string
           network_id?: string | null
+          priority?: number
           slug?: string
           up_to_pct?: number | null
           updated_at?: string
@@ -79,6 +81,7 @@ export type Database = {
           metadata?: Json | null
           name?: string
           network_id?: string | null
+          priority?: number
           slug?: string
           up_to_pct?: number | null
           updated_at?: string

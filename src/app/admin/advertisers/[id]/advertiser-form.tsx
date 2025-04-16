@@ -45,6 +45,7 @@ export const formSchema = z.object({
     message: "Must be a valid hex color code (e.g. #FF0000)",
   }).optional().or(z.literal("")),
   up_to_pct: z.coerce.number().min(0).max(100).optional(),
+  priority: z.coerce.number().min(0).default(100),
   active: z.boolean().default(true),
 });
 
@@ -80,6 +81,7 @@ export function AdvertiserForm({
       image_url: "",
       brand_hex_color: "",
       up_to_pct: undefined,
+      priority: 100,
       active: true,
     },
   });
@@ -98,6 +100,7 @@ export function AdvertiserForm({
         image_url: advertiser.image_url || "",
         brand_hex_color: advertiser.brand_hex_color || "",
         up_to_pct: advertiser.up_to_pct || undefined,
+        priority: advertiser.priority || 100,
         active: advertiser.active,
       });
     }
