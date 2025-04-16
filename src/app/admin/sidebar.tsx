@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { HomeIcon, LeafIcon, UsersIcon, StoreIcon } from "lucide-react";
+import { HomeIcon, LeafIcon, UsersIcon, StoreIcon, NewspaperIcon } from "lucide-react";
 
 import {
   Sidebar,
@@ -32,6 +32,11 @@ const items = [
     title: "Administrators",
     url: "/admin/administrators",
     icon: <UsersIcon />,
+  },
+  {
+    title: "Blog",
+    url: "/admin/blog",
+    icon: <NewspaperIcon />,
   },
 ];
 
