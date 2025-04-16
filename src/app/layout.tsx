@@ -48,7 +48,6 @@ export const metadata: Metadata = {
     creator: "@mintcashback",
   },
   other: {
-    "theme-color": "#39d992",
     "msapplication-TileColor": "#39d992",
     "og:color": "#39d992",
     "discord:color": "#39d992",
@@ -63,7 +62,6 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#39d992",
 };
 
 export default function Layout({
