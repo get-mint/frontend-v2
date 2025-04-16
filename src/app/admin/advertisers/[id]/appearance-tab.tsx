@@ -1,6 +1,6 @@
 "use client";
 
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import {
   Card,
   CardContent,
@@ -24,6 +24,19 @@ interface AppearanceTabProps {
 }
 
 export function AppearanceTab({ form }: AppearanceTabProps) {
+  // Watch both the image_url and brand_hex_color to update the preview dynamically
+  const imageUrl = useWatch({
+    control: form.control,
+    name: "image_url",
+    defaultValue: form.getValues("image_url"),
+  });
+  
+  const brandColor = useWatch({
+    control: form.control,
+    name: "brand_hex_color",
+    defaultValue: form.getValues("brand_hex_color"),
+  });
+
   return (
     <Card>
       <CardHeader>
@@ -33,6 +46,31 @@ export function AppearanceTab({ form }: AppearanceTabProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Logo Preview Section - Show at the top if both values exist */}
+        {(imageUrl || brandColor) && (
+          <div className="mb-6">
+            <p className="mb-2 text-sm font-medium">Logo Preview:</p>
+            <div 
+              className="flex justify-center items-center p-6 border rounded-md"
+              style={{ 
+                backgroundColor: brandColor || 'transparent',
+                minHeight: '120px'
+              }}
+            >
+              {imageUrl && (
+                <img 
+                  src={imageUrl} 
+                  alt="Logo Preview" 
+                  className="object-contain max-h-32 max-w-full"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://placehold.co/200x100?text=No+Image";
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        )}
+
         <FormField
           control={form.control}
           name="image_url"
@@ -49,22 +87,6 @@ export function AppearanceTab({ form }: AppearanceTabProps) {
                 URL to the advertiser's logo or representative image
               </FormDescription>
               <FormMessage />
-              
-              {field.value && (
-                <div className="mt-2">
-                  <p className="mb-2 text-sm font-medium">Logo Preview:</p>
-                  <div className="flex justify-center p-4 border rounded-md">
-                    <img 
-                      src={field.value} 
-                      alt="Logo Preview" 
-                      className="object-contain max-h-32"
-                      onError={(e) => {
-                        e.currentTarget.src = "https://placehold.co/200x100?text=No+Image";
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
             </FormItem>
           )}
         />

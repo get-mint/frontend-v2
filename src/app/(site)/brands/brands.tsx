@@ -36,9 +36,16 @@ export default async function Brands() {
       {brands.map((brand: Tables<"advertisers">) => (
         <BlurFade delay={0.1} key={brand.id} inView>
           <Link href={`/brands/${brand.slug}`}>
-            <div 
-              className={cn("p-6 rounded-3xl hover:scale-102 transition-all", !brand.brand_hex_color && "border")}
-              style={brand.brand_hex_color ? { backgroundColor: brand.brand_hex_color } : undefined}
+            <div
+              className={cn(
+                "p-8 rounded-3xl hover:scale-102 transition-all",
+                !brand.brand_hex_color && "border"
+              )}
+              style={
+                brand.brand_hex_color
+                  ? { backgroundColor: brand.brand_hex_color }
+                  : undefined
+              }
             >
               <img
                 src={brand.image_url || "/images/placeholder.svg"}

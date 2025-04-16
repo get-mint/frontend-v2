@@ -22,14 +22,12 @@ export const metadata: Metadata = {
 };
 
 export default async function AdvertisersPage({
-  params,
+  searchParams,
 }: {
-  params: Promise<{ page: string; search: string }>;
+  searchParams: { page?: string; search?: string };
 }) {
-  const { page, search } = await params;
-
-  const currentPage = parseInt(page || "1", 10);
-  const searchQuery = search || "";
+  const currentPage = parseInt(searchParams.page || "1", 10);
+  const searchQuery = searchParams.search || "";
 
   return (
     <div className="space-y-6">

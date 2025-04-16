@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, LoaderCircle } from "lucide-react";
-import { Toaster } from "sonner";
 
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/lib/hooks/use-auth";
@@ -81,7 +80,6 @@ export function AdvertiserDetail({ id }: AdvertiserDetailProps) {
 
   return (
     <div className="space-y-6">
-      <Toaster />
       <div className="flex items-center gap-4">
         <Button variant="outline" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="w-4 h-4" />
