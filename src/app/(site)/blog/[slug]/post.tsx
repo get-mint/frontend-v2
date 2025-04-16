@@ -62,7 +62,11 @@ export async function Post({ slug }: { slug: string }) {
       itemScope
       itemType="http://schema.org/BlogPosting"
     >
-      <h1 className="text-3xl font-bold" itemProp="headline">
+      <p className="text-muted-foreground">
+        {new Date(post.published_at).toLocaleDateString()}
+      </p>
+
+      <h1 className="text-6xl font-bold" itemProp="headline">
         {post.title}
       </h1>
 
@@ -76,7 +80,7 @@ export async function Post({ slug }: { slug: string }) {
         />
       )}
 
-      <div className="mt-6 prose" itemProp="articleBody">
+      <div className="mt-6" itemProp="articleBody">
         {post.content.content.map((node: any, index: number) =>
           renderNode(node, index)
         )}

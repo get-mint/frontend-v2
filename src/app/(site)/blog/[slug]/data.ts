@@ -1,6 +1,8 @@
+import { unstable_cache } from "next/cache";
+
 import { createAdminClient } from "@/lib/supabase/server/client";
 
-export async function fetchPost(slug: string) {
+const fetchPostData = async (slug: string) => {
   const supabase = createAdminClient();
 
   const { data: post, error } = await supabase
@@ -16,4 +18,9 @@ export async function fetchPost(slug: string) {
   }
 
   return post;
-}
+};
+
+export const fetchPost = unstable_cache(fetchPostData, ["blog-post"], {
+  revalidate: 3600,
+  tags: ["blog-posts"],
+});

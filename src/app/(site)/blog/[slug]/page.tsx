@@ -1,5 +1,10 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
+import Link from "next/link";
+
+import { ArrowLeftIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 import { fetchPost } from "./data";
 import { Post } from "./post";
@@ -20,18 +25,15 @@ export async function generateMetadata({
     };
   }
   
-  // Extract common properties from post content
   const content = post.content as Record<string, unknown> || {};
   const excerpt = (content.excerpt as string) || "Read this blog post";
   const imageUrl = content.imageUrl as string || null;
   const author = (content.author as string) || "Mint Team";
   
-  // Create structured metadata
   return {
     title: `Mint Cashback | ${post.title}`,
     description: excerpt,
     
-    // OpenGraph metadata
     openGraph: {
       type: "article",
       title: post.title,
@@ -39,12 +41,10 @@ export async function generateMetadata({
       images: imageUrl ? [imageUrl] : [],
     },
     
-    // Canonical URL
     alternates: {
       canonical: `https://mintcashback.com/blog/${post.slug}`,
     },
     
-    // Structured data for SEO
     other: {
       "application/ld+json": JSON.stringify({
         "@context": "https://schema.org",
@@ -72,6 +72,13 @@ export default async function BlogPostPage({
 
   return (
     <div className="px-6 py-6 mx-auto max-w-7xl">
+      <Link href="/blog" passHref>
+        <Button variant="outline" className="mb-4">
+          <ArrowLeftIcon />
+          Back to Blog
+        </Button>
+      </Link>
+      
       <Suspense fallback={undefined}>
         <Post slug={slug} />
       </Suspense>

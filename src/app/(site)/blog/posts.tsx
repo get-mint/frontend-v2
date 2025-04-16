@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { unstable_cache } from "next/cache";
 
 import { createAdminClient } from "@/lib/supabase/server/client";
 
 import { Tables } from "@/types/supabase";
 
-async function fetchPosts() {
+const fetchPostsData = async () => {
   const supabase = createAdminClient();
   
   const { data: posts, error } = await supabase
@@ -21,7 +22,12 @@ async function fetchPosts() {
   }
   
   return posts;
-}
+};
+
+const fetchPosts = unstable_cache(fetchPostsData, ["blog-posts-list"], {
+  revalidate: 3600,
+  tags: ["blog-posts"],
+});
 
 export default async function Posts() {
   const posts = await fetchPosts();
