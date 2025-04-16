@@ -46,11 +46,21 @@ export default async function BrandsPage({
       <div className="flex flex-col items-center px-6 py-12 mx-auto max-w-7xl">
         <TextAnimate
           animation="slideUp"
-          by="line"
-          delay={0.25}
-          className="mb-8 text-4xl font-bold brands-title"
+          by="character"
+          delay={0.35}
+          className="mb-4 text-4xl font-bold brands-title"
         >
           Featured Brands
+        </TextAnimate>
+
+        <TextAnimate
+          animation="blurIn"
+          by="line"
+          delay={0.5}
+          className="mb-12 text-xl font-medium text-center"
+        >
+          Tap into the best cashback offers for you on all of your favorite
+          brands
         </TextAnimate>
 
         <Suspense fallback={<Loader />}>

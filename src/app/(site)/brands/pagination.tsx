@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 import {
   Pagination,
@@ -12,31 +11,26 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-interface BrandsPaginationProps {
-  currentPage: number;
-  totalPages: number;
-}
-
 export function BrandsPagination({
   currentPage,
   totalPages,
-}: BrandsPaginationProps) {
+}: {
+  currentPage: number;
+  totalPages: number;
+}) {
   const router = useRouter();
 
   const navigateToPage = (page: number) => {
-    // Create the URL with the correct parameters
     const params = new URLSearchParams();
     params.set("page", page.toString());
     const url = `/brands?${params.toString()}`;
-    
-    // Use router.push with scroll: false option
+
     router.push(url, { scroll: false });
-    
-    // After navigation, scroll to the page header
+
     setTimeout(() => {
-      const pageHeader = document.querySelector(".page-header");
-      if (pageHeader) {
-        pageHeader.scrollIntoView({ 
+      const brandsTitle = document.querySelector(".brands-title");
+      if (brandsTitle) {
+        brandsTitle.scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
