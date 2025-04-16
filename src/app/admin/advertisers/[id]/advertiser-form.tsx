@@ -9,6 +9,7 @@ import { toast } from "sonner";
 
 import { createClient } from "@/lib/supabase/client";
 import { Database } from "@/types/supabase";
+import { sendFormattedMessage } from "@/lib/utils/discord";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -126,6 +127,37 @@ export function AdvertiserForm({
         .eq("id", advertiserId);
 
       if (error) throw error;
+      
+      // Send webhook notification to Discord
+      try {
+        await sendFormattedMessage(
+          "site",
+          "update",
+          "Advertiser Updated",
+          `Advertiser "${values.name}" has been updated.`,
+          [
+            {
+              name: "ID",
+              value: advertiserId,
+              inline: true
+            },
+            {
+              name: "Domain",
+              value: values.domain,
+              inline: true
+            },
+            {
+              name: "Status",
+              value: values.active ? "Active" : "Inactive",
+              inline: true
+            }
+          ]
+        );
+      } catch (webhookError) {
+        console.error("Failed to send Discord notification:", webhookError);
+        // Don't show error to user as the advertiser update was successful
+      }
+      
       toast.success("Advertiser updated successfully");
     } catch (error) {
       console.error("Error updating advertiser:", error);
