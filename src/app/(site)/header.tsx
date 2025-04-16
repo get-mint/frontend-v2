@@ -86,7 +86,7 @@ export function Header() {
             ) : (
               <Link href="/user" passHref>
                 <Button variant="outline" size="icon" className="size-10">
-                  <UserIcon className="size-6" />
+                  <UserIcon className="size-5" />
                 </Button>
               </Link>
             )}
@@ -95,7 +95,7 @@ export function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="icon" className="w-10 h-10">
-                    <MenuIcon className="size-6" />
+                    <MenuIcon className="size-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-32 mr-4">
