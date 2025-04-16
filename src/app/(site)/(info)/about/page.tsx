@@ -42,6 +42,30 @@ export default function About() {
         </div>
       </div>
 
+      {/* Mission Section */}
+      <div className="container mx-auto px-4 py-16 border-t">
+        <div className="max-w-[80rem] mx-auto text-center">
+          <span className="text-sm font-medium tracking-widest uppercase text-black/60">Our Approach</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-balance mt-4 mx-auto">
+            <span className="text-black">So we </span>
+            <span className="text-[#39d992]">flipped </span>
+            <span className="text-black">the model.</span>
+          </h2>
+          
+          <div className="mt-12 max-w-3xl mx-auto">
+            <p className="text-xl text-black/80 mb-8">
+              We built Mint with one goal: put the user first.
+            </p>
+            <p className="text-xl text-black/80 mb-8">
+              No VC agendas. No corporate shortcuts. Just a fair, transparent system where you get half — always.
+            </p>
+            <p className="text-xl text-black/80">
+              We're not chasing hyper-growth or selling your data. We're building something sustainable, honest, and made to serve real people — not shareholders.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Principles Section */}
       <div className="container mx-auto px-4 py-16 border-t">
         <div className="max-w-[80rem] mx-auto text-center">
