@@ -13,7 +13,7 @@ export function Hero() {
           </h1>
 
           <p className="text-xl text-secondary font-bold">
-            Recieve cash back from 50+ stores, travel sites and more — no codes,
+            Receive cash back from 50+ stores, travel sites and more — no codes,
             no effort, just extra cash. Join and watch your rewards add up.
           </p>
         </div>
