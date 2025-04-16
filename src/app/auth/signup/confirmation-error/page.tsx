@@ -1,5 +1,7 @@
-import Link from "next/link";
 import { useState } from "react";
+import Link from "next/link";
+
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +10,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp } from "lucide-react";
 
 export default function ConfirmationErrorPage({
   searchParams,
@@ -16,6 +17,7 @@ export default function ConfirmationErrorPage({
   searchParams: { error?: string; details?: string };
 }) {
   const [showDetails, setShowDetails] = useState(false);
+
   const errorMessage = searchParams.error || "Unknown error";
   const errorDetails = searchParams.details || "No additional details available";
 
@@ -35,23 +37,23 @@ export default function ConfirmationErrorPage({
               </p>
               
               <Collapsible
-                className="w-full border rounded-md p-2"
+                className="w-full p-2 border rounded-md"
                 open={showDetails}
                 onOpenChange={setShowDetails}
               >
-                <CollapsibleTrigger className="flex w-full items-center justify-between text-sm">
+                <CollapsibleTrigger className="flex items-center justify-between w-full text-sm">
                   <span>Technical Details</span>
                   {showDetails ? (
-                    <ChevronUp className="h-4 w-4" />
+                    <ChevronUp className="w-4 h-4" />
                   ) : (
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="w-4 h-4" />
                   )}
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pt-2">
-                  <div className="rounded-md bg-muted p-3 text-left text-sm">
+                  <div className="p-3 text-sm text-left rounded-md bg-muted">
                     <p className="font-semibold">Error: {errorMessage}</p>
                     {errorDetails && (
-                      <p className="mt-2 text-xs text-muted-foreground whitespace-pre-wrap">
+                      <p className="mt-2 text-xs whitespace-pre-wrap text-muted-foreground">
                         {errorDetails}
                       </p>
                     )}
