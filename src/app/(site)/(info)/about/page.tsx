@@ -4,15 +4,15 @@ export default function About() {
   return (
     <article className="min-h-screen bg-white">
       {/* Question Section */}
-      <div className="container mx-auto px-4 pt-16 pb-24">
+      <div className="container mx-auto px-4 pt-32 pb-40">
         <div className="max-w-[80rem] mx-auto text-center">
-          <span className="text-sm font-medium tracking-widest uppercase text-black/60">Question</span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-balance mt-4 mx-auto">
+          <span className="text-base font-medium tracking-widest uppercase text-black/60">Question</span>
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-balance mt-6 mx-auto">
             <span className="text-[#39d992]">Why</span>
-            <span className="text-black"> does saving money online feel so </span>
+            <span className="text-black"> does saving money<br />online feel so </span>
             <span className="text-[#39d992]">unreliable?</span>
           </h1>
-          <p className="text-lg text-black/80 mt-6 max-w-2xl mx-auto">
+          <p className="text-xl sm:text-2xl text-black/80 mt-12 max-w-3xl mx-auto leading-relaxed">
             If you're the one making the purchase… why aren't you earning? This question led us to look more closely at how most online "rewards" actually work.
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
             <div>
               <p className="text-lg text-black/80 mx-auto">
-                Founded in 2023, Mint started with a simple observation: while billions are earned through affiliate marketing, most consumers never see those rewards. We set out to change that, building a platform that puts transparency and user benefits first.
+                Mint started with a simple observation: while billions are earned through affiliate marketing, most consumers never see those rewards. We set out to change that, building a platform that puts transparency and user benefits first.
               </p>
             </div>
             <div>
