@@ -1,10 +1,6 @@
 import { Metadata } from "next";
 
-import { ArrowRightIcon } from "lucide-react";
-
 import { TextAnimate } from "@/components/magicui/text-animate";
-import { Button } from "@/components/ui/button";
-import { BlurFade } from "@/components/magicui/blur-fade";
 
 export const metadata: Metadata = {
   title: "Mint | Brands",
@@ -15,7 +11,7 @@ export const metadata: Metadata = {
 export default async function BrandsPage() {
   return (
     <>
-      <div className="px-6 py-8 sm:py-20 bg-primary">
+      <div className="px-6 py-8 sm:py-20 bg-gradient-to-b from-primary to-primary/70">
         <div className="flex flex-col items-center gap-4 sm:gap-8">
           <TextAnimate
             animation="slideUp"
@@ -34,13 +30,6 @@ export default async function BrandsPage() {
             Mint automatically finds the best cashback offers for you on all of
             your favorite brands, so you don't have to.
           </TextAnimate>
-
-          <BlurFade delay={0.5}>
-            <Button className="border-2 border-white group animate-in">
-              Discover Brands{" "}
-              <ArrowRightIcon className="transition-transform group-hover:translate-x-0.5" />
-            </Button>
-          </BlurFade>
         </div>
       </div>
 

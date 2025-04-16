@@ -5,22 +5,23 @@ import { unstable_cache } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/server/client";
 
 import { Tables } from "@/types/supabase";
+import { BlurFade } from "@/components/magicui/blur-fade";
 
 const fetchPostsData = async () => {
   const supabase = createAdminClient();
-  
+
   const { data: posts, error } = await supabase
     .from("blog_posts")
     .select("*")
     .eq("published", true)
     .order("published_at", { ascending: false })
     .limit(12);
-    
+
   if (error) {
     console.error("Error fetching blog posts:", error);
     return [];
   }
-  
+
   return posts;
 };
 
@@ -34,28 +35,29 @@ export default async function Posts() {
 
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-      {posts.map((post: Tables<"blog_posts">) => (
-        <Link
-          href={`/blog/${post.slug}`}
-          key={post.id}
-          className="space-y-3 cursor-pointer"
-        >
-          <Image
-            src={post.image_url || "/images/placeholder.svg"}
-            alt={post.title}
-            width={512}
-            height={512}
-            className="object-contain w-full border rounded-xl aspect-square"
-          />
+      {posts.map((post: Tables<"blog_posts">, index: number) => (
+        <BlurFade delay={0.25 * index} key={post.id}>
+          <Link
+            href={`/blog/${post.slug}`}
+            className="space-y-3 cursor-pointer"
+          >
+            <Image
+              src={post.image_url || "/images/placeholder.svg"}
+              alt={post.title}
+              width={512}
+              height={512}
+              className="object-contain w-full border rounded-xl aspect-square"
+            />
 
-          <div className="space-y-1">
-            <h2 className="text-2xl font-bold">{post.title}</h2>
-            <p className="font-semibold text-md text-muted-foreground">
-              {post.published_at &&
-                new Date(post.published_at).toLocaleDateString()}
-            </p>
-          </div>
-        </Link>
+            <div className="space-y-1">
+              <h2 className="text-2xl font-bold">{post.title}</h2>
+              <p className="font-semibold text-md text-muted-foreground">
+                {post.published_at &&
+                  new Date(post.published_at).toLocaleDateString()}
+              </p>
+            </div>
+          </Link>
+        </BlurFade>
       ))}
     </div>
   );
