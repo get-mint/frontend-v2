@@ -48,17 +48,44 @@ export async function GET(request: Request) {
 
     const supabaseAdmin = createAdminClient();
 
-    const { error: createUserError } = await supabaseAdmin
+    // First check if a user with this tracking_id already exists
+    const { data: existingUser, error: lookupError } = await supabaseAdmin
       .from("users")
-      .insert({
-        id: session.user.id,
+      .select("*")
+      .eq("tracking_id", tracking_id)
+      .maybeSingle();
+
+    if (lookupError) {
+      throw new AuthenticationError(
+        "Failed to lookup user: ",
+        lookupError.message
+      );
+    }
+
+    let error;
+
+    if (existingUser) {
+      // User already exists with this tracking ID, update with user_id
+      const { error: updateError } = await supabaseAdmin
+        .from("users")
+        .update({ user_id: session.user.id })
+        .eq("tracking_id", tracking_id);
+
+      error = updateError;
+    } else {
+      // No user exists, create a new one with both tracking_id and user_id
+      const { error: insertError } = await supabaseAdmin.from("users").insert({
+        user_id: session.user.id,
         tracking_id,
       });
 
-    if (createUserError) {
+      error = insertError;
+    }
+
+    if (error) {
       throw new AuthenticationError(
-        "Failed to create user: ",
-        createUserError.message
+        "Failed to create/update user: ",
+        error.message
       );
     }
 

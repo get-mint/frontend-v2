@@ -24,7 +24,7 @@ const items = [
 
 export function Header() {
   const isMobile = useIsMobile();
-  const { authUser } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
@@ -68,10 +68,15 @@ export function Header() {
           )}
 
           <div className="flex items-center gap-2">
-            {!authUser ? (
+            {!user ? (
               <>
-                <Button variant="outline">Log In</Button>
-                <Button className="font-semibold">Join Mint</Button>
+                <Link href="/auth/login" passHref>
+                  <Button variant="outline">Log In</Button>
+                </Link>
+                
+                <Link href="/auth/signup" passHref>
+                  <Button className="font-semibold">Join Mint</Button>
+                </Link>
               </>
             ) : (
               <Button variant="outline" size="icon" className="w-10 h-10">

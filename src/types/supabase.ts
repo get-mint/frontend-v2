@@ -289,7 +289,7 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -325,7 +325,7 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -402,28 +402,25 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
         ]
       }
       users: {
         Row: {
           created_at: string
-          id: string
-          last_active_at: string
           tracking_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
-          id?: string
-          last_active_at?: string
           tracking_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
-          id?: string
-          last_active_at?: string
           tracking_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }
