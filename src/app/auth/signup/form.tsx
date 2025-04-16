@@ -71,7 +71,7 @@ export function SignupForm() {
         email,
         password,
         options: {
-          emailRedirectTo: "https://mintcashback.com/auth/signup/confirm-email",
+          emailRedirectTo: `${window.location.origin}/auth/signup/confirm-email`,
         },
       });
 

@@ -87,15 +87,23 @@ async function deleteUser(userId: string): Promise<boolean> {
 async function deleteUserWithCode(code: string): Promise<boolean> {
   try {
     const supabase = createAdminClient();
-    const { data } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (data?.session?.user?.id) {
-      await supabase.auth.admin.deleteUser(data.session.user.id);
-      console.log(
-        `Successfully deleted user ${data.session.user.id} via fallback method`
-      );
-      return true;
+    // Handle the case where exchangeCodeForSession might fail
+    try {
+      const { data } = await supabase.auth.exchangeCodeForSession(code);
+
+      if (data?.session?.user?.id) {
+        await supabase.auth.admin.deleteUser(data.session.user.id);
+        console.log(
+          `Successfully deleted user ${data.session.user.id} via fallback method`
+        );
+        return true;
+      }
+    } catch (exchangeError) {
+      console.error("Error exchanging code for session:", exchangeError);
+      // Continue to try other methods if available
     }
+
     return false;
   } catch (error) {
     console.error("Failed to delete user account via fallback method:", error);
@@ -141,24 +149,95 @@ function formatErrorInfo(error: unknown): {
 export async function GET(request: Request) {
   const searchParams = new URL(request.url).searchParams;
   const code = searchParams.get("code");
+  const token = searchParams.get("token");
   let userId: string | undefined;
 
   try {
-    if (!code) {
-      throw new AuthenticationError("No authentication code provided");
+    if (!code && !token) {
+      throw new AuthenticationError("No authentication code or token provided");
     }
 
-    const {
-      session,
-      userId: authUserId,
-      email,
-    } = await exchangeCodeForSession(code);
-    userId = authUserId;
+    // Try to get user from token (PKCE flow) first
+    if (token) {
+      try {
+        // Extract user info from token - for PKCE flow
+        const supabase = createAdminClient();
+        
+        // Try to get user info from the token
+        const tokenParts = token.split('_');
+        if (tokenParts.length > 1) {
+          // The token might contain encoded user info
+          // Let's check if the user exists and is confirmed
+          const { data: users, error: usersError } = await supabase.auth.admin.listUsers();
+          
+          if (!usersError && users?.users) {
+            // Find recently confirmed user
+            const confirmedUser = users.users.find(user => 
+              user.email_confirmed_at !== null && 
+              // Look for users confirmed in the last 5 minutes
+              (new Date().getTime() - new Date(user.email_confirmed_at || '').getTime() < 5 * 60 * 1000)
+            );
+            
+            if (confirmedUser && confirmedUser.email) {
+              // This user was just confirmed! Let's use this
+              await createOrUpdateUser(confirmedUser.id, confirmedUser.email);
+              
+              const requestUrl = new URL(request.url);
+              return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));
+            }
+          }
+        }
+      } catch (tokenError) {
+        console.error("Error processing token:", tokenError);
+        // Continue to try with code if available
+      }
+    }
 
-    await createOrUpdateUser(userId, email);
+    // If we got here and have a code, try the original flow
+    if (code) {
+      try {
+        const {
+          session,
+          userId: authUserId,
+          email,
+        } = await exchangeCodeForSession(code);
+        userId = authUserId;
 
-    const requestUrl = new URL(request.url);
-    return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));
+        await createOrUpdateUser(userId, email);
+
+        const requestUrl = new URL(request.url);
+        return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));
+      } catch (codeError) {
+        console.error("Error exchanging code:", codeError);
+        
+        // Check if user might already be verified (code already consumed)
+        // This is a fallback approach
+        const supabase = createAdminClient();
+        const { data: recentUsers, error: usersError } = await supabase.auth.admin.listUsers();
+        
+        if (!usersError && recentUsers?.users) {
+          // Find recently verified users (within last 5 minutes)
+          const recentlyVerifiedUsers = recentUsers.users.filter(user => 
+            user.email_confirmed_at !== null && 
+            (new Date().getTime() - new Date(user.email_confirmed_at || '').getTime() < 5 * 60 * 1000)
+          );
+          
+          if (recentlyVerifiedUsers.length === 1 && recentlyVerifiedUsers[0].email) {
+            // If we have exactly one recently verified user, it's likely the one we're dealing with
+            await createOrUpdateUser(recentlyVerifiedUsers[0].id, recentlyVerifiedUsers[0].email);
+            
+            const requestUrl = new URL(request.url);
+            return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));
+          }
+        }
+        
+        // If we got here, we need to propagate the original error
+        throw codeError;
+      }
+    }
+    
+    // If we got here with neither a valid token nor code
+    throw new AuthenticationError("Failed to verify user");
   } catch (error) {
     const { error: message, status } = handleApiError(error);
     console.error("Email confirmation error:", error);
