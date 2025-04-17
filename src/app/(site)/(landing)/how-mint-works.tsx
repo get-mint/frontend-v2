@@ -8,13 +8,13 @@ const steps = [
     title: "1. Join for free",
     description:
       "Install Mint, enter your email, and start shopping. Mint will pop up whenever cashback is available.",
-    image: "/placeholder.svg",
+    image: "/images/how-mint-works/1.png",
   },
   {
     title: "2. Start earning cash back",
     description:
       "Shop at your favorite stores and earn cash back. Mint is always on, so you'll never miss a deal.",
-    image: "/placeholder.svg",
+    image: "/images/how-mint-works/2.png",
   },
   {
     title: "3. Redeem your cash back",
@@ -47,17 +47,18 @@ export function HowMintWorks() {
         </BlurFade>
       </div>
 
-      <div className="flex flex-col max-w-6xl gap-8 px-4 mx-auto sm:grid sm:grid-cols-3">
+      <div className="flex flex-col items-center justify-center gap-8 px-4 mx-auto max-w-7xl lg:grid lg:grid-cols-3">
         {steps.map((step, index) => (
           <BlurFade key={step.title} delay={0.35 + 0.1 * index} inView>
-            <div className="relative w-full h-64 overflow-hidden bg-gradient-to-t from-primary to-primary/70 rounded-2xl">
+            <div className="relative w-full h-56 overflow-hidden bg-gradient-to-t from-primary to-primary/70 rounded-2xl">
               <Image
                 src={step.image}
                 alt={step.title}
                 fill
-                className="object-cover"
+                className="object-contain p-4"
               />
             </div>
+
             <h3 className="mt-4 mb-1 text-xl font-bold leading-tight">
               {step.title}
             </h3>
