@@ -17,17 +17,17 @@ const extendedFaqItems = [
       {
         id: "core-2",
         question: "Do I need to give you my credit card info?",
-        answer: "Nope — never. Mint doesn’t ask for or store your payment information. You shop directly on brand websites like usual. We simply track your eligible orders through affiliate links and give you your fair share of the commission — no credit card required.",
+        answer: "Nope — never. Mint doesn't ask for or store your payment information. You shop directly on brand websites like usual. We simply track your eligible orders through affiliate links and give you your fair share of the commission — no credit card required.",
       },
       {
         id: "core-3",
         question: "What's the catch? Is Mint really free?",
-        answer: "Yes — 100% free. There are no fees, no subscriptions, and no hidden terms. When you shop at a partnered store, the brand pays us a small commission — and we split it with you 50/50. That’s how you earn cash back, with zero cost to you.",
+        answer: "Yes — 100% free. There are no fees, no subscriptions, and no hidden terms. When you shop at a partnered store, the brand pays us a small commission — and we split it with you 50/50. That's how you earn cash back, with zero cost to you.",
       },
       {
         id: "core-4",
         question: "What if I don't get my cashback?",
-        answer: "It’s rare, but if something doesn’t track, we’ve got your back. Just email us at support@mintcashback.com with your order details. Our team will review it, work with the store if needed, and make sure you get the rewards you earned.",
+        answer: "It's rare, but if something doesn't track, we've got your back. Just email us at support@mintcashback.com with your order details. Our team will review it, work with the store if needed, and make sure you get the rewards you earned.",
       },
       {
         id: "core-5",
@@ -62,7 +62,7 @@ const extendedFaqItems = [
       {
         id: "pay-1",
         question: "How long does it take to get paid?",
-        answer: "Cashback typically becomes available 30 to 60 days after your purchase, depending on the store's return and verification policies. Once it’s approved, you can cash out instantly to PayPal, Venmo, or gift cards. We’ll always keep you updated on your cashback status — no surprises, no waiting games.",
+        answer: "Cashback typically becomes available 30 to 60 days after your purchase, depending on the store's return and verification policies. Once it's approved, you can cash out instantly to PayPal, Venmo, or gift cards. We'll always keep you updated on your cashback status — no surprises, no waiting games.",
       },
       {
         id: "pay-2",
@@ -73,6 +73,11 @@ const extendedFaqItems = [
         id: "pay-3",
         question: "Is there a minimum withdrawal amount?",
         answer: "Yes, the minimum withdrawal amount is $5. We keep it low so you can access your earnings faster and more frequently than other platforms.",
+      },
+      {
+        id: "pay-4",
+        question: "Can I see how much cashback is pending?",
+        answer: "Absolutely. Just head to your Mint dashboard — it shows a clear breakdown of your pending, confirmed, and available cashback all in one place.",
       }
     ]
   },
