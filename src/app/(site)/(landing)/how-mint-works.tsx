@@ -14,12 +14,12 @@ const steps = [
     title: "2. Let Mint do the work",
     description:
       "When you're on a supported store, Mint pops up automatically and applies cashback. You shop, Mint tracks — no extra clicks.",
-    image: "/placeholder.svg",
+    image: "/images/how-mint-works/2.png",
   },
   {
     title: "3. Sit back and relax",
     description:
-      "As you shop, your cashback adds up. When it’s ready, redeem it through Venmo, PayPal, or gift cards. No points. No Coupons. Just real money.",
+      "As you shop, your cashback adds up. When it's ready, redeem it through Venmo, PayPal, or gift cards. No points. No Coupons. Just real money.",
     image: "/images/how-mint-works/3.png",
   },
 ];
