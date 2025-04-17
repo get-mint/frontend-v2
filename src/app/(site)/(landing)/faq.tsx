@@ -74,7 +74,7 @@ export function Faq() {
           <p className="text-base text-muted-foreground">
             Still have doubts? Click{" "}
             <Link
-              href="/info/company/faq"
+              href="/faq"
               className="inline-block underline transition-colors text-secondary hover:text-secondary/80 underline-offset-4"
             >
               here
