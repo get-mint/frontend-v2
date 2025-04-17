@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tables } from "@/types/supabase";
+import { PreviewDialog } from "../preview";
 
 export const MenuBar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) return null;
@@ -390,6 +391,12 @@ export default function CreateBlogPage() {
         </div>
       </div>
       <div className="flex gap-4 flex-row justify-end p-4">
+        <PreviewDialog
+          title={title}
+          imageUrl={uploadedImageUrl}
+          content={editor?.getJSON() || { content: [] }}
+          relatedPosts={availablePosts.filter(post => relatedPosts.includes(post.id))}
+        />
         <Button onClick={handleSaveDraft}>Save Draft</Button>
         <Button onClick={handleSubmit}>Submit</Button>
       </div>
