@@ -11,7 +11,7 @@ const steps = [
     image: "/placeholder.svg",
   },
   {
-    title: "2. Shop like normal, Mint does the work",
+    title: "2. Let Mint do the work",
     description:
       "When you're on a supported store, Mint pops up automatically and applies cashback. You shop, Mint tracks — no extra clicks.",
     image: "/placeholder.svg",
