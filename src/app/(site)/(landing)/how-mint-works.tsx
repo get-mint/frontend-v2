@@ -49,8 +49,8 @@ export function HowMintWorks() {
 
       <div className="flex flex-col max-w-6xl gap-8 px-4 mx-auto sm:grid sm:grid-cols-3">
         {steps.map((step, index) => (
-          <BlurFade key={step.title} delay={0.65 + 0.1 * index}>
-            <div className="relative w-full h-64 overflow-hidden bg-gradient-to-t from-primary to-primary/70 rounded-xl">
+          <BlurFade key={step.title} delay={0.35 + 0.1 * index} inView>
+            <div className="relative w-full h-64 overflow-hidden bg-gradient-to-t from-primary to-primary/70 rounded-2xl">
               <Image
                 src={step.image}
                 alt={step.title}
@@ -58,10 +58,10 @@ export function HowMintWorks() {
                 className="object-cover"
               />
             </div>
-            <h3 className="mt-4 mb-1 text-xl font-semibold leading-tight">
+            <h3 className="mt-4 mb-1 text-xl font-bold leading-tight">
               {step.title}
             </h3>
-            <p className="leading-tight text-muted-foreground">
+            <p className="font-medium leading-tight text-muted-foreground">
               {step.description}
             </p>
           </BlurFade>
