@@ -26,7 +26,7 @@ const steps = [
 
 export function HowMintWorks() {
   return (
-    <div className="py-16">
+    <div className="py-24">
       <div className="mb-8 text-center sm:mb-10">
         <TextAnimate
           animation="slideUp"
