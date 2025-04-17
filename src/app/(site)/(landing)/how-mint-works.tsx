@@ -7,19 +7,19 @@ const steps = [
   {
     title: "1. Join for free",
     description:
-      "Install Mint, enter your email, and start shopping. Mint will pop up whenever cashback is available.",
+      "Install the Mint extension in seconds. No fees, no gimmicks — just enter your email and you're in.",
     image: "/placeholder.svg",
   },
   {
     title: "2. Start earning cash back",
     description:
-      "Shop at your favorite stores and earn cash back. Mint is always on, so you'll never miss a deal.",
+      "When you're on a supported store, Mint pops up automatically and applies cashback. You shop, Mint tracks — no extra clicks.",
     image: "/placeholder.svg",
   },
   {
     title: "3. Redeem your cash back",
     description:
-      "Redeem your cash back for rewards in the form of gift cards, PayPal, Venmo & more.",
+      "As you shop, your cashback adds up. When it’s ready, redeem it through Venmo, PayPal, or gift cards. No points. No Coupons. Just real money.",
     image: "/images/how-mint-works/3.png",
   },
 ];
