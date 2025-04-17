@@ -3,14 +3,21 @@
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/react';
-import Image from '@tiptap/extension-image';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input';
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tables } from "@/types/supabase";
 
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) return null;
@@ -141,6 +148,38 @@ export default function CreateBlogPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<string[]>([]);
+  const [availablePosts, setAvailablePosts] = useState<Tables<"blog_posts">[]>([]);
+  const [selectedValue, setSelectedValue] = useState<string>("");
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setAvailablePosts(data || []);
+    };
+
+    fetchPosts();
+  }, []);
+
+  const handleRelatedPostSelect = (postId: string) => {
+    if (!relatedPosts.includes(postId)) {
+      setRelatedPosts(prev => [...prev, postId]);
+    }
+    setSelectedValue(""); // Reset the select value
+  };
+
+  const handleRemoveRelatedPost = (postId: string) => {
+    setRelatedPosts(prev => prev.filter(id => id !== postId));
+  };
 
   const editor = useEditor({
     extensions: [
@@ -168,7 +207,7 @@ export default function CreateBlogPage() {
 
     const slug = title.toLowerCase().replace(/ /g, '-');
 
-    const { data, error } = await supabase
+    const { data: newPost, error: newPostError } = await supabase
       .from('blog_posts')
       .insert({
         title: title,
@@ -180,12 +219,28 @@ export default function CreateBlogPage() {
         image_url: uploadedImageUrl,
       });
 
-    if (error) {
-      console.error(error);
+    if (newPostError) {
+      console.error(newPostError);
       return;
     }
 
-    console.log(data);
+    console.log(newPost);
+
+    if (relatedPosts.length > 0 && newPost) {
+      const { data, error } = await supabase
+        .from('blog_post_related_blog_posts')
+        .insert(
+          relatedPosts.map(postId => ({
+            related_blog_post_id: postId,
+            blog_post_id: (newPost as Tables<"blog_posts">).id,
+          }))
+        );
+
+      if (error) {
+        console.error(error);
+      }
+    }
+
     router.push('/admin/blog');
   }
 
@@ -284,6 +339,44 @@ export default function CreateBlogPage() {
                 Remove
               </Button>
             </div>
+          </div>
+        )}
+      </div>
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Related Posts</label>
+        <Select value={selectedValue} onValueChange={handleRelatedPostSelect}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select related posts" />
+          </SelectTrigger>
+          <SelectContent>
+            {availablePosts.map((post) => (
+              <SelectItem key={post.id} value={post.id}>
+                {post.title}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {relatedPosts.length > 0 && (
+          <div className="mt-2">
+            <p className="text-sm text-muted-foreground">Selected posts:</p>
+            <ul className="mt-1 space-y-1">
+              {relatedPosts.map((postId) => {
+                const post = availablePosts.find(p => p.id === postId);
+                return post ? (
+                  <li key={postId} className="text-sm flex items-center justify-between">
+                    <span>{post.title}</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0"
+                      onClick={() => handleRemoveRelatedPost(postId)}
+                    >
+                      ×
+                    </Button>
+                  </li>
+                ) : null;
+              })}
+            </ul>
           </div>
         )}
       </div>
