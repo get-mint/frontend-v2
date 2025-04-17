@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
+import { ArrowLeftIcon } from "lucide-react";
+
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { Separator } from "@/components/ui/separator";
@@ -43,15 +45,25 @@ export async function Brand({ slug }: { slug: string }) {
       <div className="flex flex-col gap-12 px-6 py-8 mx-auto sm:flex-row max-w-7xl">
         <div className="w-3/5">
           <div className="flex flex-col gap-4">
-            <TextAnimate
-              animation="slideUp"
-              by="line"
-              delay={0.25}
-              className="text-4xl font-bold"
-              startOnView={false}
-            >
-              {`What is ${brand.name}?`}
-            </TextAnimate>
+            <div className="flex flex-row items-center gap-3">
+              <BlurFade delay={0.35}>
+                <Link href={"/brands"}>
+                  <Button variant="outline" size="icon">
+                    <ArrowLeftIcon />
+                  </Button>
+                </Link>
+              </BlurFade>
+
+              <TextAnimate
+                animation="slideUp"
+                by="line"
+                delay={0.25}
+                className="text-4xl font-bold"
+                startOnView={false}
+              >
+                {`What is ${brand.name}?`}
+              </TextAnimate>
+            </div>
 
             <TextAnimate
               animation="blurIn"
