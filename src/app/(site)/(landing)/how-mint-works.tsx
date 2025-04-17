@@ -5,19 +5,19 @@ import { BlurFade } from "@/components/magicui/blur-fade";
 
 const steps = [
   {
-    title: "1. Join for free",
+    title: "1. Add Mint — it's 100% free",
     description:
       "Install the Mint extension in seconds. No fees, no gimmicks — just enter your email and you're in.",
     image: "/placeholder.svg",
   },
   {
-    title: "2. Start earning cash back",
+    title: "2. Shop like normal, Mint does the work",
     description:
       "When you're on a supported store, Mint pops up automatically and applies cashback. You shop, Mint tracks — no extra clicks.",
     image: "/placeholder.svg",
   },
   {
-    title: "3. Redeem your cash back",
+    title: "3. Sit back and relax",
     description:
       "As you shop, your cashback adds up. When it’s ready, redeem it through Venmo, PayPal, or gift cards. No points. No Coupons. Just real money.",
     image: "/images/how-mint-works/3.png",
