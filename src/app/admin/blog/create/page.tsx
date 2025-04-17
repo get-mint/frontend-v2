@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Tables } from "@/types/supabase";
 
-const MenuBar = ({ editor }: { editor: Editor | null }) => {
+export const MenuBar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) return null;
 
   return (

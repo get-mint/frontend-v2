@@ -51,7 +51,7 @@ export default function BlogPage() {
         {posts.map((post: Tables<"blog_posts">, index: number) => (
           <BlurFade delay={0.25 * index} key={post.id}>
             <Link
-              href={`/blog/${post.slug}`}
+              href={`/admin/blog/edit/${post.id}`}
               className="space-y-3 cursor-pointer"
             >
               <Image
