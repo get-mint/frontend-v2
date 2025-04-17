@@ -96,16 +96,22 @@ export async function Brand({ slug }: { slug: string }) {
               <TextAnimate
                 animation="slideUp"
                 by="line"
-                className="text-lg"
+                className="mb-1 text-lg"
                 delay={0.75}
               >
                 Sign up for Mint and start earning cashback on your favorite
                 brands.
               </TextAnimate>
 
-              <BlurFade delay={0.75}>
-                <Link href="/signup">
-                  <Button className="px-8 text-md">Get Started</Button>
+              <BlurFade delay={0.75} className="flex flex-row gap-3">
+                <Link href="/auth/signup">
+                  <Button variant="outline" className="px-8 text-md">
+                    Get Started
+                  </Button>
+                </Link>
+                
+                <Link href="/download">
+                  <Button className="px-8 text-md">Download</Button>
                 </Link>
               </BlurFade>
             </div>
