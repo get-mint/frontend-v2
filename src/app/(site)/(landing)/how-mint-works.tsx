@@ -1,5 +1,8 @@
 import Image from "next/image";
 
+import { TextAnimate } from "@/components/magicui/text-animate";
+import { BlurFade } from "@/components/magicui/blur-fade";
+
 const steps = [
   {
     title: "1. Join for free",
@@ -25,18 +28,28 @@ export function HowMintWorks() {
   return (
     <div className="py-16">
       <div className="mb-8 text-center sm:mb-10">
-        <h2 className="mb-2 text-2xl font-bold sm:text-3xl">
+        <TextAnimate
+          animation="slideUp"
+          by="word"
+          className="mb-4 text-2xl font-bold sm:text-4xl"
+          delay={0.55}
+          startOnView={false}
+        >
           Here's How Mint Works
-        </h2>
-        <p className="text-lg">
-          Get started in just three simple steps and start earning cashback
-          today
-        </p>
+        </TextAnimate>
+
+        <BlurFade delay={0.65}>
+          <p className="text-lg">
+            Get started in just{" "}
+            <span className="font-bold text-primary">three simple steps</span>{" "}
+            and start earning cashback today
+          </p>
+        </BlurFade>
       </div>
 
       <div className="flex flex-col max-w-6xl gap-8 px-4 mx-auto sm:grid sm:grid-cols-3">
-        {steps.map((step) => (
-          <div key={step.title}>
+        {steps.map((step, index) => (
+          <BlurFade key={step.title} delay={0.65 + 0.1 * index}>
             <div className="relative w-full h-64 overflow-hidden bg-gradient-to-t from-primary to-primary/70 rounded-xl">
               <Image
                 src={step.image}
@@ -51,7 +64,7 @@ export function HowMintWorks() {
             <p className="leading-tight text-muted-foreground">
               {step.description}
             </p>
-          </div>
+          </BlurFade>
         ))}
       </div>
     </div>
