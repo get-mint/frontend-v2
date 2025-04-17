@@ -42,7 +42,7 @@ const extendedFaqItems = [
       {
         id: "how-1",
         question: "How does Mint work?",
-        answer: "Mint is a browser extension that automatically finds and applies cashback offers when you shop online. Just install the extension, shop as usual, and we'll handle the rest - finding deals and tracking your cashback.",
+        answer: "When you shop through Mint at a supported store, that brand pays us a small commission for referring you. We split that commission with you 50/50 — no points, no tricks, just real cash. Mint automatically pops up when cashback is available, so all you have to do is click and shop like normal. When you recieve your cashback, you can cash out to PayPal, Venmo, or gift cards.",
       },
       {
         id: "how-2",
@@ -62,7 +62,7 @@ const extendedFaqItems = [
       {
         id: "pay-1",
         question: "How long does it take to get paid?",
-        answer: "Most rewards are ready to withdraw within 3 days of store confirmation — way faster than other cashback tools that make you wait weeks or months.",
+        answer: "Cashback typically becomes available 30 to 60 days after your purchase, depending on the store's return and verification policies. Once it’s approved, you can cash out instantly to PayPal, Venmo, or gift cards. We’ll always keep you updated on your cashback status — no surprises, no waiting games.",
       },
       {
         id: "pay-2",
