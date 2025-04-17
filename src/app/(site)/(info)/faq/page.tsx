@@ -57,6 +57,26 @@ const extendedFaqItems = [
     ]
   },
   {
+    section: "Features",
+    items: [
+      {
+        id: "features-1",
+        question: "What makes Mint different from other cashback tools?",
+        answer: "Mint is designed to be effortless. Our extension automatically activates when you shop, shows real-time cashback rates, and applies the best available offers. No more searching for codes or comparing rates — we handle everything in the background while you shop normally.",
+      },
+      {
+        id: "features-2",
+        question: "Do I need to activate offers manually?",
+        answer: "No, that's the beauty of Mint! Our extension automatically activates the best cashback rate whenever you visit a supported store. Just install Mint once, and we'll handle the rest — no clicking, no searching, no hassle.",
+      },
+      {
+        id: "features-3",
+        question: "Can I stack Mint with other discounts?",
+        answer: "Absolutely! Mint works alongside store discounts, promo codes, and even your credit card rewards. Layer up the savings — we'll never interfere with other deals you find.",
+      }
+    ]
+  },
+  {
     section: "Payments & Rewards",
     items: [
       {
