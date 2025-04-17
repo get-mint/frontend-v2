@@ -74,7 +74,7 @@ export default async function BlogPostPage({
   const { slug } = await params;
 
   return (
-    <div className="flex flex-col gap-12 px-6 py-6 mx-auto sm:flex-row max-w-7xl">
+    <div className="flex flex-col min-h-screen gap-12 px-6 py-6 mx-auto sm:flex-row max-w-7xl">
       <div className="w-full sm:w-4/5">
         <BlurFade>
           <Link href="/blog" passHref>
@@ -91,10 +91,15 @@ export default async function BlogPostPage({
       </div>
 
       <div className="w-full sm:w-1/5">
-        <TextAnimate animation="slideUp" by="character" className="text-2xl font-bold" delay={0.25}>
+        <TextAnimate
+          animation="slideUp"
+          by="character"
+          className="text-2xl font-bold"
+          delay={0.25}
+        >
           Related Posts
         </TextAnimate>
-        
+
         <Suspense fallback={undefined}>
           <RelatedPosts slug={slug} />
         </Suspense>
