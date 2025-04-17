@@ -10,7 +10,7 @@ export default async function BrandPage({
   const { slug } = await params;
 
   return (
-    <div className="min-h-screen gap-12">
+    <div className="min-h-screen">
       <Suspense fallback={undefined}>
         <Brand slug={slug} />
       </Suspense>

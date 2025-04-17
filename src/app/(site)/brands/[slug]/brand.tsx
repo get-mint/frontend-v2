@@ -40,7 +40,7 @@ export async function Brand({ slug }: { slug: string }) {
         </TextAnimate>
       </div>
 
-      <div className="flex flex-col gap-12 px-6 py-6 mx-auto sm:flex-row max-w-7xl">
+      <div className="flex flex-col gap-12 px-6 py-8 mx-auto sm:flex-row max-w-7xl">
         <div className="w-3/5">
           <div className="flex flex-col gap-4">
             <TextAnimate
@@ -67,17 +67,17 @@ export async function Brand({ slug }: { slug: string }) {
           <BlurFade delay={0.55}>
             <div className="flex flex-col gap-4 p-6 rounded-2xl bg-muted">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium">Cashback Rate</h3>
+                <h3 className="text-lg font-medium">💸 Cashback Rate</h3>
                 <p className="text-xl font-bold text-primary">
-                  up to {brand.up_to_pct}% 💸
+                  up to {brand.up_to_pct}%
                 </p>
               </div>
 
               <Separator />
 
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium">Reward activation</h3>
-                <p className="text-xl font-bold text-primary">1-click ⚡</p>
+                <h3 className="text-lg font-medium">⚡ Reward activation</h3>
+                <p className="text-xl font-bold text-primary">1-click</p>
               </div>
             </div>
           </BlurFade>
@@ -105,7 +105,7 @@ export async function Brand({ slug }: { slug: string }) {
 
               <BlurFade delay={0.75}>
                 <Link href="/signup">
-                  <Button className="px-8">Get Started</Button>
+                  <Button className="px-8 text-md">Get Started</Button>
                 </Link>
               </BlurFade>
             </div>
