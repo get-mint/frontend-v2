@@ -13,27 +13,27 @@ const items = [
   {
     question: "Is Mint safe to use?",
     answer:
-      "Yes. Mint does not collect personal data, sell your info, or track unrelated browsing. We only activate on supported stores to confirm purchases and issue your cashback. Privacy is non-negotiable.",
+      "Yes — your privacy is non-negotiable. Mint never collects personal data, sells your info, or tracks unrelated browsing. The extension only activates on supported stores to confirm purchases and issue cashback. We use industry-standard encryption, never store sensitive information, and keep our permissions limited to shopping sites. We're fully transparent and built with your safety in mind.",
   },
   {
     question: "Do I need to give you my credit card info?",
     answer:
-      "No. Mint doesn't ask for or store your payment information. You shop directly on brand websites like normal — we just track eligible orders through affiliate links.",
+      "Nope — never. Mint doesn’t ask for or store your payment information. You shop directly on brand websites like usual. We simply track your eligible orders through affiliate links and give you your fairshare of the commission — no credit card required.",
   },
   {
     question: "What's the catch? Is Mint really free?",
     answer:
-      "Yes, Mint is 100% free. When you shop at a partnered store, the brand pays us a small commission. We split that with you — no fees, no subscriptions, and no hidden terms.",
+      "Yes — 100% free. There are no fees, no subscriptions, and no hidden terms. When you shop at a partnered store, the brand pays us a small commission — and we split it with you 50/50. That’s how you earn cash back, with zero cost to you.",
   },
   {
     question: "What if I don't get my cashback?",
     answer:
-      "If something didn't track, contact us with your order details. We'll review it manually and help resolve it. Our goal is to make sure you always get what you earned.",
+      "It’s rare, but if something doesn’t track, we’ve got your back. Just email us at support@mintcashback.com with your order details. Our team will review it, work with the store if needed, and make sure you get the rewards you earned.",
   },
   {
     question: "Why should I trust Mint over other cashback tools?",
     answer:
-      "Most platforms complicate rewards with points, delays, or vague payout terms. Mint is simple: real money, transparent earnings, and payouts in days — not months. We're here to save you money without the noise.",
+      "We finally decided it was time to make cashback right. Most platforms overcomplicate rewards with points, vague terms, and hidden catches. Mint is different — we built it to be transparent, trustworthy, and simple. We clearly show how everything works, split earnings 50/50, and never hide behind fine print. No tricks. Just real cash and a process you can trust.",
   },
 ];
 
