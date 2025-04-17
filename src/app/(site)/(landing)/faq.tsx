@@ -46,7 +46,7 @@ export function Faq() {
             Got Questions?
           </h2>
 
-          <p className="text-lg">
+          <p className="text-xl">
             Get started in just{" "}
             <span className="font-bold text-primary">three simple steps</span>{" "}
             and start earning cashback today
