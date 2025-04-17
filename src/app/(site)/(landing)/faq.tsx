@@ -13,28 +13,44 @@ const items = [
   {
     question: "Is Mint safe to use?",
     answer:
-      "Yes — your privacy is non-negotiable. Mint never collects personal data, sells your info, or tracks unrelated browsing. The extension only activates on supported stores to confirm purchases and issue cashback. We use industry-standard encryption, never store sensitive information, and keep our permissions limited to shopping sites. We're fully transparent and built with your safety in mind.",
+      "Yes. Mint does not collect personal data, sell your info, or track unrelated browsing. We only activate on supported stores to confirm purchases and issue your cashback. Privacy is non-negotiable.",
   },
   {
     question: "Do I need to give you my credit card info?",
     answer:
-      "Nope — never. Mint doesn’t ask for or store your payment information. You shop directly on brand websites like usual. We simply track your eligible orders through affiliate links and give you your fairshare of the commission — no credit card required.",
+      "No. Mint doesn't ask for or store your payment information. You shop directly on brand websites like normal — we just track eligible orders through affiliate links.",
   },
   {
     question: "What's the catch? Is Mint really free?",
     answer:
-      "Yes — 100% free. There are no fees, no subscriptions, and no hidden terms. When you shop at a partnered store, the brand pays us a small commission — and we split it with you 50/50. That’s how you earn cash back, with zero cost to you.",
+      "Yes, Mint is 100% free. When you shop at a partnered store, the brand pays us a small commission. We split that with you — no fees, no subscriptions, and no hidden terms.",
   },
   {
     question: "What if I don't get my cashback?",
     answer:
-      "It’s rare, but if something doesn’t track, we’ve got your back. Just email us at support@mintcashback.com with your order details. Our team will review it, work with the store if needed, and make sure you get the rewards you earned.",
+      "If something didn't track, contact us with your order details. We'll review it manually and help resolve it. Our goal is to make sure you always get what you earned.",
   },
   {
     question: "Why should I trust Mint over other cashback tools?",
     answer:
-      "We finally decided it was time to make cashback right. Most platforms overcomplicate rewards with points, vague terms, and hidden catches. Mint is different — we built it to be transparent, trustworthy, and simple. We clearly show how everything works, split earnings 50/50, and never hide behind fine print. No tricks. Just real cash and a process you can trust.",
+      "Most platforms complicate rewards with points, delays, or vague payout terms. Mint is simple: real money, transparent earnings, and payouts in days — not months. We're here to save you money without the noise.",
   },
+  {
+    question: "What makes Mint different from other cashback tools?",
+    answer: "Mint is designed to be effortless. Our extension automatically activates when you shop, shows real-time cashback rates, and applies the best available offers. No more searching for codes or comparing rates — we handle everything in the background while you shop normally.",
+  },
+  {
+    question: "Do I need to activate offers manually?",
+    answer: "No, that's the beauty of Mint! Our extension automatically activates the best cashback rate whenever you visit a supported store. Just install Mint once, and we'll handle the rest — no clicking, no searching, no hassle.",
+  },
+  {
+    question: "Can I stack Mint with other discounts?",
+    answer: "Absolutely! Mint works alongside store discounts, promo codes, and even your credit card rewards. Layer up the savings — we'll never interfere with other deals you find.",
+  },
+  {
+    question: "Can I see how much cashback is pending?",
+    answer: "Absolutely. Just head to your Mint dashboard — it shows a clear breakdown of your pending, confirmed, and available cashback all in one place.",
+  }
 ];
 
 export function Faq() {
