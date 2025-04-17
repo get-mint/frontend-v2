@@ -17,7 +17,7 @@ export default function BlogPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-bold">Blog Posts</h1>
-        <Button onClick={() => router.push("/admin/blog/create-blog")} size="lg">
+        <Button onClick={() => router.push("/admin/blog/create")} size="lg">
           <PlusIcon className="h-5 w-5" />
           Create Blog Post
         </Button>
