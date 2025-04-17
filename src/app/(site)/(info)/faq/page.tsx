@@ -120,7 +120,7 @@ export default function FaqPage() {
                     <AccordionTrigger className="text-lg font-semibold hover:no-underline cursor-pointer">
                       {item.question}
                     </AccordionTrigger>
-                    <AccordionContent className="pb-4 text-md font-medium text-muted-foreground">
+                    <AccordionContent className="pb-4 text-lg font-medium">
                       {item.answer}
                     </AccordionContent>
                   </AccordionItem>
