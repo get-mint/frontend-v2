@@ -1,57 +1,53 @@
 import Link from "next/link";
+
 import { Star } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { BlurFade } from "@/components/magicui/blur-fade";
+import { TextAnimate } from "@/components/magicui/text-animate";
 
 export function Hero() {
   return (
-    <div className="w-full bg-primary/40 animate-in fade-in">
-      <div className="max-w-6xl mx-auto px-4 py-12 sm:py-24 flex flex-col sm:flex-row items-center gap-6 sm:gap-12 justify-between">
-        <div className="max-w-xl animate-in fade-in slide-in-from-left-16 duration-700 sm:text-left text-center">
-          <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-3 text-black">
-            Cashback, Finally Done Right
-          </h1>
+    <div className="w-full bg-gradient-to-br from-primary to-primary/70">
+      <div className="flex flex-col items-center justify-between gap-6 px-6 py-10 mx-auto max-w-7xl sm:py-32 sm:flex-row sm:gap-12">
+        <div className="max-w-xl text-left">
+          <TextAnimate
+            animation="slideUp"
+            by="word"
+            className="mb-6 text-5xl font-bold tracking-tight text-white sm:text-7xl"
+            startOnView={false}
+          >
+            Cashback, finally done right
+          </TextAnimate>
 
-          <p className="text-xl text-secondary font-bold">
-            Receive cash back from 50+ stores, travel sites and more — no codes,
-            no effort, just extra cash. Join and watch your rewards add up.
-          </p>
+          <BlurFade delay={0.35}>
+            <p className="text-xl font-bold text-white">
+              Get cashback from over 50 stores, travel sites, and more — no codes, no
+              hassle. Just extra cash. Join now and watch your rewards add up!
+            </p>
+          </BlurFade>
         </div>
 
-        <Card className="bg-white rounded-3xl p-8 shadow-lg w-sm sm:w-md animate-in zoom-in-95 duration-700 fade-in">
-          <CardContent className="p-0 justify-center">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-2">
-              Ready to start saving?
-            </h2>
+        <BlurFade delay={0.1}>
+          <Card className="p-8 bg-white rounded-3xl w-sm sm:w-lg">
+            <CardContent className="justify-center p-0">
+              <h2 className="mb-2 text-2xl font-bold sm:text-4xl">
+                Join the Mint movement
+              </h2>
 
-            <p className="sm:text-lg font-semibold mb-4">
-              Join our community of{" "}
-              <span className="text-secondary underline font-bold">100+</span>{" "}
-              happy users and growing every day! 💸
-            </p>
+              <p className="mb-5 font-semibold sm:text-lg">
+                Skip the boring stuff. Join over <span className="font-bold text-primary">100</span> people and start saving money with just <span className="font-bold text-primary">one click</span>!
+              </p>
 
-            <Button
-              className="w-full text-lg py-6 rounded-full hover:scale-102"
-              variant="secondary"
-              asChild
-            >
-              <Link href="https://chrome.google.com/webstore" target="_blank">
-                Download Extension — It's Free
-              </Link>
-            </Button>
-
-            <div className="flex items-center justify-center w-full mt-4">
-              <div className="flex">
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              </div>
-              <span className="ml-2 text-sm">100+ reviews</span>
-            </div>
-          </CardContent>
-        </Card>
+              <Button className="w-full py-6 text-lg rounded-full" asChild>
+                <Link href="https://chrome.google.com/webstore" target="_blank">
+                  Download Extension — It's Free
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </BlurFade>
       </div>
     </div>
   );
