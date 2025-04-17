@@ -84,7 +84,10 @@ export default function BrandsClient() {
         const isLastElement = index === brands.length - 1;
 
         return (
-          <div ref={isLastElement ? lastBrandElementRef : null} key={brand.id}>
+          <div
+            ref={isLastElement ? lastBrandElementRef : null}
+            key={`${brand.id}-${index}`}
+          >
             <BlurFade delay={0.1 * (index % 4)} inView>
               <Link href={`/brands/${brand.slug}`}>
                 <div

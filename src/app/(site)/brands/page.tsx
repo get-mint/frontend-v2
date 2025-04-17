@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function BrandsPage() {
   return (
-    <>
+    <div className="min-h-screen">
       <div className="px-6 py-8 sm:py-20 bg-gradient-to-br from-primary to-primary/70 page-header">
         <div className="flex flex-col items-center gap-4 sm:gap-8">
           <TextAnimate
@@ -57,6 +57,6 @@ export default function BrandsPage() {
 
         <BrandsClient />
       </div>
-    </>
+    </div>
   );
 }
