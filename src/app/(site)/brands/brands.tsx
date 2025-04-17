@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils/tailwind";
 import { createClient } from "@/lib/supabase/client";
 
 import { BlurFade } from "@/components/magicui/blur-fade";
-import { Loader } from "@/components/loader";
 
 const ITEMS_PER_PAGE = 12;
 
