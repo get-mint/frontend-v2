@@ -7,9 +7,11 @@ import { fetchBrand } from "./data";
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const brand = await fetchBrand(params.slug);
+  const { slug } = await params;
+
+  const brand = await fetchBrand(slug);
 
   if (!brand) {
     return {
