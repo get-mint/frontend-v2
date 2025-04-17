@@ -31,7 +31,7 @@ export function HowMintWorks() {
         <TextAnimate
           animation="slideUp"
           by="word"
-          className="mb-4 text-2xl font-bold sm:text-4xl"
+          className="mb-4 text-3xl font-bold sm:text-5xl"
           delay={0.55}
           startOnView={false}
         >
