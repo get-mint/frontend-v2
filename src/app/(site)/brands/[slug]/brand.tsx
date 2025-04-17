@@ -21,7 +21,7 @@ export async function Brand({ slug }: { slug: string }) {
     <>
       <div
         style={{ backgroundColor: `${brand.brand_hex_color}` }}
-        className="flex flex-col items-center justify-center gap-8 py-16"
+        className="flex flex-col items-center justify-center gap-8 px-6 py-16"
       >
         <BlurFade>
           <img
@@ -44,7 +44,7 @@ export async function Brand({ slug }: { slug: string }) {
       </div>
 
       <div className="flex flex-col gap-12 px-6 py-8 mx-auto sm:flex-row max-w-7xl">
-        <div className="w-3/5">
+        <div className="w-full sm:w-3/5">
           <div className="flex flex-col gap-4">
             <div className="flex flex-row items-center gap-3">
               <BlurFade delay={0.35}>
@@ -70,7 +70,7 @@ export async function Brand({ slug }: { slug: string }) {
               animation="blurIn"
               by="line"
               delay={0.35}
-              className="text-lg"
+              className="text-lg text-justify"
               startOnView={false}
             >
               {`${brand.description}`}
@@ -78,7 +78,7 @@ export async function Brand({ slug }: { slug: string }) {
           </div>
         </div>
 
-        <div className="flex flex-col w-2/5 gap-6">
+        <div className="flex flex-col w-full gap-6 sm:w-2/5">
           <BlurFade delay={0.55}>
             <div className="flex flex-col gap-4 p-6 rounded-2xl bg-muted">
               <div className="flex items-center justify-between">
