@@ -96,6 +96,7 @@ export default async function BlogPostPage({
           by="character"
           className="text-2xl font-bold"
           delay={0.25}
+          startOnView={false}
         >
           Related Posts
         </TextAnimate>
