@@ -36,7 +36,7 @@ export default async function Posts() {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
       {posts.map((post: Tables<"blog_posts">, index: number) => (
-        <BlurFade delay={0.25 * index} key={post.id}>
+        <BlurFade delay={0.1 * index} key={post.id}>
           <Link
             href={`/blog/${post.slug}`}
             className="space-y-3 cursor-pointer"
