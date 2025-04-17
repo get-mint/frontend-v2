@@ -96,7 +96,7 @@ export async function Brand({ slug }: { slug: string }) {
               <TextAnimate
                 animation="slideUp"
                 by="line"
-                className="mb-1 text-lg"
+                className="mb-1 text-lg text-muted-foreground"
                 delay={0.75}
               >
                 Sign up for Mint and start earning cashback on your favorite
@@ -109,7 +109,7 @@ export async function Brand({ slug }: { slug: string }) {
                     Get Started
                   </Button>
                 </Link>
-                
+
                 <Link href="/download">
                   <Button className="px-8 text-md">Download</Button>
                 </Link>
