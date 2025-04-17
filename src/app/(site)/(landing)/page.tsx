@@ -1,5 +1,6 @@
 import { Hero } from "./hero";
-import { HowMintWorks } from "./archive/how-mint-works";
+import { HowMintWorks } from "./how-mint-works";
+
 export default async function LandingPage() {
   return (
     <>
