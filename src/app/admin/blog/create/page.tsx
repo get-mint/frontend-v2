@@ -3,13 +3,14 @@
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/react';
+import Image from '@tiptap/extension-image';
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-
-import { createClient } from "@/lib/supabase/client";
 import { Input } from '@/components/ui/input';
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) return null;
@@ -137,6 +138,10 @@ export default function CreateBlogPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [relatedPosts, setRelatedPosts] = useState<string[]>([]);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -172,6 +177,7 @@ export default function CreateBlogPage() {
         published: true,
         published_at: new Date(),
         created_at: new Date(),
+        image_url: uploadedImageUrl,
       });
 
     if (error) {
@@ -189,6 +195,46 @@ export default function CreateBlogPage() {
     const supabase = createClient();
   }
 
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Check if file is an image
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    setIsUploading(true);
+    const supabase = createClient();
+
+    try {
+      // Upload to Supabase Storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const { data, error } = await supabase.storage
+        .from('blog-post-images')
+        .upload(fileName, file);
+
+      if (error) throw error;
+
+      // Get the public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('blog-post-images')
+        .getPublicUrl(fileName);
+
+      setUploadedImageUrl(publicUrl);
+      toast.success('Image uploaded successfully');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast.error('Failed to upload image');
+    } finally {
+      setIsUploading(false);
+      // Reset the input
+      event.target.value = '';
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -200,6 +246,46 @@ export default function CreateBlogPage() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+      </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            asChild
+            disabled={isUploading}
+          >
+            <label className="cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
+              {isUploading ? 'Uploading...' : 'Upload Image'}
+            </label>
+          </Button>
+        </div>
+        {uploadedImageUrl && (
+          <div>
+            <div className="flex justify-center items-center w-full max-w-2xl">
+              <img
+                src={uploadedImageUrl}
+                alt="Blog post cover"
+                className="w-full h-auto rounded-lg object-cover"
+              />
+            </div>
+            <div className="flex p-2 pt-2">
+              <Button
+                variant="destructive"
+                size="sm"
+                className=""
+                onClick={() => setUploadedImageUrl(null)}
+              >
+                Remove
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
       <div className="border rounded-lg">
         <div>
