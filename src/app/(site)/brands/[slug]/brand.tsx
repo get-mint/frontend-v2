@@ -48,6 +48,7 @@ export async function Brand({ slug }: { slug: string }) {
               by="line"
               delay={0.25}
               className="text-4xl font-bold"
+              startOnView={false}
             >
               {`What is ${brand.name}?`}
             </TextAnimate>
@@ -57,6 +58,7 @@ export async function Brand({ slug }: { slug: string }) {
               by="line"
               delay={0.35}
               className="text-lg"
+              startOnView={false}
             >
               {`${brand.description}`}
             </TextAnimate>
@@ -89,6 +91,7 @@ export async function Brand({ slug }: { slug: string }) {
                 by="word"
                 className="text-2xl font-bold"
                 delay={0.65}
+                startOnView={false}
               >
                 {`Want to earn cashback on sites like ${brand.name}?`}
               </TextAnimate>
@@ -98,6 +101,7 @@ export async function Brand({ slug }: { slug: string }) {
                 by="line"
                 className="mb-1 text-lg text-muted-foreground"
                 delay={0.75}
+                startOnView={false}
               >
                 Sign up for Mint and start earning cashback on your favorite
                 brands.
