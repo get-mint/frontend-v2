@@ -1,8 +1,12 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
-import { fetchBrand } from "./data";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+
+import { fetchBrand } from "./data";
 
 export async function Brand({ slug }: { slug: string }) {
   const brand = await fetchBrand(slug);
@@ -61,19 +65,51 @@ export async function Brand({ slug }: { slug: string }) {
 
         <div className="flex flex-col w-2/5 gap-6">
           <BlurFade delay={0.55}>
-            <div className="flex flex-col p-6 rounded-2xl bg-muted">
-              asdasd
-            </div>
-            </BlurFade>
+            <div className="flex flex-col gap-4 p-6 rounded-2xl bg-muted">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium">Cashback Rate</h3>
+                <p className="text-xl font-bold text-primary">
+                  up to {brand.up_to_pct}% 💸
+                </p>
+              </div>
 
-          <TextAnimate
-            animation="slideUp"
-            by="word"
-            className="text-2xl font-bold"
-            delay={0.65}
-          >
-            {`Want to Earn Cashback on ${brand.name}?`}
-          </TextAnimate>
+              <Separator />
+
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium">Reward activation</h3>
+                <p className="text-xl font-bold text-primary">1-click ⚡</p>
+              </div>
+            </div>
+          </BlurFade>
+
+          <BlurFade delay={0.65}>
+            <div className="flex flex-col items-end gap-3 p-6 border rounded-2xl">
+              <TextAnimate
+                animation="slideUp"
+                by="word"
+                className="text-2xl font-bold"
+                delay={0.65}
+              >
+                {`Want to earn cashback on sites like ${brand.name}?`}
+              </TextAnimate>
+
+              <TextAnimate
+                animation="slideUp"
+                by="line"
+                className="text-lg"
+                delay={0.75}
+              >
+                Sign up for Mint and start earning cashback on your favorite
+                brands.
+              </TextAnimate>
+
+              <BlurFade delay={0.75}>
+                <Link href="/signup">
+                  <Button className="px-8">Get Started</Button>
+                </Link>
+              </BlurFade>
+            </div>
+          </BlurFade>
         </div>
       </div>
     </>
