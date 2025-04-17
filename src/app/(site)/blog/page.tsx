@@ -15,7 +15,12 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <div className="px-6 py-6 mx-auto max-w-7xl">
-      <TextAnimate animation="slideUp" by="line" className="text-5xl font-bold">
+      <TextAnimate
+        animation="slideUp"
+        by="line"
+        className="text-5xl font-bold"
+        startOnView={false}
+      >
         Mint's Blog
       </TextAnimate>
 

@@ -19,6 +19,7 @@ export default function BrandsPage() {
             animation="slideUp"
             by="word"
             className="max-w-full text-5xl font-bold text-center text-white sm:max-w-3xl sm:text-6xl"
+            startOnView={false}
           >
             Earn cashback every time you shop — automatically!
           </TextAnimate>
@@ -28,6 +29,7 @@ export default function BrandsPage() {
             by="line"
             delay={0.25}
             className="max-w-xl text-xl font-medium text-center text-white"
+            startOnView={false}
           >
             Mint automatically finds the best cashback offers for you on all of
             your favorite brands, so you don't have to.
@@ -41,6 +43,7 @@ export default function BrandsPage() {
           by="character"
           delay={0.25}
           className="mb-4 text-4xl font-bold brands-title"
+          startOnView={false}
         >
           Featured Brands
         </TextAnimate>
@@ -50,6 +53,7 @@ export default function BrandsPage() {
           by="line"
           delay={0.35}
           className="mb-12 text-xl font-medium text-center"
+          startOnView={false}
         >
           Tap into the best cashback offers for you on all of your favorite
           brands

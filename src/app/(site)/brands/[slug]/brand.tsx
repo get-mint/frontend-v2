@@ -35,6 +35,7 @@ export async function Brand({ slug }: { slug: string }) {
           animation="slideUp"
           by="word"
           className="max-w-xl text-5xl font-bold text-center text-white"
+          startOnView={false}
         >
           {`Earn up to ${brand.up_to_pct ?? "0"}% cashback on ${
             brand.name

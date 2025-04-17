@@ -62,11 +62,20 @@ export async function Post({ slug }: { slug: string }) {
       itemScope
       itemType="http://schema.org/BlogPosting"
     >
-      <TextAnimate animation="slideDown" className="text-muted-foreground">
+      <TextAnimate
+        animation="slideDown"
+        className="text-muted-foreground"
+        startOnView={false}
+      >
         {new Date(post.published_at).toLocaleDateString()}
       </TextAnimate>
 
-      <TextAnimate animation="slideUp" by="word" className="text-6xl font-bold">
+      <TextAnimate
+        animation="slideUp"
+        by="word"
+        className="text-6xl font-bold"
+        startOnView={false}
+      >
         {post.title}
       </TextAnimate>
 
