@@ -35,7 +35,7 @@ const features = [
 
 export function Comparison() {
   return (
-    <div className="bg-white">
+    <div className="bg-gray-100">
       <div className="container max-w-6xl px-4 py-24 mx-auto">
         <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
           <div className="grid grid-cols-4">
