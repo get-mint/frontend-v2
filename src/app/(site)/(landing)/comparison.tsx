@@ -23,27 +23,26 @@ const features = [
   },
 ];
 
-export function FeaturesTable() {
+export function Comparison() {
   return (
-    <div className="bg-muted/55">
-      <div className="container max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-secondary">
+      <div className="container max-w-6xl px-4 py-16 mx-auto">
+        <div className="mb-10 text-center">
+          <h2 className="mb-2 text-2xl font-bold sm:text-3xl text-secondary">
             Why Mint?
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-lg text-muted-foreground">
             Compare our features and see why we're different
           </p>
         </div>
 
-        <div className="w-full border rounded-lg overflow-hidden bg-white shadow-sm">
-          <div className="grid grid-cols-3 bg-muted p-4 border-b">
-            <div className="col-span-2 font-semibold text-black text-lg">
+        <div className="w-full overflow-hidden bg-white border rounded-lg shadow-sm">
+          <div className="grid grid-cols-3 p-4 border-b bg-muted">
+            <div className="col-span-2 text-lg font-semibold text-black">
               Features
             </div>
-            <div className="grid grid-cols-2 text-center font-semibold">
-              <div className="text-secondary text-lg">Mint</div>
-              <div className="text-amber-500 text-lg">Others</div>
+            <div className="grid grid-cols-2 font-semibold text-center">
+              <div className="text-lg text-secondary">Mint</div>
+              <div className="text-lg text-amber-500">Others</div>
             </div>
           </div>
           <div className="divide-y">
@@ -53,19 +52,19 @@ export function FeaturesTable() {
                 className="grid grid-cols-3 p-4 hover:bg-muted/5"
               >
                 <div className="col-span-2">
-                  <h4 className="font-semibold text-black text-base">
+                  <h4 className="text-base font-semibold text-black">
                     {feature.name}
                   </h4>
-                  <p className="text-sm text-gray-600 mt-2">
+                  <p className="mt-2 text-sm text-gray-600">
                     {feature.description}
                   </p>
                 </div>
                 <div className="grid grid-cols-2 place-items-center">
-                  <div className="bg-primary/15 rounded-full p-2">
-                    <Check className="text-primary h-5 w-5" />
+                  <div className="p-2 rounded-full bg-primary/15">
+                    <Check className="w-5 h-5 text-primary" />
                   </div>
-                  <div className="bg-amber-100 rounded-full p-2">
-                    <X className="text-amber-500 h-5 w-5" />
+                  <div className="p-2 rounded-full bg-amber-100">
+                    <X className="w-5 h-5 text-amber-500" />
                   </div>
                 </div>
               </div>
@@ -73,6 +72,5 @@ export function FeaturesTable() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
