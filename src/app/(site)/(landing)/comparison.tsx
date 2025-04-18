@@ -42,48 +42,64 @@ export function Comparison() {
   return (
     <div className="bg-gray-100 font-figtree">
       <div className="container max-w-6xl px-4 py-24 mx-auto">
-        <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
-          <div className="grid grid-cols-4">
-            {/* Headers */}
-            <div className="p-8 text-gray-900 text-xl font-medium">
-              Features
+        <div className="grid grid-cols-3 gap-6">
+          {/* TopCashback Column */}
+          <div className="rounded-xl border bg-white shadow-sm">
+            <div className="p-8 text-center">
+              <h3 className="text-xl font-medium text-gray-900">TopCashback</h3>
             </div>
-            <div className="p-8 text-gray-900 text-xl text-center font-medium bg-[#39d992]/5 border-b border-[#39d992]/10">
-              Mint Cashback
-            </div>
-            <div className="p-8 text-gray-900 text-xl text-center font-medium">
-              TopCashback
-            </div>
-            <div className="p-8 text-gray-900 text-xl text-center font-medium">
-              RebatesMe
-            </div>
-
-            {/* Features */}
             {features.map((item) => (
-              <div key={item.feature} className="contents">
-                <div className="px-8 py-6 border-t border-gray-100 flex items-center gap-2">
+              <div key={item.feature} className="px-8 py-4 border-t border-gray-100">
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-gray-700">{item.feature}</span>
-                  <div className="relative group cursor-help">
-                    <div className="w-3.5 h-3.5 rounded-full border border-[#39d992] flex items-center justify-center text-[#39d992]">
-                      <span className="text-[10px] font-medium">i</span>
-                    </div>
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-40 p-2 bg-[#39d992] text-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#39d992] rotate-45"></div>
-                      <p className="text-xs leading-tight">{item.description}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="px-8 py-6 border-t border-gray-100 flex justify-center bg-[#39d992]/5 border-x border-[#39d992]/10">
-                  <Check className="w-5 h-5 text-[#39d992]" />
-                </div>
-                <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
                   {item.topcashback ? (
                     <Check className="w-5 h-5 text-[#39d992]" />
                   ) : (
                     <X className="w-5 h-5 text-red-500" />
                   )}
                 </div>
-                <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
+              </div>
+            ))}
+          </div>
+
+          {/* Mint Column */}
+          <div className="rounded-xl border-2 border-[#39d992] bg-white shadow-lg -mt-4 relative">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#39d992] text-white px-4 py-1 rounded-full text-sm">
+              Most Trusted
+            </div>
+            <div className="p-8 text-center bg-[#39d992]/5">
+              <h3 className="text-xl font-medium text-gray-900">Mint Cashback</h3>
+            </div>
+            {features.map((item) => (
+              <div key={item.feature} className="px-8 py-4 border-t border-gray-100">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-700">{item.feature}</span>
+                  <div className="flex items-center gap-2">
+                    <Check className="w-5 h-5 text-[#39d992]" />
+                    <div className="relative group cursor-help">
+                      <div className="w-3.5 h-3.5 rounded-full border border-[#39d992] flex items-center justify-center text-[#39d992]">
+                        <span className="text-[10px] font-medium">i</span>
+                      </div>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-40 p-2 bg-[#39d992] text-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#39d992] rotate-45"></div>
+                        <p className="text-xs leading-tight">{item.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* RebatesMe Column */}
+          <div className="rounded-xl border bg-white shadow-sm">
+            <div className="p-8 text-center">
+              <h3 className="text-xl font-medium text-gray-900">RebatesMe</h3>
+            </div>
+            {features.map((item) => (
+              <div key={item.feature} className="px-8 py-4 border-t border-gray-100">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-700">{item.feature}</span>
                   {item.rebatesme ? (
                     <Check className="w-5 h-5 text-[#39d992]" />
                   ) : (
