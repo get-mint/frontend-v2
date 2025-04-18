@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Check } from "lucide-react";
 
 const features = [
   {
@@ -68,13 +68,17 @@ export function Comparison() {
                   </div>
                 </div>
                 <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
-                  <Star className="w-5 h-5 text-[#ff6b6b] fill-[#ff6b6b]" />
+                  <Check className="w-5 h-5 text-[#39d992]" />
                 </div>
                 <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
-                  <Star className={`w-5 h-5 ${item.others ? "text-[#ff6b6b] fill-[#ff6b6b]" : "text-gray-200"}`} />
+                  {item.others ? (
+                    <Check className="w-5 h-5 text-[#39d992]" />
+                  ) : (
+                    <div className="w-5 h-5 border-2 rounded-full border-gray-200" />
+                  )}
                 </div>
                 <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
-                  <Star className="w-5 h-5 text-gray-200" />
+                  <div className="w-5 h-5 border-2 rounded-full border-gray-200" />
                 </div>
               </div>
             ))}
