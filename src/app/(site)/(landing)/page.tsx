@@ -1,5 +1,6 @@
 import { Faq } from "./faq";
 import { Join } from "./join";
+import { Calculator } from "./calculator";
 import { Comparison } from "./comparison";
 import { Hero } from "./hero";
 import { HowMintWorks } from "./how-mint-works";
@@ -11,6 +12,7 @@ export default async function LandingPage() {
       <HowMintWorks />
       <Comparison />
       <Faq />
+      <Calculator />
       <Join />
     </>
   );
