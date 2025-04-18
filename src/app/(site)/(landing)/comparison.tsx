@@ -44,13 +44,13 @@ export function Comparison() {
               Benefits
             </div>
             <div className="p-8 text-gray-900 text-xl text-center font-medium">
-              Us
+              Mint Cashback
             </div>
             <div className="p-8 text-gray-900 text-xl text-center font-medium">
-              Competitor
+              Honey
             </div>
             <div className="p-8 text-gray-900 text-xl text-center font-medium">
-              Competitor
+              TopCashback
             </div>
 
             {/* Features */}
