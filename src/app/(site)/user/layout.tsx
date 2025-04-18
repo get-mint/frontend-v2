@@ -20,15 +20,16 @@ export default function UserLayout({
   const pathname = usePathname();
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <nav className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
+    <div className="container px-6 py-6 mx-auto max-w-7xl">
+      <nav className="flex flex-wrap gap-2 mb-4 sm:gap-3 sm:mb-6">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <Button
               variant={pathname === item.href ? "default" : "outline"}
-              className="rounded-full px-8"
+              className="px-8 rounded-full"
+              size="lg"
             >
-              <item.icon className="size-4" />
+              <item.icon className="size-5" />
               {item.label}
             </Button>
           </Link>

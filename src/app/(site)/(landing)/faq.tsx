@@ -55,7 +55,7 @@ export function Faq() {
               value={item.question}
               className="px-4 border rounded-lg bg-background"
             >
-              <AccordionTrigger className="text-lg font-bold cursor-pointer hover:no-underline">
+              <AccordionTrigger className="text-lg font-semibold cursor-pointer hover:no-underline">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent className="pb-4 text-lg font-medium">
