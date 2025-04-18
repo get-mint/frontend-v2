@@ -62,9 +62,9 @@ export function Comparison() {
                     <div className="w-3.5 h-3.5 rounded-full border border-[#39d992] flex items-center justify-center text-[#39d992]">
                       <span className="text-[10px] font-medium">i</span>
                     </div>
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-36 p-1.5 bg-[#39d992] text-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#39d992] rotate-45"></div>
-                      <p className="text-[10px]">{item.description}</p>
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2.5 bg-[#39d992] text-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#39d992] rotate-45"></div>
+                      <p className="text-sm">{item.description}</p>
                     </div>
                   </div>
                 </div>
