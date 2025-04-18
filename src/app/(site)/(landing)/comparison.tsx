@@ -1,35 +1,40 @@
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 const features = [
   {
-    feature: "Real cash payouts",
-    description: "Get paid in real money, not points",
+    feature: "Real cash, no points",
+    description: "Get paid in real money directly, without any point system conversions",
     mint: true,
-    others: false,
+    topcashback: true,
+    rebatesme: true
   },
   {
-    feature: "No points, just money",
-    description: "Skip the complicated point systems",
+    feature: "Low minimum payout",
+    description: "Cash out your earnings with a low minimum threshold",
     mint: true,
-    others: false,
-  },
-  {
-    feature: "Works automatically",
-    description: "No manual activation needed",
-    mint: true,
-    others: false,
-  },
-  {
-    feature: "No credit card needed",
-    description: "Shop normally on store websites",
-    mint: true,
-    others: false,
+    topcashback: true,
+    rebatesme: false
   },
   {
     feature: "Transparent 50/50 split",
-    description: "We share half of what we earn",
+    description: "We share half of what we earn with you, always",
     mint: true,
-    others: false,
+    topcashback: false,
+    rebatesme: false
+  },
+  {
+    feature: "Simple, modern UI",
+    description: "Clean, intuitive interface that's easy to use",
+    mint: true,
+    topcashback: false,
+    rebatesme: false
+  },
+  {
+    feature: "Privacy-first design",
+    description: "Your data stays private and secure",
+    mint: true,
+    topcashback: false,
+    rebatesme: false
   }
 ];
 
@@ -50,7 +55,7 @@ export function Comparison() {
               TopCashback
             </div>
             <div className="p-8 text-gray-900 text-xl text-center font-medium">
-              RebatesMe 
+              RebatesMe
             </div>
 
             {/* Features */}
@@ -72,14 +77,18 @@ export function Comparison() {
                   <Check className="w-5 h-5 text-[#39d992]" />
                 </div>
                 <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
-                  {item.others ? (
+                  {item.topcashback ? (
                     <Check className="w-5 h-5 text-[#39d992]" />
                   ) : (
-                    <div className="w-5 h-5 border-2 rounded-full border-gray-200" />
+                    <X className="w-5 h-5 text-red-500" />
                   )}
                 </div>
                 <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
-                  <div className="w-5 h-5 border-2 rounded-full border-gray-200" />
+                  {item.rebatesme ? (
+                    <Check className="w-5 h-5 text-[#39d992]" />
+                  ) : (
+                    <X className="w-5 h-5 text-red-500" />
+                  )}
                 </div>
               </div>
             ))}
