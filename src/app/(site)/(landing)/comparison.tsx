@@ -27,9 +27,9 @@ export function Comparison() {
   return (
     <div className="container max-w-6xl px-4 py-24 mx-auto">
       <div className="mb-8 text-center sm:mb-10">
-        <h2 className="mb-4 text-3xl font-bold sm:text-5xl">Why Mint?</h2>
+        <h2 className="mb-4 text-3xl font-bold sm:text-4xl">Why Mint?</h2>
 
-        <p className="text-xl">
+        <p className="text-lg sm:text-xl">
           Get started in just{" "}
           <span className="font-bold text-primary">three simple steps</span> and
           start earning cashback today

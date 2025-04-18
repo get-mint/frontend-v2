@@ -31,7 +31,7 @@ export function HowMintWorks() {
         <TextAnimate
           animation="slideUp"
           by="word"
-          className="mb-4 text-3xl font-bold sm:text-5xl"
+          className="mb-4 text-3xl font-bold sm:text-4xl"
           delay={0.55}
           startOnView={false}
         >
@@ -39,7 +39,7 @@ export function HowMintWorks() {
         </TextAnimate>
 
         <BlurFade delay={0.65}>
-          <p className="text-xl">
+          <p className="text-lg sm:text-xl">
             Get started in just{" "}
             <span className="font-bold text-primary">three simple steps</span>{" "}
             and start earning cashback today
