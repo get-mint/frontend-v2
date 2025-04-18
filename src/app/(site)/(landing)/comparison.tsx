@@ -1,72 +1,84 @@
-import { Check, X } from "lucide-react";
+import { Star } from "lucide-react";
 
 const features = [
   {
-    name: "Transparent rewards",
-    description:
-      "You see exactly how much cashback you earn and how we calculate it — no mystery points or hidden conditions.",
+    feature: "Real cash payouts",
+    description: "Get paid in real money, not points",
+    mint: true,
+    others: false,
   },
   {
-    name: "Low minimum redemption",
-    description:
-      "You only need $5 to cash out, making it easy to actually access your rewards.",
+    feature: "No points, just money",
+    description: "Skip the complicated point systems",
+    mint: true,
+    others: false,
   },
   {
-    name: "Focus on Transparency",
-    description:
-      "We'll keep you updated every step of the way — from when your cashback is pending to when it's ready to withdraw.",
+    feature: "Works automatically",
+    description: "No manual activation needed",
+    mint: true,
+    others: false,
   },
   {
-    name: "Get Paid Your Way",
-    description:
-      "Redeem your rewards for popular gift cards or straight cash — no weird points, no gimmicks.",
+    feature: "No credit card needed",
+    description: "Shop normally on store websites",
+    mint: true,
+    others: false,
   },
+  {
+    feature: "Transparent 50/50 split",
+    description: "We share half of what we earn",
+    mint: true,
+    others: false,
+  }
 ];
 
 export function Comparison() {
   return (
-    <div className="container max-w-6xl px-4 py-24 mx-auto">
-      <div className="mb-8 text-center sm:mb-10">
-        <h2 className="mb-4 text-3xl font-bold sm:text-4xl">Why Mint?</h2>
-
-        <p className="text-lg sm:text-xl">
-          Get started in just{" "}
-          <span className="font-bold text-primary">three simple steps</span> and
-          start earning cashback today
-        </p>
-      </div>
-
-      <div className="w-full overflow-hidden bg-white border rounded-lg shadow-sm">
-        <div className="grid grid-cols-3 p-4 border-b bg-muted">
-          <div className="col-span-2 text-lg font-semibold text-black">
-            Features
-          </div>
-          <div className="grid grid-cols-2 font-semibold text-center">
-            <div className="text-lg text-secondary">Mint</div>
-            <div className="text-lg text-amber-500">Others</div>
-          </div>
-        </div>
-        <div className="divide-y">
-          {features.map((feature, index) => (
-            <div key={index} className="grid grid-cols-3 p-4 hover:bg-muted/5">
-              <div className="col-span-2">
-                <h4 className="text-base font-semibold text-black">
-                  {feature.name}
-                </h4>
-                <p className="mt-2 text-sm text-gray-600">
-                  {feature.description}
-                </p>
-              </div>
-              <div className="grid grid-cols-2 place-items-center">
-                <div className="p-2 rounded-full bg-primary/15">
-                  <Check className="w-5 h-5 text-primary" />
-                </div>
-                <div className="p-2 rounded-full bg-amber-100">
-                  <X className="w-5 h-5 text-amber-500" />
-                </div>
-              </div>
+    <div className="bg-white">
+      <div className="container max-w-6xl px-4 py-24 mx-auto">
+        <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
+          <div className="grid grid-cols-4">
+            {/* Headers */}
+            <div className="p-8 text-gray-900 text-xl font-medium">
+              Benefits
             </div>
-          ))}
+            <div className="p-8 text-gray-900 text-xl text-center font-medium">
+              Us
+            </div>
+            <div className="p-8 text-gray-900 text-xl text-center font-medium">
+              Competitor
+            </div>
+            <div className="p-8 text-gray-900 text-xl text-center font-medium">
+              Competitor
+            </div>
+
+            {/* Features */}
+            {features.map((item) => (
+              <div key={item.feature} className="contents">
+                <div className="px-8 py-6 border-t border-gray-100 flex items-center gap-2">
+                  <span className="text-gray-700">{item.feature}</span>
+                  <div className="relative group cursor-help">
+                    <div className="w-4 h-4 flex items-center justify-center text-[#39d992]">
+                      <span className="text-sm">i</span>
+                    </div>
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                      <p className="text-sm text-gray-600">{item.description}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
+                  <Star className="w-5 h-5 text-[#ff6b6b] fill-[#ff6b6b]" />
+                </div>
+                <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
+                  <Star className={`w-5 h-5 ${item.others ? "text-[#ff6b6b] fill-[#ff6b6b]" : "text-gray-200"}`} />
+                </div>
+                <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
+                  <Star className="w-5 h-5 text-gray-200" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
