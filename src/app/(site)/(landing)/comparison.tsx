@@ -41,7 +41,7 @@ export function Comparison() {
           <div className="grid grid-cols-4">
             {/* Headers */}
             <div className="p-8 text-gray-900 text-xl font-medium">
-              Benefits
+              Features
             </div>
             <div className="p-8 text-gray-900 text-xl text-center font-medium bg-[#39d992]/5 border-b border-[#39d992]/10">
               Mint Cashback
