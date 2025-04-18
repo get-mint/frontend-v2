@@ -35,7 +35,7 @@ const features = [
 
 export function Comparison() {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 font-figtree">
       <div className="container max-w-6xl px-4 py-24 mx-auto">
         <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
           <div className="grid grid-cols-4">
@@ -43,7 +43,7 @@ export function Comparison() {
             <div className="p-8 text-gray-900 text-xl font-medium">
               Benefits
             </div>
-            <div className="p-8 text-gray-900 text-xl text-center font-medium">
+            <div className="p-8 text-gray-900 text-xl text-center font-medium bg-[#39d992]/5 border-b border-[#39d992]/10">
               Mint Cashback
             </div>
             <div className="p-8 text-gray-900 text-xl text-center font-medium">
@@ -68,7 +68,7 @@ export function Comparison() {
                     </div>
                   </div>
                 </div>
-                <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
+                <div className="px-8 py-6 border-t border-gray-100 flex justify-center bg-[#39d992]/5 border-x border-[#39d992]/10">
                   <Check className="w-5 h-5 text-[#39d992]" />
                 </div>
                 <div className="px-8 py-6 border-t border-gray-100 flex justify-center">
