@@ -47,10 +47,10 @@ export function Comparison() {
               Mint Cashback
             </div>
             <div className="p-8 text-gray-900 text-xl text-center font-medium">
-              Honey
+              TopCashback
             </div>
             <div className="p-8 text-gray-900 text-xl text-center font-medium">
-              TopCashback
+              RebatesMe 
             </div>
 
             {/* Features */}
