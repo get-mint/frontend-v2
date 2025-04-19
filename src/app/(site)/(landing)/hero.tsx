@@ -16,7 +16,7 @@ export function Hero() {
   useEffect(() => {
     const typed = new Typed(typedRef.current, {
       strings: [
-        "Sephora haul.",
+        "makeup haul.",
         "travel plans.",
         "everyday essentials.",
         "latest tech upgrade.",
@@ -49,8 +49,8 @@ export function Hero() {
           </TextAnimate>
 
           <BlurFade delay={0.35}>
-            <h2 className="hero-subheading text-[1.5rem] font-medium text-white mt-4">
-              Get rewarded for your... <span ref={typedRef} className="inline-block whitespace-nowrap text-black" />
+            <h2 className="hero-subheading text-[1.5rem] font-semibold text-white mt-4">
+              Get rewarded for your <span ref={typedRef} className="inline-block whitespace-nowrap" />
             </h2>
           </BlurFade>
         </div>
