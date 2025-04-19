@@ -49,7 +49,8 @@ export default function About() {
             className="mb-6 text-5xl font-bold tracking-tight text-white sm:text-7xl"
             startOnView={false}
           >
-            Why does saving money online feel so unreliable?
+            It started with one question:
+            "Why does saving money online feel so broken?
           </TextAnimate>
 
           <BlurFade delay={0.35}>
