@@ -37,7 +37,7 @@ export function Faq() {
     <div className="bg-white">
       <div className="container max-w-4xl px-4 py-24 mx-auto">
         <div className="mb-8 text-center sm:mb-10">
-          <h2 className="mb-4 text-3xl font-bold sm:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold sm:text-4xl">
             Got Questions?
           </h2>
 
@@ -55,7 +55,7 @@ export function Faq() {
               value={item.question}
               className="px-4 border rounded-lg bg-background"
             >
-              <AccordionTrigger className="text-lg font-bold cursor-pointer hover:no-underline">
+              <AccordionTrigger className="text-lg font-semibold cursor-pointer hover:no-underline">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent className="pb-4 text-lg font-medium">
