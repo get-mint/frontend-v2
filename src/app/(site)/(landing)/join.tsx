@@ -8,7 +8,7 @@ import { TextAnimate } from "@/components/magicui/text-animate";
 
 export function Join() {
   return (
-    <div className="bg-gradient-to-b from-primary/10 to-primary/5">
+    <div className="bg-primary/5">
       <div className="container max-w-4xl px-4 py-24 mx-auto text-center">
         <TextAnimate
           animation="slideUp"
@@ -33,7 +33,7 @@ export function Join() {
             <Button
               size="lg"
               variant="ghost"
-              className="px-8 py-6 text-lg text-primary/80 bg-transparent border border-primary/30 rounded-full hover:bg-primary/5 hover:border-primary/40 transition-colors duration-200"
+              className="px-8 py-6 text-lg transition-colors duration-200 bg-transparent border rounded-full text-primary/80 border-primary/30 hover:bg-primary/5 hover:border-primary/40"
               asChild
             >
               <span className="flex items-center gap-2">
