@@ -28,7 +28,7 @@ export function Footer() {
           <div className="flex flex-wrap w-full gap-12 md:w-auto">
             {sections.map((section) => (
               <div key={section.title} className="min-w-[100px]">
-                <h3 className="mb-3 text-lg font-bold">{section.title}</h3>
+                <h3 className="mb-3 font-bold text-md">{section.title}</h3>
                 <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link.href}>

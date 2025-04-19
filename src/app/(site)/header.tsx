@@ -8,7 +8,6 @@ import {
   UserIcon,
   HomeIcon,
   ShirtIcon,
-  NewspaperIcon,
   BookIcon,
 } from "lucide-react";
 
@@ -25,6 +24,7 @@ import {
 
 const items = [
   { href: "/", label: "Home", icon: HomeIcon },
+  { href: "/about", label: "About", icon: BookIcon },
   { href: "/brands", label: "Brands", icon: ShirtIcon },
 ];
 

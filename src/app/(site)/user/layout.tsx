@@ -20,7 +20,7 @@ export default function UserLayout({
   const pathname = usePathname();
 
   return (
-    <div className="container px-6 py-6 mx-auto max-w-7xl">
+    <div className="container min-h-screen px-6 py-6 mx-auto max-w-7xl">
       <nav className="flex flex-wrap gap-2 mb-4 sm:gap-3 sm:mb-6">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>

@@ -119,14 +119,16 @@ export function Comparison() {
             delay={0.15}
             once
           >
-            Here's How Mint Works
+            Why Choose Mint Cashback?
           </TextAnimate>
 
           <BlurFade delay={0.25} inView>
             <p className="text-lg sm:text-xl">
-              Get started in just{" "}
-              <span className="font-bold text-primary">three simple steps</span>{" "}
-              and start earning cashback today
+              We're{" "}
+              <span className="font-bold text-primary">
+                transparent, fair, and built for you
+              </span>
+              , not just another cashback service.
             </p>
           </BlurFade>
         </div>
@@ -134,7 +136,7 @@ export function Comparison() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
           <ComparisonColumn title="Honey" features={features} index={0} />
           <ComparisonColumn
-            title="Mint"
+            title="Mint Cashback"
             isHighlighted
             features={features}
             index={1}
