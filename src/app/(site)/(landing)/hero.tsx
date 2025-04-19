@@ -76,6 +76,16 @@ export function Hero() {
                   Download Extension — It's Free
                 </Link>
               </Button>
+
+              <div className="mt-4 text-center">
+                <p className="text-gray-600 text-sm mb-1">Curious where you'll save?</p>
+                <Link 
+                  href="#brands" 
+                  className="text-primary hover:text-primary/90 text-sm font-medium inline-flex items-center gap-1 transition-colors"
+                >
+                  See all 50+ supported brands →
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </BlurFade>
