@@ -11,7 +11,7 @@ import {
 interface Feature {
   feature: string;
   description: string;
-  mint: boolean;
+  mintcashback: boolean;
   topcashback: boolean;
   honey: boolean;
 }
@@ -21,37 +21,37 @@ const features: Feature[] = [
     feature: "Real cash, no points",
     description:
       "Get paid in real money directly, without any point system conversions",
-    mint: true,
+    mintcashback: true,
     topcashback: true,
     honey: true,
   },
   {
     feature: "Low minimum payout",
     description: "Cash out your earnings with a low minimum threshold",
-    mint: true,
+    mintcashback: true,
     topcashback: true,
-    honey: false,
+    honey: true,
   },
   {
     feature: "Transparent 50/50 split",
     description: "We share half of what we earn with you, always",
-    mint: true,
-    topcashback: false,
-    honey: false,
+    mintcashback: true,
+    topcashback: true,
+    honey: true,
   },
   {
     feature: "Simple, modern UI",
     description: "Clean, intuitive interface that's easy to use",
-    mint: true,
-    topcashback: false,
+    mintcashback: true,
+    topcashback: true,
     honey: true,
   },
   {
     feature: "Privacy-first design",
     description: "Your data stays private and secure",
-    mint: true,
-    topcashback: false,
-    honey: false,
+    mintcashback: true,
+    topcashback: true,
+    honey: true,
   },
 ];
 
@@ -94,7 +94,7 @@ function ComparisonColumn({
               <span className="text-sm text-card-foreground md:text-base">
                 {item.feature}
               </span>
-              {item[title.toLowerCase() as keyof Feature] ? (
+              {item[(title === "Mint Cashback" ? "mintcashback" : title.toLowerCase()) as keyof Feature] ? (
                 <Check className="flex-shrink-0 w-4 h-4 md:w-5 md:h-5 text-primary" />
               ) : (
                 <X className="flex-shrink-0 w-4 h-4 md:w-5 md:h-5 text-destructive" />
