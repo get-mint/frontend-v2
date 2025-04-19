@@ -3,11 +3,11 @@
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { BlurFade } from "@/components/magicui/blur-fade";
 
-export function AboutMission() {
+export function Mission() {
   return (
     <div className="py-24 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+      <div className="container px-4 mx-auto">
+        <div className="mb-16 text-center">
           <TextAnimate
             animation="slideUp"
             by="word"
@@ -20,14 +20,17 @@ export function AboutMission() {
 
           <BlurFade delay={0.25} inView>
             <div className="max-w-3xl mx-auto">
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="mb-8 text-xl text-gray-600">
                 We built Mint with one goal: put the user first.
               </p>
-              <p className="text-xl text-gray-600 mb-8">
-                No VC agendas. No corporate shortcuts. Just a fair, transparent system where you get half — always.
+              <p className="mb-8 text-xl text-gray-600">
+                No VC agendas. No corporate shortcuts. Just a fair, transparent
+                system where you get half — always.
               </p>
               <p className="text-xl text-gray-600">
-                We're not chasing hyper-growth or selling your data. We're building something sustainable, honest, and made to serve real people — not shareholders.
+                We're not chasing hyper-growth or selling your data. We're
+                building something sustainable, honest, and made to serve real
+                people — not shareholders.
               </p>
             </div>
           </BlurFade>
@@ -35,4 +38,4 @@ export function AboutMission() {
       </div>
     </div>
   );
-} 
+}

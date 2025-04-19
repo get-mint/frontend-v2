@@ -3,7 +3,7 @@
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { BlurFade } from "@/components/magicui/blur-fade";
 
-export function AboutVision() {
+export function Vision() {
   return (
     <div className="py-24 bg-white">
       <div className="container px-4 mx-auto">
@@ -21,16 +21,19 @@ export function AboutVision() {
           <BlurFade delay={0.25} inView>
             <div className="max-w-3xl mx-auto mt-12">
               <p className="mb-8 text-xl text-gray-600">
-                We're not just building a cashback tool — we're building a shift in how value is shared.
+                We're not just building a cashback tool — we're building a shift
+                in how value is shared.
               </p>
               <p className="mb-8 text-xl text-gray-600">
-                Our vision is simple: if brands profit from your purchase, you should too.
+                Our vision is simple: if brands profit from your purchase, you
+                should too.
               </p>
               <p className="mb-8 text-xl text-gray-600">
                 We're here to make that the new normal.
               </p>
               <p className="text-xl text-gray-600">
-                Join us in creating a more transparent, rewarding future for online shopping.
+                Join us in creating a more transparent, rewarding future for
+                online shopping.
               </p>
             </div>
           </BlurFade>
@@ -38,4 +41,4 @@ export function AboutVision() {
       </div>
     </div>
   );
-} 
+}

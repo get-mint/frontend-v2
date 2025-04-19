@@ -6,23 +6,23 @@ import { BlurFade } from "@/components/magicui/blur-fade";
 const team = [
   {
     name: "Alexandros Lekkas",
-    role: "University of Chicago"
+    role: "University of Chicago",
   },
   {
     name: "Ashwin Balaraman",
-    role: "University of Chicago"
+    role: "University of Chicago",
   },
   {
     name: "Stelios Papapanagiotou",
-    role: "Bentley University"
-  }
+    role: "Bentley University",
+  },
 ];
 
-export function AboutTeam() {
+export function Team() {
   return (
     <div className="py-24 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+      <div className="container px-4 mx-auto">
+        <div className="mb-16 text-center">
           <TextAnimate
             animation="slideUp"
             by="word"
@@ -34,16 +34,18 @@ export function AboutTeam() {
           </TextAnimate>
 
           <BlurFade delay={0.25} inView>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-5xl mx-auto">
+            <div className="grid max-w-5xl grid-cols-1 gap-6 mx-auto mt-16 md:grid-cols-3">
               {team.map((member) => (
-                <div 
-                  key={member.name} 
+                <div
+                  key={member.name}
                   className="group relative h-[400px] bg-primary/5 hover:bg-primary/10 rounded-[32px] p-6 transition-all duration-300"
                 >
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[32px]" />
-                  <div className="absolute bottom-6 left-6 right-6 text-center">
-                    <h3 className="text-xl font-medium text-primary mb-1">{member.name}</h3>
-                    <p className="text-gray-600 text-base">{member.role}</p>
+                  <div className="absolute text-center bottom-6 left-6 right-6">
+                    <h3 className="mb-1 text-xl font-medium text-primary">
+                      {member.name}
+                    </h3>
+                    <p className="text-base text-gray-600">{member.role}</p>
                   </div>
                 </div>
               ))}
@@ -53,4 +55,4 @@ export function AboutTeam() {
       </div>
     </div>
   );
-} 
+}

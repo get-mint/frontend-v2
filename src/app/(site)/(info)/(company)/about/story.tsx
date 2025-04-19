@@ -3,11 +3,11 @@
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { BlurFade } from "@/components/magicui/blur-fade";
 
-export function AboutStory() {
+export function Story() {
   return (
     <div className="py-24 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+      <div className="container px-4 mx-auto">
+        <div className="mb-16 text-center">
           <TextAnimate
             animation="slideUp"
             by="word"
@@ -19,12 +19,16 @@ export function AboutStory() {
           </TextAnimate>
 
           <BlurFade delay={0.25} inView>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mt-12">
-              We weren't looking to reinvent affiliate marketing — we were just trying to get our own cashback to work. But what we found instead was a system full of delays, vague points, and platforms that felt rigged against users. That frustration led to an idea: What if cashback was built by people who actually use it?
+            <p className="max-w-2xl mx-auto mt-12 text-lg text-gray-600">
+              We weren't looking to reinvent affiliate marketing — we were just
+              trying to get our own cashback to work. But what we found instead
+              was a system full of delays, vague points, and platforms that felt
+              rigged against users. That frustration led to an idea: What if
+              cashback was built by people who actually use it?
             </p>
           </BlurFade>
         </div>
       </div>
     </div>
   );
-} 
+}
