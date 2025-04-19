@@ -27,7 +27,7 @@ export function Join() {
 
           <Button size="lg" className="rounded-full px-8 py-6 text-lg" asChild>
             <Link href="https://chrome.google.com/webstore" target="_blank" className="flex items-center gap-2">
-              Download Extension — It's Free
+              Download Extension — It's Risk Free
               <ArrowRight className="w-5 h-5" />
             </Link>
           </Button>
