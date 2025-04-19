@@ -44,7 +44,7 @@ export function Comparison() {
       <div className="container max-w-6xl px-4 py-24 mx-auto">
         {/* Title Section */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             We Fixed What <span className="text-[#39d992]">Others Didn't</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">

@@ -37,7 +37,7 @@ export function Faq() {
     <div className="bg-white">
       <div className="container max-w-4xl px-4 py-24 mx-auto">
         <div className="mb-8 text-center sm:mb-10">
-          <h2 className="mb-4 text-3xl font-bold sm:text-5xl">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Got Questions?
           </h2>
 
