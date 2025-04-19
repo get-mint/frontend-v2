@@ -8,12 +8,12 @@ import { TextAnimate } from "@/components/magicui/text-animate";
 
 export function Join() {
   return (
-    <div className="bg-primary/5">
+    <div className="bg-primary/10">
       <div className="container max-w-4xl px-4 py-24 mx-auto text-center">
         <TextAnimate
           animation="slideUp"
           by="word"
-          className="mb-6 text-3xl font-medium text-primary/80 sm:text-4xl"
+          className="mb-6 text-3xl font-semibold text-primary sm:text-4xl"
           delay={0.15}
           startOnView={true}
           once={true}
@@ -22,7 +22,7 @@ export function Join() {
         </TextAnimate>
 
         <BlurFade delay={0.15} inView={true}>
-          <p className="mb-8 text-lg text-primary/70">
+          <p className="mb-8 text-lg font-medium text-primary">
             Join thousands of smart shoppers who are earning real cash back with
             Mint.
             <br />
@@ -33,7 +33,7 @@ export function Join() {
             <Button
               size="lg"
               variant="ghost"
-              className="px-8 py-6 text-lg transition-colors duration-200 bg-transparent border rounded-full text-primary/80 border-primary/30 hover:bg-primary/5 hover:border-primary/40"
+              className="px-8 py-6 text-lg transition-colors duration-200 bg-transparent border-2 rounded-full text-primary border-primary hover:text-primary hover:bg-transparent"
               asChild
             >
               <span className="flex items-center gap-2">
