@@ -132,14 +132,14 @@ export function Comparison() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
-          <ComparisonColumn title="TopCashback" features={features} index={0} />
+          <ComparisonColumn title="Honey" features={features} index={0} />
           <ComparisonColumn
             title="Mint"
             isHighlighted
             features={features}
             index={1}
           />
-          <ComparisonColumn title="RebatesMe" features={features} index={2} />
+          <ComparisonColumn title="TopCashback" features={features} index={2} />
         </div>
       </div>
     </div>
