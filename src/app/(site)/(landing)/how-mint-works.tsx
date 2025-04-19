@@ -49,7 +49,7 @@ export function HowMintWorks() {
 
       <div className="flex flex-col items-center justify-center gap-8 px-4 mx-auto max-w-7xl lg:grid lg:grid-cols-3">
         {steps.map((step, index) => (
-          <BlurFade key={step.title} delay={0.35 + 0.1 * index} inView>
+          <BlurFade key={step.title} delay={0.15 * index} inView>
             <div className="relative w-full h-56 overflow-hidden bg-gradient-to-t from-primary to-primary/70 rounded-2xl">
               <Image
                 src={step.image}
