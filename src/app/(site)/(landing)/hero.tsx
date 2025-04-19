@@ -50,8 +50,8 @@ export function Hero() {
 
           <BlurFade delay={0.35}>
             <p className="text-xl font-bold text-white mb-6">
-              Get cashback from over 50 stores, travel sites, and more — no codes, no
-              hassle. Just extra cash. Join now and watch your rewards add up!
+            Join 100+ shoppers turning their purchases into passive income — enough to cover your daily coffee.
+            No codes, no gimmicks. Just real cash.
             </p>
 
             <h2 className="hero-subheading text-[1.5rem] font-medium text-white mt-4">
@@ -68,7 +68,7 @@ export function Hero() {
               </h2>
 
               <p className="mb-5 font-semibold sm:text-lg">
-                Skip the boring stuff. Join over <span className="font-bold text-primary">100</span> people and start saving money with just <span className="font-bold text-primary">one click</span>!
+              Save money where it matters — without changing how you shop. Click below to get started in seconds.
               </p>
 
               <Button className="w-full py-6 text-lg rounded-full" asChild>
