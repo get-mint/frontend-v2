@@ -9,7 +9,7 @@ import { TextAnimate } from "@/components/magicui/text-animate";
 export function Join() {
   return (
     <div className="bg-primary/10">
-      <div className="container max-w-4xl px-4 py-24 mx-auto text-center">
+      <div className="container max-w-4xl px-4 py-16 mx-auto text-center sm:py-24">
         <TextAnimate
           animation="slideUp"
           by="word"
@@ -22,7 +22,7 @@ export function Join() {
         </TextAnimate>
 
         <BlurFade delay={0.15} inView={true}>
-          <p className="mb-8 text-lg font-medium text-primary">
+          <p className="mb-6 text-lg font-medium text-primary">
             Join thousands of smart shoppers who are earning real cash back with
             Mint.
             <br />
