@@ -13,7 +13,7 @@ interface Feature {
   description: string;
   mint: boolean;
   topcashback: boolean;
-  rebatesme: boolean;
+  honey: boolean;
 }
 
 const features: Feature[] = [
@@ -23,35 +23,35 @@ const features: Feature[] = [
       "Get paid in real money directly, without any point system conversions",
     mint: true,
     topcashback: true,
-    rebatesme: true,
+    honey: true,
   },
   {
     feature: "Low minimum payout",
     description: "Cash out your earnings with a low minimum threshold",
     mint: true,
     topcashback: true,
-    rebatesme: false,
+    honey: false,
   },
   {
     feature: "Transparent 50/50 split",
     description: "We share half of what we earn with you, always",
     mint: true,
     topcashback: false,
-    rebatesme: false,
+    honey: false,
   },
   {
     feature: "Simple, modern UI",
     description: "Clean, intuitive interface that's easy to use",
     mint: true,
     topcashback: false,
-    rebatesme: false,
+    honey: true,
   },
   {
     feature: "Privacy-first design",
     description: "Your data stays private and secure",
     mint: true,
     topcashback: false,
-    rebatesme: false,
+    honey: false,
   },
 ];
 
