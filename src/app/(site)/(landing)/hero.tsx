@@ -52,7 +52,7 @@ export function Hero() {
             </p>
 
             <h2 className="hero-subheading text-[1.5rem] font-medium text-white mt-4">
-              Get rewarded for your <span ref={typedRef} className="inline-block whitespace-nowrap text-white" />
+              Get rewarded for your <span ref={typedRef} className="inline-block whitespace-nowrap text-black" />
             </h2>
           </BlurFade>
         </div>
