@@ -70,39 +70,34 @@ function ComparisonColumn({
     <BlurFade delay={0.15 + index * 0.1} inView>
       <div
         className={`bg-card border shadow-sm rounded-xl ${
-          isHighlighted ? "border-2 border-primary -mt-4 relative" : ""
+          isHighlighted ? "border-2 border-primary md:-mt-4 relative" : ""
         }`}
       >
         {isHighlighted && (
-          <div className="absolute px-4 py-1 text-sm -translate-x-1/2 rounded-full -top-4 left-1/2 bg-primary text-primary-foreground">
+          <div className="absolute hidden px-4 py-1 text-sm -translate-x-1/2 rounded-full -top-4 left-1/2 bg-primary text-primary-foreground md:block">
             Most Trusted
           </div>
         )}
         <div
-          className={`p-6 text-center ${isHighlighted ? "bg-primary/5" : ""}`}
+          className={`p-4 md:p-6 text-center ${
+            isHighlighted ? "bg-primary/5" : ""
+          }`}
         >
           <h3 className="text-xl font-medium text-card-foreground">{title}</h3>
         </div>
         {features.map((item, featureIndex) => (
-          <div key={item.feature} className="px-4 py-4 border-t border-border">
-            <div className="flex items-center justify-between gap-4">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="text-card-foreground cursor-help">
-                    {item.feature}
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent
-                  className="border shadow-lg backdrop-blur-md bg-background/80 text-foreground"
-                  sideOffset={4}
-                >
-                  <p className="text-xs leading-tight">{item.description}</p>
-                </TooltipContent>
-              </Tooltip>
+          <div
+            key={item.feature}
+            className="px-3 py-3 border-t md:px-4 md:py-4 border-border"
+          >
+            <div className="flex items-center justify-between gap-2 md:gap-4">
+              <span className="text-sm text-card-foreground md:text-base">
+                {item.feature}
+              </span>
               {item[title.toLowerCase() as keyof Feature] ? (
-                <Check className="flex-shrink-0 w-5 h-5 text-primary" />
+                <Check className="flex-shrink-0 w-4 h-4 md:w-5 md:h-5 text-primary" />
               ) : (
-                <X className="flex-shrink-0 w-5 h-5 text-destructive" />
+                <X className="flex-shrink-0 w-4 h-4 md:w-5 md:h-5 text-destructive" />
               )}
             </div>
           </div>
@@ -115,12 +110,12 @@ function ComparisonColumn({
 export function Comparison() {
   return (
     <div className="bg-muted/45 font-figtree">
-      <div className="container max-w-6xl px-4 py-24 mx-auto">
-        <div className="mb-16 text-center sm:mb-20">
+      <div className="container flex flex-col max-w-6xl gap-6 px-12 py-16 mx-auto sm:px-16 sm:gap-14 md:px-6 md:py-24">
+        <div className="text-center">
           <TextAnimate
             animation="slideUp"
             by="word"
-            className="mb-6 text-3xl font-bold sm:text-4xl"
+            className="mb-4 text-3xl font-bold sm:text-4xl"
             delay={0.15}
             once
           >
@@ -136,7 +131,7 @@ export function Comparison() {
           </BlurFade>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
           <ComparisonColumn title="TopCashback" features={features} index={0} />
           <ComparisonColumn
             title="Mint"
