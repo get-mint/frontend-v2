@@ -6,9 +6,11 @@ import * as Slider from "@radix-ui/react-slider";
 export function Calculator() {
   const [spend, setSpend] = useState(500);
   
-  // Calculate cashback and number of coffees
-  const cashbackEarned = spend * 0.03; // Cashback earned = monthly spend × 0.03
-  const numberOfCoffees = Math.floor(cashbackEarned / 4.5); // Number of coffees = cashback earned ÷ 4.5
+  // Calculate cashback and equivalents
+  const cashbackEarned = spend * 0.03;
+  const numberOfCoffees = Math.floor(cashbackEarned / 4.5);
+  const spotifyMonths = Math.floor(cashbackEarned / 10.99);
+  const gasPercent = Math.floor((cashbackEarned / 45) * 100); // Assuming $45 for a tank
 
   return (
     <div className="bg-gray-50 font-figtree">
@@ -48,20 +50,31 @@ export function Calculator() {
             {/* Amount Display */}
             <div className="text-center mb-6">
               <div className="inline-block bg-[#39d992]/5 rounded-2xl px-6 py-2">
-                <span className="text-2xl font-bold text-gray-900">${spend}</span>
+                <span className="text-2xl font-bold text-gray-900">Your cashback = ${cashbackEarned.toFixed(2)} this month</span>
               </div>
             </div>
 
             {/* Result */}
             <div className="text-center">
-              <p className="text-xl text-gray-900 mb-1.5">
-                That's <span className="text-[#39d992] font-bold">{numberOfCoffees} coffees</span> paid for by your cashback.
+              <p className="text-xl text-gray-900 mb-4">
+                That's:
               </p>
+              <div className="space-y-3 mb-4">
+                <p className="text-lg text-gray-900">
+                  ✅ {numberOfCoffees} coffees ☕
+                </p>
+                <p className="text-lg text-gray-900">
+                  ✅ {spotifyMonths} month{spotifyMonths !== 1 ? 's' : ''} of Spotify 🎧
+                </p>
+                <p className="text-lg text-gray-900">
+                  ✅ {gasPercent}% of a full tank of gas ⛽
+                </p>
+              </div>
               <p className="text-2xl font-bold text-gray-900 mb-1.5">
                 That's the Mint effect.
               </p>
               <p className="text-sm text-gray-500">
-                Based on average cashback rates of 3% and a $4.50 coffee
+                Based on average cashback rates of 3%
               </p>
             </div>
           </div>
