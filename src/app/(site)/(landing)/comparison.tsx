@@ -114,7 +114,7 @@ function ComparisonColumn({
 
 export function Comparison() {
   return (
-    <div className="bg-muted/55 font-figtree">
+    <div className="bg-muted/45 font-figtree">
       <div className="container max-w-6xl px-4 py-24 mx-auto">
         <div className="mb-16 text-center sm:mb-20">
           <TextAnimate
