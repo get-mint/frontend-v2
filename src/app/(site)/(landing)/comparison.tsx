@@ -45,7 +45,7 @@ export function Comparison() {
         {/* Title Section */}
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            We Fixed What <span className="text-[#39d992]">Others Didn't</span>
+            We Fixed What Others Didn't
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             See how Mint compares to other cashback platforms — we've reimagined every detail to put you first.
