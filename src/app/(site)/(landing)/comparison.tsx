@@ -1,114 +1,136 @@
 import { Check, X } from "lucide-react";
 
-const features = [
+import { BlurFade } from "@/components/magicui/blur-fade";
+import { TextAnimate } from "@/components/magicui/text-animate";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+interface Feature {
+  feature: string;
+  description: string;
+  mint: boolean;
+  topcashback: boolean;
+  rebatesme: boolean;
+}
+
+const features: Feature[] = [
   {
     feature: "Real cash, no points",
-    description: "Get paid in real money directly, without any point system conversions",
+    description:
+      "Get paid in real money directly, without any point system conversions",
     mint: true,
     topcashback: true,
-    rebatesme: true
+    rebatesme: true,
   },
   {
     feature: "Low minimum payout",
     description: "Cash out your earnings with a low minimum threshold",
     mint: true,
     topcashback: true,
-    rebatesme: false
+    rebatesme: false,
   },
   {
     feature: "Transparent 50/50 split",
     description: "We share half of what we earn with you, always",
     mint: true,
     topcashback: false,
-    rebatesme: false
+    rebatesme: false,
   },
   {
     feature: "Simple, modern UI",
     description: "Clean, intuitive interface that's easy to use",
     mint: true,
     topcashback: false,
-    rebatesme: false
+    rebatesme: false,
   },
   {
     feature: "Privacy-first design",
     description: "Your data stays private and secure",
     mint: true,
     topcashback: false,
-    rebatesme: false
-  }
+    rebatesme: false,
+  },
 ];
+
+function ComparisonColumn({
+  title,
+  isHighlighted,
+  features,
+}: {
+  title: string;
+  isHighlighted?: boolean;
+  features: Feature[];
+}) {
+  return (
+    <div
+      className={`bg-card border shadow-sm rounded-xl ${
+        isHighlighted ? "border-2 border-primary -mt-4 relative" : ""
+      }`}
+    >
+      {isHighlighted && (
+        <div className="absolute px-4 py-1 text-sm -translate-x-1/2 rounded-full -top-4 left-1/2 bg-primary text-primary-foreground">
+          Most Trusted
+        </div>
+      )}
+      <div className={`p-8 text-center ${isHighlighted ? "bg-primary/5" : ""}`}>
+        <h3 className="text-xl font-medium text-card-foreground">{title}</h3>
+      </div>
+      {features.map((item) => (
+        <div key={item.feature} className="px-8 py-4 border-t border-border">
+          <div className="flex items-center justify-between gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="text-card-foreground cursor-help">
+                  {item.feature}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs leading-tight">{item.description}</p>
+              </TooltipContent>
+            </Tooltip>
+            {item[title.toLowerCase() as keyof Feature] ? (
+              <Check className="w-5 h-5 text-primary" />
+            ) : (
+              <X className="w-5 h-5 text-destructive" />
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function Comparison() {
   return (
-    <div className="bg-gray-100 font-figtree">
+    <div className="bg-muted font-figtree">
       <div className="container max-w-6xl px-4 py-24 mx-auto">
+        <div className="mb-8 text-center sm:mb-10">
+          <TextAnimate
+            animation="slideUp"
+            by="word"
+            className="mb-4 text-3xl font-bold sm:text-4xl"
+            delay={0.15}
+            startOnView={true}
+          >
+            Here's How Mint Works
+          </TextAnimate>
+
+          <BlurFade delay={0.15} inView={true}>
+            <p className="text-lg sm:text-xl">
+              Get started in just{" "}
+              <span className="font-bold text-primary">three simple steps</span>{" "}
+              and start earning cashback today
+            </p>
+          </BlurFade>
+        </div>
+
         <div className="grid grid-cols-3 gap-6">
-          {/* TopCashback Column */}
-          <div className="rounded-xl border bg-white shadow-sm">
-            <div className="p-8 text-center">
-              <h3 className="text-xl font-medium text-gray-900">TopCashback</h3>
-            </div>
-            {features.map((item) => (
-              <div key={item.feature} className="px-8 py-4 border-t border-gray-100">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-gray-700">{item.feature}</span>
-                  {item.topcashback ? (
-                    <Check className="w-5 h-5 text-[#39d992]" />
-                  ) : (
-                    <X className="w-5 h-5 text-red-500" />
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Mint Column */}
-          <div className="rounded-xl border-2 border-[#39d992] bg-white shadow-lg -mt-4 relative">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#39d992] text-white px-4 py-1 rounded-full text-sm">
-              Most Trusted
-            </div>
-            <div className="p-8 text-center bg-[#39d992]/5">
-              <h3 className="text-xl font-medium text-gray-900">Mint Cashback</h3>
-            </div>
-            {features.map((item) => (
-              <div key={item.feature} className="px-8 py-4 border-t border-gray-100">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-gray-700">{item.feature}</span>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-[#39d992]" />
-                    <div className="relative group cursor-help">
-                      <div className="w-3.5 h-3.5 rounded-full border border-[#39d992] flex items-center justify-center text-[#39d992]">
-                        <span className="text-[10px] font-medium">i</span>
-                      </div>
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-40 p-2 bg-[#39d992] text-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#39d992] rotate-45"></div>
-                        <p className="text-xs leading-tight">{item.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* RebatesMe Column */}
-          <div className="rounded-xl border bg-white shadow-sm">
-            <div className="p-8 text-center">
-              <h3 className="text-xl font-medium text-gray-900">RebatesMe</h3>
-            </div>
-            {features.map((item) => (
-              <div key={item.feature} className="px-8 py-4 border-t border-gray-100">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-gray-700">{item.feature}</span>
-                  {item.rebatesme ? (
-                    <Check className="w-5 h-5 text-[#39d992]" />
-                  ) : (
-                    <X className="w-5 h-5 text-red-500" />
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          <ComparisonColumn title="TopCashback" features={features} />
+          <ComparisonColumn title="Mint" isHighlighted features={features} />
+          <ComparisonColumn title="RebatesMe" features={features} />
         </div>
       </div>
     </div>
