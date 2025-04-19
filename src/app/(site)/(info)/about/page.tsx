@@ -43,18 +43,30 @@ export default function About() {
       {/* Hero Section */}
       <div className="w-full bg-gradient-to-br from-primary to-primary/70">
         <div className="container mx-auto px-4 py-24 text-center">
-          <TextAnimate
-            animation="slideUp"
-            by="word"
-            className="mb-6 text-5xl font-bold tracking-tight text-white sm:text-7xl"
-            startOnView={false}
-          >
-            Why does saving money online feel so unreliable?
-          </TextAnimate>
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-6 text-5xl font-bold tracking-tight sm:text-7xl">
+            <TextAnimate
+              animation="slideUp"
+              by="word"
+              className="text-black"
+              startOnView={false}
+            >
+              It started with one question:
+            </TextAnimate>
+            <TextAnimate
+              animation="slideUp"
+              by="word"
+              className="text-white"
+              startOnView={false}
+            >
+              "Why does saving money online feel so broken?"
+            </TextAnimate>
+          </div>
 
           <BlurFade delay={0.35}>
             <p className="text-xl font-bold text-white max-w-3xl mx-auto">
-              If you're the one making the purchase… why aren't you earning? This question led us to look more closely at how most online "rewards" actually work.
+            Billions are earned from your purchases — yet you rarely see a fair share. We built Mint to change that. No points. No gimmicks. Just real cashback, finally done right.
+
+
             </p>
           </BlurFade>
         </div>
@@ -75,18 +87,9 @@ export default function About() {
             </TextAnimate>
 
             <BlurFade delay={0.65}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 max-w-4xl mx-auto">
-                <div>
-                  <p className="text-lg text-gray-600">
-                    Mint started with a simple observation: while billions are earned through affiliate marketing, most consumers never see those rewards. We set out to change that, building a platform that puts transparency and user benefits first.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-lg text-gray-600">
-                    In our journey, we've assembled a team of passionate developers and designers united by a common goal: to make earning cashback as simple and transparent as possible.
-                  </p>
-                </div>
-              </div>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto mt-12">
+                We weren't looking to reinvent affiliate marketing — we were just trying to get our own cashback to work. But what we found instead was a system full of delays, vague points, and platforms that felt rigged against users. That frustration led to an idea: What if cashback was built by people who actually use it?
+              </p>
             </BlurFade>
           </div>
         </div>
