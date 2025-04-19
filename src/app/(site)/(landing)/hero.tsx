@@ -1,5 +1,8 @@
-import Link from "next/link";
+"use client";
 
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import Typed from "typed.js";
 import { Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -8,6 +11,27 @@ import { BlurFade } from "@/components/magicui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
 
 export function Hero() {
+  const typedRef = useRef(null);
+
+  useEffect(() => {
+    const typed = new Typed(typedRef.current, {
+      strings: [
+        "Sephora haul.",
+        "travel plans.",
+        "everyday essentials."
+      ],
+      typeSpeed: 60,
+      backSpeed: 30,
+      backDelay: 1500,
+      loop: true,
+      showCursor: false
+    });
+
+    return () => {
+      typed.destroy();
+    };
+  }, []);
+
   return (
     <div className="w-full bg-gradient-to-br from-primary to-primary/70">
       <div className="flex flex-col items-center justify-between gap-6 px-6 py-10 mx-auto max-w-7xl sm:py-32 sm:flex-row sm:gap-12">
@@ -22,10 +46,14 @@ export function Hero() {
           </TextAnimate>
 
           <BlurFade delay={0.35}>
-            <p className="text-xl font-bold text-white">
+            <p className="text-xl font-bold text-white mb-6">
               Get cashback from over 50 stores, travel sites, and more — no codes, no
               hassle. Just extra cash. Join now and watch your rewards add up!
             </p>
+
+            <h2 className="hero-subheading text-[1.5rem] font-medium text-white mt-4">
+              Get rewarded for your <span ref={typedRef} className="inline-block whitespace-nowrap text-white" />
+            </h2>
           </BlurFade>
         </div>
 
