@@ -16,6 +16,7 @@ export function Join() {
           className="mb-6 text-3xl font-bold text-white sm:text-5xl"
           delay={0.15}
           startOnView={true}
+          once={true}
         >
           Ready to start earning?
         </TextAnimate>

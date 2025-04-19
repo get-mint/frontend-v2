@@ -32,13 +32,13 @@ export function HowMintWorks() {
           animation="slideUp"
           by="word"
           className="mb-4 text-3xl font-bold sm:text-4xl"
-          delay={0.55}
-          startOnView={false}
+          delay={0.15}
+          once
         >
           Here's How Mint Works
         </TextAnimate>
 
-        <BlurFade delay={0.65}>
+        <BlurFade delay={0.25} inView>
           <p className="text-lg sm:text-xl">
             Get started in just{" "}
             <span className="font-bold text-primary">three simple steps</span>{" "}
