@@ -49,14 +49,12 @@ export function Faq() {
             delay={0.15}
             once
           >
-            Got Questions?
+            Still skeptical? We get it.
           </TextAnimate>
 
           <BlurFade delay={0.25} inView>
-            <p className="text-xl">
-              Get started in just{" "}
-              <span className="font-bold text-primary">three simple steps</span>{" "}
-              and start earning cashback today
+            <p className="text-xl mb-2">
+              Most cashback platforms cut corners. <span className="font-bold text-primary">We don't.</span> Here's everything you might be wondering — straight up.
             </p>
           </BlurFade>
         </div>
