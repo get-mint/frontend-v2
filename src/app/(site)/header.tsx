@@ -91,7 +91,7 @@ export function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-48 mr-4">
                   <DropdownMenuItem asChild>
-                    <Link href="/user/account" className="flex items-center gap-2">
+                    <Link href="/user" className="flex items-center gap-2">
                       <UserIcon className="size-4" />
                       Account
                     </Link>
