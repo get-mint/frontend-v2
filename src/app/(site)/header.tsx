@@ -9,6 +9,7 @@ import {
   HomeIcon,
   ShirtIcon,
   BookIcon,
+  LogOut,
 } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
@@ -30,7 +31,7 @@ const items = [
 
 export function Header() {
   const isMobile = useIsMobile();
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
 
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
@@ -82,11 +83,28 @@ export function Header() {
                 </Link>
               </>
             ) : (
-              <Link href="/user" passHref>
-                <Button variant="outline" size="icon" className="size-10">
-                  <UserIcon className="size-5" />
-                </Button>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" className="size-10">
+                    <UserIcon className="size-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-48 mr-4">
+                  <DropdownMenuItem asChild>
+                    <Link href="/user" className="flex items-center gap-2">
+                      <UserIcon className="size-4" />
+                      Account
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    className="text-destructive focus:text-destructive flex items-center gap-2 cursor-pointer"
+                    onClick={() => logOut()}
+                  >
+                    <LogOut className="size-4" />
+                    Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
 
             {isMobile && (

@@ -1,7 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
-import { Info, LogOut } from "lucide-react";
+import { Info } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
 
@@ -12,25 +12,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
 
 export default function ProfilePage() {
   const { user, authUser } = useAuth();
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Account</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" className="w-full sm:w-64 text-destructive">
-            <LogOut />
-            Log Out
-          </Button>
-        </CardContent>
-      </Card>
-
       <Card>
         <CardHeader>
           <CardTitle>Profile</CardTitle>
