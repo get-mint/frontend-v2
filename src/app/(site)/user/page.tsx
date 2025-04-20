@@ -53,7 +53,9 @@ export default function UserPage() {
     transactionCount: 0,
   });
   const [balance, setBalance] = useState({ current: 0, pending: 0 });
-  const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
+  const [recentTransactions, setRecentTransactions] = useState<Transaction[]>(
+    []
+  );
   const [loading, setLoading] = useState(true);
 
   // Fetch user stats and balance
@@ -98,29 +100,35 @@ export default function UserPage() {
       // Get recent transactions for activity feed
       const { data: recentActivityData } = await supabase
         .from("user_transactions")
-        .select(`
+        .select(
+          `
           id,
           created_at,
           total_commission,
           transaction_status,
           user_commission_reward_pct,
           advertiser:advertisers(name, image_url)
-        `)
+        `
+        )
         .eq("user_id", user.user_id)
         .eq("currency_id", currency.id)
         .order("created_at", { ascending: false })
         .limit(3);
 
       const currentBalance = balanceEntries?.[0]?.updated_balance || 0;
-      const pendingBalance = pendingTransactions?.reduce((sum, t) => {
-        return sum + (t.total_commission * (t.user_commission_reward_pct / 100));
-      }, 0) || 0;
+      const pendingBalance =
+        pendingTransactions?.reduce((sum, t) => {
+          return (
+            sum + t.total_commission * (t.user_commission_reward_pct / 100)
+          );
+        }, 0) || 0;
 
       setStats({
-        totalEarnings: earningsData?.reduce(
-          (sum, t) => sum + (t.total_commission || 0),
-          0
-        ) || 0,
+        totalEarnings:
+          earningsData?.reduce(
+            (sum, t) => sum + (t.total_commission || 0),
+            0
+          ) || 0,
         transactionCount: count || 0,
       });
 
@@ -129,7 +137,9 @@ export default function UserPage() {
         pending: pendingBalance,
       });
 
-      setRecentTransactions(recentActivityData as unknown as Transaction[] || []);
+      setRecentTransactions(
+        (recentActivityData as unknown as Transaction[]) || []
+      );
       setLoading(false);
     }
 
@@ -173,7 +183,7 @@ export default function UserPage() {
                 {balance.current.toFixed(2)}
               </p>
             )}
-            
+
             <Button
               variant="outline"
               size="sm"
@@ -182,7 +192,7 @@ export default function UserPage() {
             >
               Withdraw
             </Button>
-            
+
             <div className="pt-2">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-medium">Pending Balance</h3>
@@ -193,9 +203,9 @@ export default function UserPage() {
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="max-w-xs">
-                        Pending balance is when we have approved a transaction but
-                        not been paid yet. This amount will be added to your current 
-                        balance once fully processed.
+                        Pending balance is when we have approved a transaction
+                        but not been paid yet. This amount will be added to your
+                        current balance once fully processed.
                       </p>
                     </TooltipContent>
                   </Tooltip>
@@ -239,20 +249,9 @@ export default function UserPage() {
                 <p className="text-2xl font-bold">{stats.transactionCount}</p>
               )}
             </div>
-            
-            {/* Mini Chart Placeholder */}
-            <Card className="border-dashed bg-muted/50 border-muted">
-              <CardContent className="p-4 flex items-center justify-center h-[100px]">
-                <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                  <LineChart className="w-8 h-8" />
-                  <p className="text-xs">Earnings chart coming soon</p>
-                </div>
-              </CardContent>
-            </Card>
           </CardContent>
         </Card>
 
-        {/* Section 3: Activity Feed */}
         <Card className="md:col-span-1">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Recent Activity</CardTitle>
@@ -266,7 +265,10 @@ export default function UserPage() {
             {isLoading ? (
               <div className="space-y-3">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="w-full rounded h-14 animate-pulse bg-muted" />
+                  <div
+                    key={i}
+                    className="w-full rounded h-14 animate-pulse bg-muted"
+                  />
                 ))}
               </div>
             ) : recentTransactions.length === 0 ? (
@@ -274,9 +276,9 @@ export default function UserPage() {
                 <p className="text-muted-foreground">
                   You haven't earned cashback yet.
                 </p>
-                <Button 
-                  onClick={() => router.push('/offers')} 
-                  size="sm" 
+                <Button
+                  onClick={() => router.push("/offers")}
+                  size="sm"
                   variant="outline"
                 >
                   Start shopping with Mint!
@@ -284,19 +286,28 @@ export default function UserPage() {
               </div>
             ) : (
               <div className="space-y-3">
-                {recentTransactions.map(transaction => {
-                  const earnedAmount = transaction.total_commission * 
+                {recentTransactions.map((transaction) => {
+                  const earnedAmount =
+                    transaction.total_commission *
                     (transaction.user_commission_reward_pct / 100);
-                    
+
                   return (
-                    <div key={transaction.id} className="flex items-center justify-between p-2 text-sm border-b last:border-b-0">
+                    <div
+                      key={transaction.id}
+                      className="flex items-center justify-between p-3 text-sm border rounded-lg"
+                    >
                       <div>
-                        <p className="font-medium">{transaction.advertiser.name}</p>
+                        <p className="font-medium">
+                          {transaction.advertiser.name}
+                        </p>
                         <p className="text-xs text-muted-foreground">
-                          {format(new Date(transaction.created_at), "MMM d, yyyy")}
+                          {format(
+                            new Date(transaction.created_at),
+                            "MMM d, yyyy"
+                          )}
                         </p>
                       </div>
-                      <p className="font-medium text-green-600">
+                      <p className="font-bold text-green-600">
                         +{currency?.symbol || "$"}
                         {earnedAmount.toFixed(2)}
                       </p>

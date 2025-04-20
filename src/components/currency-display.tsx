@@ -6,7 +6,7 @@ export function CurrencyDisplay() {
   const { currency, loading } = useCurrency();
 
   if (loading) {
-    return <div className="animate-pulse h-6 w-24 bg-gray-200 rounded"></div>;
+    return <div className="w-24 h-6 bg-gray-200 rounded animate-pulse"></div>;
   }
 
   return (
@@ -17,4 +17,4 @@ export function CurrencyDisplay() {
       </span>
     </div>
   );
-} 
+}
