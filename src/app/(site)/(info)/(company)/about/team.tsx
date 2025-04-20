@@ -9,12 +9,12 @@ const team = [
     role: "University of Chicago",
   },
   {
-    name: "Ashwin Balaraman",
-    role: "University of Chicago",
-  },
-  {
     name: "Stelios Papapanagiotou",
     role: "Bentley University",
+  },
+  {
+    name: "Ashwin Balaraman",
+    role: "University of Chicago",
   },
 ];
 
