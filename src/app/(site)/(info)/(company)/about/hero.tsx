@@ -22,7 +22,7 @@ export function Hero() {
         <BlurFade delay={0.35}>
           <p className="max-w-3xl mx-auto text-2xl font-bold text-white">
             Billions are earned from your purchases — but too often, you're left
-            out of the loop. We built Mint to flip the script. No points. No
+            out of the loop. Mint was built to flip the script. No points. No
             confusion. Just real cashback, made refreshingly simple.
           </p>
         </BlurFade>

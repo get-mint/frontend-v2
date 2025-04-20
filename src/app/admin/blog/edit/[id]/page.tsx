@@ -203,7 +203,7 @@ export default function EditBlogPage() {
 
   return (
     <div>
-      <div className="flex p-4">
+      <div className="flex p-4 gap-2">
         <Button variant="outline" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="w-4 h-4" />
         </Button>
