@@ -1,21 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { format } from "date-fns";
 
 import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
+import { useCurrency } from "@/lib/providers/currency-provider";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { CurrencySelect } from "@/components/currency-select";
 
 import {
   Pagination,
@@ -27,13 +21,6 @@ import {
 } from "@/components/ui/pagination";
 
 const ITEMS_PER_PAGE = 10;
-
-type Currency = {
-  id: string;
-  acronym: string;
-  name: string;
-  symbol: string;
-};
 
 type Transaction = {
   id: string;
@@ -53,41 +40,25 @@ type Transaction = {
 
 export default function ActivityPage() {
   const { user } = useAuth();
+  const { currency, loading: currencyLoading } = useCurrency();
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [currencies, setCurrencies] = useState<Currency[]>([]);
-  const [selectedCurrency, setSelectedCurrency] = useState<string>("");
-
-  // Fetch currencies
-  useEffect(() => {
-    async function fetchCurrencies() {
-      const supabase = createClient();
-      const { data } = await supabase.from("currencies").select("*");
-      if (data) {
-        setCurrencies(data);
-        const usd = data.find((c) => c.acronym === "USD");
-        if (usd) {
-          setSelectedCurrency(usd.id);
-        }
-      }
-    }
-    fetchCurrencies();
-  }, []);
 
   useEffect(() => {
     async function fetchTransactions() {
-      if (!user?.user_id || !selectedCurrency) return;
+      if (!user?.user_id || !currency?.id) return;
 
+      setLoading(true);
       const supabase = createClient();
 
       const { count } = await supabase
         .from("user_transactions")
         .select("*", { count: "exact", head: true })
         .eq("user_id", user.user_id)
-        .eq("currency_id", selectedCurrency);
+        .eq("currency_id", currency.id);
 
       setTotalPages(Math.ceil((count || 0) / ITEMS_PER_PAGE));
 
@@ -100,7 +71,7 @@ export default function ActivityPage() {
         `
         )
         .eq("user_id", user.user_id)
-        .eq("currency_id", selectedCurrency)
+        .eq("currency_id", currency.id)
         .order("created_at", { ascending: false })
         .range(
           (currentPage - 1) * ITEMS_PER_PAGE,
@@ -111,8 +82,10 @@ export default function ActivityPage() {
       setLoading(false);
     }
 
-    fetchTransactions();
-  }, [user?.user_id, currentPage, selectedCurrency]);
+    if (currency) {
+      fetchTransactions();
+    }
+  }, [user?.user_id, currentPage, currency]);
 
   const getStatusVariant = (status: Transaction["transaction_status"]) => {
     switch (status) {
@@ -131,25 +104,12 @@ export default function ActivityPage() {
     }
   };
 
-  const selectedCurrencyData = currencies.find(
-    (c) => c.id === selectedCurrency
-  );
+  const isLoading = loading || currencyLoading;
 
   return (
     <div className="space-y-6">
       <div className="flex justify-end">
-        <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select currency" />
-          </SelectTrigger>
-          <SelectContent>
-            {currencies.map((currency) => (
-              <SelectItem key={currency.id} value={currency.id}>
-                {currency.acronym} - {currency.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <CurrencySelect triggerClassName="w-[180px]" />
       </div>
 
       <Card>
@@ -157,7 +117,7 @@ export default function ActivityPage() {
           <CardTitle>Transaction History</CardTitle>
         </CardHeader>
         <CardContent>
-          {loading ? (
+          {isLoading ? (
             <div className="space-y-4">
               {[...Array(3)].map((_, i) => (
                 <div
@@ -204,11 +164,11 @@ export default function ActivityPage() {
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-green-600">
-                        +{selectedCurrencyData?.symbol || "$"}
+                        +{currency?.symbol || "$"}
                         {earnedAmount.toFixed(2)}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        {selectedCurrencyData?.symbol || "$"}
+                        {currency?.symbol || "$"}
                         {transaction.sale_amount.toFixed(2)} purchase
                       </p>
                       <Badge
