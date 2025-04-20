@@ -11,7 +11,7 @@ export function Story() {
           <TextAnimate
             animation="slideUp"
             by="word"
-            className="mb-4 text-3xl font-bold sm:text-4xl"
+            className="mb-3 text-3xl font-bold sm:text-4xl"
             delay={0.15}
             once
           >
@@ -19,7 +19,7 @@ export function Story() {
           </TextAnimate>
 
           <BlurFade delay={0.25} inView>
-            <p className="max-w-2xl mx-auto mt-12 text-lg text-gray-600">
+            <p className="max-w-2xl mx-auto mt-12 text-xl">
               We weren't looking to reinvent affiliate marketing — we were just
               trying to get our own cashback to work. But what we found instead
               was a system full of delays, vague points, and platforms that felt
