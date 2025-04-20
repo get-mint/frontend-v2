@@ -11,13 +11,11 @@ import { CurrencySelect } from "@/components/currency-select";
 const items = [
   { href: "/user", label: "Dashboard", icon: LayoutDashboard },
   { href: "/user/activity", label: "Activity", icon: History },
-  { href: "/user/account", label: "Account", icon: User },
 ];
 
 const pageTitles: Record<string, string> = {
   "/user": "Dashboard",
   "/user/activity": "Activity",
-  "/user/account": "Account",
 };
 
 export default function UserLayout({

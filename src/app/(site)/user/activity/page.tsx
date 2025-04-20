@@ -53,7 +53,7 @@ type Transaction = {
   created_at: string;
   sale_amount: number;
   total_commission: number;
-  transaction_status: typeof TRANSACTION_STATUSES[number];
+  transaction_status: (typeof TRANSACTION_STATUSES)[number];
   advertiser_id: string;
   network_id: string;
   user_commission_reward_pct: number;
@@ -137,7 +137,7 @@ const TransactionItem = ({
     <Collapsible
       open={isExpanded}
       onOpenChange={toggleExpand}
-      className="border rounded-lg overflow-hidden transition-colors"
+      className="overflow-hidden transition-colors border rounded-lg"
     >
       <div className="p-4 sm:p-5">
         <div className="flex flex-col w-full gap-4 sm:flex-row">
@@ -155,7 +155,7 @@ const TransactionItem = ({
               </div>
             )}
           </div>
-          
+
           {/* Content Section */}
           <div className="flex-1">
             <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
@@ -169,7 +169,7 @@ const TransactionItem = ({
                     {earnedAmount.toFixed(2)}
                   </p>
                 </div>
-                
+
                 <div className="flex flex-wrap mt-1 text-sm gap-x-4 gap-y-1 text-muted-foreground">
                   <p>
                     {format(new Date(transaction.created_at), "MMM d, yyyy")}
@@ -180,7 +180,7 @@ const TransactionItem = ({
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-2 mt-1 sm:mt-0">
                 <div className="flex items-center gap-1.5">
                   <StatusIcon status={transaction.transaction_status} />
@@ -191,7 +191,7 @@ const TransactionItem = ({
                     {transaction.transaction_status.toUpperCase()}
                   </Badge>
                 </div>
-                
+
                 <CollapsibleTrigger asChild>
                   <Button
                     variant="ghost"
@@ -207,7 +207,7 @@ const TransactionItem = ({
                 </CollapsibleTrigger>
               </div>
             </div>
-            
+
             {getApprovalEstimate(transaction.transaction_status) && (
               <p className="text-xs text-muted-foreground mt-1.5">
                 <Clock className="inline-block w-3 h-3 mr-1" />
@@ -217,7 +217,7 @@ const TransactionItem = ({
           </div>
         </div>
       </div>
-      
+
       <CollapsibleContent>
         <div className="px-4 pt-1 pb-4 space-y-3 border-t sm:px-5 bg-background/50">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -241,7 +241,7 @@ const TransactionItem = ({
                 </p>
               </div>
             </div>
-            
+
             <div>
               <h4 className="mb-1 text-sm font-medium">Network Information</h4>
               <div className="space-y-1 text-sm">
@@ -264,7 +264,7 @@ const TransactionItem = ({
               </div>
             </div>
           </div>
-          
+
           {transaction.transaction_status === "pending" && (
             <div className="text-right">
               <Button
@@ -307,7 +307,7 @@ const TransactionFilters = ({
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-      
+
       <Select value={statusFilter} onValueChange={setStatusFilter}>
         <SelectTrigger className="w-full md:w-[160px]">
           <SelectValue placeholder="Filter by status" />
@@ -315,7 +315,11 @@ const TransactionFilters = ({
         <SelectContent>
           <SelectItem value="all">All Statuses</SelectItem>
           {TRANSACTION_STATUSES.map((status) => (
-            <SelectItem key={status} value={status} className="flex items-center gap-2">
+            <SelectItem
+              key={status}
+              value={status}
+              className="flex items-center gap-2"
+            >
               <div className="flex items-center gap-2">
                 <StatusIcon status={status} />
                 {status.charAt(0).toUpperCase() + status.slice(1)}
