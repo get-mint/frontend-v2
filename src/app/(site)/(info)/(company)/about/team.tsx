@@ -21,12 +21,12 @@ const team = [
 export function Team() {
   return (
     <div className="py-24 bg-white">
-      <div className="container px-4 mx-auto">
-        <div className="mb-16 text-center">
+      <div className="container px-6 mx-auto">
+        <div className="text-center">
           <TextAnimate
             animation="slideUp"
             by="word"
-            className="mb-4 text-3xl font-bold sm:text-4xl"
+            className="text-3xl font-bold sm:text-4xl"
             delay={0.15}
             once
           >
@@ -34,7 +34,7 @@ export function Team() {
           </TextAnimate>
 
           <BlurFade delay={0.25} inView>
-            <div className="grid max-w-5xl grid-cols-1 gap-6 mx-auto mt-16 md:grid-cols-3">
+            <div className="grid max-w-5xl grid-cols-1 gap-6 mx-auto mt-10 md:grid-cols-3">
               {team.map((member) => (
                 <div
                   key={member.name}

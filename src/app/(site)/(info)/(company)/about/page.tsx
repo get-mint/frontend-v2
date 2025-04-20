@@ -4,7 +4,6 @@ import { Hero } from "./hero";
 import { Story } from "./story";
 import { Team } from "./team";
 import { Principles } from "./principles";
-import { Vision } from "./vision";
 
 export default function About() {
   return (
@@ -13,7 +12,6 @@ export default function About() {
       <Story />
       <Principles />
       <Team />
-      <Vision />
     </>
   );
 }
