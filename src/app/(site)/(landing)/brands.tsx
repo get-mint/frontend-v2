@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
-import BrandsClient from "../brands/brands";
+import Brands from "../brands/brands";
 
 export function Brands() {
   return (
@@ -25,7 +25,7 @@ export function Brands() {
           </BlurFade>
         </div>
 
-        <BrandsClient />
+        <Brands />
 
         <div className="text-center mt-8">
           <Link 

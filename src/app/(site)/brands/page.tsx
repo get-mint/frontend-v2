@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import { TextAnimate } from "@/components/magicui/text-animate";
 
-import BrandsClient from "./brands";
+import { Brands } from "./brands";
 
 export const metadata: Metadata = {
   title: "Brands | Mint Cashback",
@@ -52,14 +52,14 @@ export default function BrandsPage() {
           animation="blurIn"
           by="line"
           delay={0.35}
-          className="mb-12 text-xl font-medium text-center"
+          className="mb-6 text-xl font-medium text-center"
           startOnView={false}
         >
           Tap into the best cashback offers for you on all of your favorite
           brands
         </TextAnimate>
 
-        <BrandsClient />
+        <Brands />
       </div>
     </div>
   );

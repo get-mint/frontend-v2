@@ -2,21 +2,39 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
+import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils/tailwind";
 import { createClient } from "@/lib/supabase/client";
 
 import { BlurFade } from "@/components/magicui/blur-fade";
+import { Input } from "@/components/ui/input";
 
 const ITEMS_PER_PAGE = 12;
 
-export default function BrandsClient() {
+export function Brands() {
   const [brands, setBrands] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [page, setPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const observer = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    setBrands([]);
+    setPage(0);
+    fetchBrands(0);
+  }, [debouncedSearch]);
 
   const fetchBrands = async (pageNumber: number) => {
     setLoading(true);
@@ -31,6 +49,10 @@ export default function BrandsClient() {
       .select("*", { count: "exact" })
       .order("priority", { ascending: true })
       .eq("active", true);
+
+    if (debouncedSearch) {
+      query = query.ilike("name", `%${debouncedSearch}%`);
+    }
 
     const { data, count, error } = await query
       .range(start, end)
@@ -78,41 +100,57 @@ export default function BrandsClient() {
   );
 
   return (
-    <div className="grid grid-cols-2 gap-4 mb-6 md:grid-cols-4">
-      {brands.map((brand, index) => {
-        const isLastElement = index === brands.length - 1;
+    <>
+      <BlurFade inView delay={0.4} className="relative w-full max-w-md mb-8">
+        <Search className="absolute w-5 h-5 -translate-y-1/2 text-muted-foreground left-4 top-1/2" />
+        <Input
+          placeholder="Search for a brand"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full max-w-md px-12 py-6 rounded-full"
+        />
+      </BlurFade>
 
-        return (
-          <div
-            ref={isLastElement ? lastBrandElementRef : null}
-            key={`${brand.id}-${index}`}
-          >
-            <BlurFade delay={0.1 * (index % 4)} inView>
-              <Link href={`/brands/${brand.slug}`}>
-                <div
-                  className={cn(
-                    "p-8 rounded-3xl hover:scale-102 transition-all",
-                    !brand.brand_hex_color && "border"
-                  )}
-                  style={
-                    brand.brand_hex_color
-                      ? { backgroundColor: brand.brand_hex_color }
-                      : undefined
-                  }
-                >
-                  <img
-                    src={brand.image_url || "/images/placeholder.svg"}
-                    alt={brand.name}
-                    width={512}
-                    height={512}
-                    className="object-contain w-full aspect-video"
-                  />
-                </div>
-              </Link>
-            </BlurFade>
-          </div>
-        );
-      })}
-    </div>
+      {loading && brands.length === 0 ? null : brands.length === 0 ? (
+        <div className="flex justify-center py-8">No brands found</div>
+      ) : (
+        <div className="grid grid-cols-2 gap-4 mb-6 md:grid-cols-4">
+          {brands.map((brand, index) => {
+            const isLastElement = index === brands.length - 1;
+
+            return (
+              <div
+                ref={isLastElement ? lastBrandElementRef : null}
+                key={`${brand.id}-${index}`}
+              >
+                <BlurFade delay={0.1 * (index % 4)} inView>
+                  <Link href={`/brands/${brand.slug}`}>
+                    <div
+                      className={cn(
+                        "p-8 rounded-3xl hover:scale-102 transition-all",
+                        !brand.brand_hex_color && "border"
+                      )}
+                      style={
+                        brand.brand_hex_color
+                          ? { backgroundColor: brand.brand_hex_color }
+                          : undefined
+                      }
+                    >
+                      <img
+                        src={brand.image_url || "/images/placeholder.svg"}
+                        alt={brand.name}
+                        width={512}
+                        height={512}
+                        className="object-contain w-full aspect-video"
+                      />
+                    </div>
+                  </Link>
+                </BlurFade>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 }
