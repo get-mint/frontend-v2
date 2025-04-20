@@ -4,6 +4,7 @@ import { Figtree } from "next/font/google";
 
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { AuthProvider } from "@/lib/providers/auth-provider";
+import { CurrencyProvider } from "@/lib/providers/currency-provider";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -88,19 +89,21 @@ export default function Layout({
 
       <body className={`${figtree.className} antialiased`}>
         <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            forcedTheme="light"
-            disableTransitionOnChange
-            storageKey="theme-preference"
-          >
-            <main>
-              <Toaster position="top-center" />
+          <CurrencyProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              forcedTheme="light"
+              disableTransitionOnChange
+              storageKey="theme-preference"
+            >
+              <main>
+                <Toaster position="top-center" />
 
-              {children}
-            </main>
-          </ThemeProvider>
+                {children}
+              </main>
+            </ThemeProvider>
+          </CurrencyProvider>
         </AuthProvider>
       </body>
     </html>

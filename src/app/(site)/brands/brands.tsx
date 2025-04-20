@@ -2,13 +2,17 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
+
 import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils/tailwind";
 import { createClient } from "@/lib/supabase/client";
 
+import { Tables } from "@/types/supabase";
+
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { Input } from "@/components/ui/input";
+import { CurrencySelect } from "@/components/currency-select";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -19,6 +23,7 @@ export function Brands() {
   const [page, setPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [currency, setCurrency] = useState<Tables<"currencies"> | null>(null);
 
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -34,7 +39,7 @@ export function Brands() {
     setBrands([]);
     setPage(0);
     fetchBrands(0);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, currency]);
 
   const fetchBrands = async (pageNumber: number) => {
     setLoading(true);
@@ -46,12 +51,16 @@ export function Brands() {
 
     let query = supabase
       .from("advertisers")
-      .select("*", { count: "exact" })
+      .select("*, advertiser_currencies!inner(*)", { count: "exact" })
       .order("priority", { ascending: true })
       .eq("active", true);
 
     if (debouncedSearch) {
       query = query.ilike("name", `%${debouncedSearch}%`);
+    }
+
+    if (currency) {
+      query = query.eq("advertiser_currencies.currency_id", currency.id);
     }
 
     const { data, count, error } = await query
@@ -65,10 +74,22 @@ export function Brands() {
     }
 
     if (data) {
+      const uniqueBrands = Array.from(
+        new Map(data.map((item) => [item.id, item])).values()
+      );
+
       if (pageNumber === 0) {
-        setBrands(data);
+        setBrands(uniqueBrands);
       } else {
-        setBrands((prevBrands) => [...prevBrands, ...data]);
+        setBrands((prevBrands) => {
+          const newBrands = [...prevBrands];
+          uniqueBrands.forEach((brand) => {
+            if (!newBrands.some((b) => b.id === brand.id)) {
+              newBrands.push(brand);
+            }
+          });
+          return newBrands;
+        });
       }
 
       const totalPages = Math.ceil((count || 0) / ITEMS_PER_PAGE);
@@ -101,13 +122,21 @@ export function Brands() {
 
   return (
     <>
-      <BlurFade inView delay={0.4} className="relative w-full max-w-md mb-8">
-        <Search className="absolute w-5 h-5 -translate-y-1/2 text-muted-foreground left-4 top-1/2" />
-        <Input
-          placeholder="Search for a brand"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full max-w-md px-12 py-6 rounded-full"
+      <BlurFade inView delay={0.4} className="flex items-center gap-3 mb-8">
+        <div className="relative flex-grow w-full">
+          <Search className="absolute w-5 h-5 -translate-y-1/2 text-muted-foreground left-4 top-1/2" />
+          <Input
+            placeholder="Search for a brand"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-12 py-6 rounded-full"
+          />
+        </div>
+
+        <CurrencySelect
+          currency={currency}
+          setCurrency={setCurrency}
+          triggerClassName="w-80 py-6 px-6 rounded-full"
         />
       </BlurFade>
 
