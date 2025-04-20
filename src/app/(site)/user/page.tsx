@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { Balance } from "./balance";
 
 type Currency = {
@@ -88,7 +89,7 @@ export default function UserPage() {
     <div className="space-y-6">
       <Balance />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Total Earnings</CardTitle>
@@ -96,7 +97,7 @@ export default function UserPage() {
           <CardContent>
             <div className="flex items-center justify-between">
               {loading ? (
-                <div className="h-8 w-24 animate-pulse bg-muted rounded" />
+                <div className="w-24 h-8 rounded animate-pulse bg-muted" />
               ) : (
                 <p className="text-3xl font-bold">
                   {selectedCurrencyData?.symbol || "$"}
@@ -113,7 +114,7 @@ export default function UserPage() {
           </CardHeader>
           <CardContent>
             {loading ? (
-              <div className="h-8 w-24 animate-pulse bg-muted rounded" />
+              <div className="w-24 h-8 rounded animate-pulse bg-muted" />
             ) : (
               <p className="text-3xl font-bold">{stats.transactionCount}</p>
             )}

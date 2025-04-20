@@ -103,6 +103,102 @@ export type Database = {
           },
         ]
       }
+      affiliate_codes: {
+        Row: {
+          affiliate_id: string
+          code: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          affiliate_id: string
+          code: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          affiliate_id?: string
+          code?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_codes_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliate_reward_stages: {
+        Row: {
+          affiliate_id: string
+          created_at: string
+          id: string
+          month: number
+          reward_pct: number
+        }
+        Insert: {
+          affiliate_id: string
+          created_at?: string
+          id?: string
+          month?: number
+          reward_pct?: number
+        }
+        Update: {
+          affiliate_id?: string
+          created_at?: string
+          id?: string
+          month?: number
+          reward_pct?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_reward_stages_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliates: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliates_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       blog_post_related_blog_posts: {
         Row: {
           blog_post_id: string
@@ -344,46 +440,52 @@ export type Database = {
       user_transactions: {
         Row: {
           advertiser_id: string
+          affiliate_pct: number | null
           created_at: string
           currency_id: string
           id: string
           metadata: Json | null
           network_id: string
+          referred_by_affiliate_id: string | null
           sale_amount: number
           total_commission: number
           tracking_id: string
           transaction_status: Database["public"]["Enums"]["transaction_status"]
-          updated_at: string | null
+          updated_at: string
           user_commission_reward_pct: number
           user_id: string | null
         }
         Insert: {
           advertiser_id: string
+          affiliate_pct?: number | null
           created_at?: string
           currency_id: string
           id?: string
           metadata?: Json | null
           network_id: string
+          referred_by_affiliate_id?: string | null
           sale_amount: number
           total_commission?: number
           tracking_id: string
           transaction_status?: Database["public"]["Enums"]["transaction_status"]
-          updated_at?: string | null
+          updated_at?: string
           user_commission_reward_pct?: number
           user_id?: string | null
         }
         Update: {
           advertiser_id?: string
+          affiliate_pct?: number | null
           created_at?: string
           currency_id?: string
           id?: string
           metadata?: Json | null
           network_id?: string
+          referred_by_affiliate_id?: string | null
           sale_amount?: number
           total_commission?: number
           tracking_id?: string
           transaction_status?: Database["public"]["Enums"]["transaction_status"]
-          updated_at?: string | null
+          updated_at?: string
           user_commission_reward_pct?: number
           user_id?: string | null
         }
@@ -410,6 +512,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "user_transactions_referred_by_affiliate_id_fkey"
+            columns: ["referred_by_affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "user_transactions_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -421,20 +530,34 @@ export type Database = {
       users: {
         Row: {
           created_at: string
+          referral_updated_at: string | null
+          referred_by_code: string | null
           tracking_id: string
           user_id: string | null
         }
         Insert: {
           created_at?: string
+          referral_updated_at?: string | null
+          referred_by_code?: string | null
           tracking_id: string
           user_id?: string | null
         }
         Update: {
           created_at?: string
+          referral_updated_at?: string | null
+          referred_by_code?: string | null
           tracking_id?: string
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "users_referred_by_code_fkey"
+            columns: ["referred_by_code"]
+            isOneToOne: false
+            referencedRelation: "affiliate_codes"
+            referencedColumns: ["code"]
+          },
+        ]
       }
     }
     Views: {
