@@ -28,33 +28,30 @@ const principles = [
 
 export function Principles() {
   return (
-    <div className="py-24 bg-gray-50">
+    <div className="py-24 bg-muted/45">
       <div className="container px-4 mx-auto">
-        <div className="mb-16 text-center">
+        <div className="text-center">
           <TextAnimate
             animation="slideUp"
-            by="word"
-            className="mb-4 text-3xl font-bold sm:text-4xl"
+            by="line"
+            className="mb-10 text-3xl font-bold sm:text-4xl"
             delay={0.15}
             once
           >
-            Our non-negotiables
+            Our Non-Negotiable Principles
           </TextAnimate>
 
           <BlurFade delay={0.25} inView>
-            <div className="grid max-w-4xl grid-cols-1 gap-6 mx-auto mt-16 md:grid-cols-2">
+            <div className="grid max-w-5xl grid-cols-1 gap-6 mx-auto md:grid-cols-2">
               {principles.map((principle) => (
                 <div
                   key={principle.title}
-                  className="bg-white rounded-[32px] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_4px_32px_rgba(0,0,0,0.08)] transition-shadow"
+                  className="p-8 bg-white shadow-md rounded-xl"
                 >
-                  <h3 className="mb-4 text-xl font-medium text-primary">
+                  <h3 className="mb-4 text-2xl font-bold text-primary">
                     {principle.title}
                   </h3>
-                  <div className="h-[1px] w-8 bg-primary/20 mb-4 mx-auto"></div>
-                  <p className="text-lg text-gray-600">
-                    {principle.description}
-                  </p>
+                  <p className="text-xl">{principle.description}</p>
                 </div>
               ))}
             </div>

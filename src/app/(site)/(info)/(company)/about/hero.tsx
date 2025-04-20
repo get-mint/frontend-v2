@@ -12,7 +12,7 @@ export function Hero() {
             animation="slideUp"
             by="word"
             className="text-white"
-            startOnView={true}
+            once
             delay={0.15}
           >
             Why does saving money online feel so broken?
@@ -21,9 +21,9 @@ export function Hero() {
 
         <BlurFade delay={0.35}>
           <p className="max-w-3xl mx-auto text-2xl font-bold text-white">
-            Billions are earned from your purchases — yet you rarely see a fair
-            share. We built Mint to change that. No points. No gimmicks. Just
-            real cashback, finally done right.
+            Billions are earned from your purchases — but too often, you're left
+            out of the loop. We built Mint to flip the script. No points. No
+            confusion. Just real cashback, made refreshingly simple.
           </p>
         </BlurFade>
       </div>
