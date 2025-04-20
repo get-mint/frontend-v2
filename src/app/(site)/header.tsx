@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import {
   MenuIcon,
@@ -32,6 +33,12 @@ const items = [
 export function Header() {
   const isMobile = useIsMobile();
   const { user, logOut } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logOut();
+    router.push("/auth/login");
+  };
 
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
@@ -98,7 +105,7 @@ export function Header() {
                   </DropdownMenuItem>
                   <DropdownMenuItem 
                     className="text-destructive focus:text-destructive flex items-center gap-2 cursor-pointer"
-                    onClick={() => logOut()}
+                    onClick={handleLogout}
                   >
                     <LogOut className="size-4" />
                     Log Out
