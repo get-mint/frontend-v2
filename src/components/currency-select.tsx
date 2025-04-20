@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-import { createClient } from "@/lib/supabase/client";
-
+import Image from "next/image";
+import { useCurrency } from "@/lib/providers/currency-provider";
 import { Tables } from "@/types/supabase";
+import { useState, useEffect } from "react";
 
 import {
   Select,
@@ -13,82 +12,105 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Image from "next/image";
 
 export function CurrencySelect({
-  currency,
-  setCurrency,
   triggerClassName,
   contentClassName,
+  allowAllCurrencies = false,
+  onCurrencyChange,
 }: {
-  currency: Tables<"currencies"> | null;
-  setCurrency: (currency: Tables<"currencies"> | null) => void;
   triggerClassName?: string;
   contentClassName?: string;
+  allowAllCurrencies?: boolean;
+  onCurrencyChange?: (currency: Tables<"currencies"> | null) => void;
 }) {
-  const [currencies, setCurrencies] = useState<Tables<"currencies">[]>([]);
+  const { currency, currencies, setCurrency, loading } = useCurrency();
+  const [selectedValue, setSelectedValue] = useState<string>(""); 
 
-  async function fetchCurrencies() {
-    const supabase = createClient();
-
-    const { data, error } = await supabase.from("currencies").select("*");
-
-    if (error) {
-      console.error(error);
-      return;
+  // Update the selected value when currency changes
+  useEffect(() => {
+    if (currency) {
+      setSelectedValue(currency.id.toString());
+    } else if (allowAllCurrencies) {
+      setSelectedValue("all_currencies");
     }
+  }, [currency, allowAllCurrencies]);
 
-    setCurrencies(data);
+  const handleCurrencyChange = (value: string) => {
+    setSelectedValue(value);
+    
+    if (value === "all_currencies") {
+      // Only set to null if allowAllCurrencies is true
+      if (allowAllCurrencies && onCurrencyChange) {
+        onCurrencyChange(null);
+      }
+    } else {
+      const selectedCurrency = currencies.find(
+        (c) => c.id.toString() === value
+      );
+      
+      if (selectedCurrency) {
+        // Update global currency if this is not just for filtering
+        if (!allowAllCurrencies) {
+          setCurrency(selectedCurrency);
+        }
+        
+        // Call the callback if provided
+        if (onCurrencyChange) {
+          onCurrencyChange(selectedCurrency);
+        }
+      }
+    }
+  };
+
+  if (loading) {
+    return <div className="animate-pulse h-10 w-40 bg-gray-200 rounded"></div>;
   }
 
-  useEffect(() => {
-    fetchCurrencies();
-  }, []);
+  // Find the selected currency object for display
+  const selectedCurrency = selectedValue === "all_currencies" 
+    ? null 
+    : currencies.find(c => c.id.toString() === selectedValue);
 
   return (
     <Select
-      value={currency?.id?.toString() || "all_currencies"}
-      onValueChange={(value) => {
-        if (value === "all_currencies") {
-          setCurrency(null);
-        } else {
-          const selectedCurrency = currencies.find(
-            (c) => c.id.toString() === value
-          );
-          setCurrency(selectedCurrency || null);
-        }
-      }}
+      value={selectedValue}
+      onValueChange={handleCurrencyChange}
     >
       <SelectTrigger className={triggerClassName}>
         <SelectValue placeholder="Select a currency">
-          {currency && (
+          {selectedValue === "all_currencies" ? (
+            "All Currencies"
+          ) : selectedCurrency ? (
             <div className="flex items-center gap-2">
               <Image
-                src={`/images/currencies/${currency.acronym.toLowerCase()}.webp`}
-                alt={currency.name}
+                src={`/images/currencies/${selectedCurrency.acronym.toLowerCase()}.webp`}
+                alt={selectedCurrency.name}
                 width={25}
                 height={20}
                 className="rounded-xs"
               />
-              {currency.name}
+              {selectedCurrency.name}
             </div>
-          )}
+          ) : null}
         </SelectValue>
       </SelectTrigger>
 
       <SelectContent className={contentClassName}>
-        <SelectItem value="all_currencies">All Currencies</SelectItem>
-        {currencies.map((currency) => (
-          <SelectItem key={currency.id} value={currency.id.toString()}>
+        {allowAllCurrencies && (
+          <SelectItem value="all_currencies">All Currencies</SelectItem>
+        )}
+        {currencies.map((curr) => (
+          <SelectItem key={curr.id} value={curr.id.toString()}>
             <div className="flex items-center gap-2">
               <Image
-                src={`/images/currencies/${currency.acronym.toLowerCase()}.webp`}
-                alt={currency.name}
+                src={`/images/currencies/${curr.acronym.toLowerCase()}.webp`}
+                alt={curr.name}
                 width={25}
                 height={20}
                 className="rounded-xs"
               />
-              {currency.name}
+              {curr.name}
             </div>
           </SelectItem>
         ))}

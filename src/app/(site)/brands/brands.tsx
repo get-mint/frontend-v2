@@ -23,7 +23,7 @@ export function Brands() {
   const [page, setPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [currency, setCurrency] = useState<Tables<"currencies"> | null>(null);
+  const [filterCurrency, setFilterCurrency] = useState<Tables<"currencies"> | null>(null);
 
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -39,7 +39,7 @@ export function Brands() {
     setBrands([]);
     setPage(0);
     fetchBrands(0);
-  }, [debouncedSearch, currency]);
+  }, [debouncedSearch, filterCurrency]);
 
   const fetchBrands = async (pageNumber: number) => {
     setLoading(true);
@@ -51,7 +51,7 @@ export function Brands() {
 
     let query = supabase
       .from("advertisers")
-      .select("*, advertiser_currencies!inner(*)", { count: "exact" })
+      .select("*", { count: "exact" })
       .order("priority", { ascending: true })
       .eq("active", true);
 
@@ -59,8 +59,8 @@ export function Brands() {
       query = query.ilike("name", `%${debouncedSearch}%`);
     }
 
-    if (currency) {
-      query = query.eq("advertiser_currencies.currency_id", currency.id);
+    if (filterCurrency) {
+      query = query.eq("currency_id", filterCurrency.id);
     }
 
     const { data, count, error } = await query
@@ -74,22 +74,11 @@ export function Brands() {
     }
 
     if (data) {
-      const uniqueBrands = Array.from(
-        new Map(data.map((item) => [item.id, item])).values()
-      );
-
+      // No need to de-duplicate since we're no longer joining
       if (pageNumber === 0) {
-        setBrands(uniqueBrands);
+        setBrands(data);
       } else {
-        setBrands((prevBrands) => {
-          const newBrands = [...prevBrands];
-          uniqueBrands.forEach((brand) => {
-            if (!newBrands.some((b) => b.id === brand.id)) {
-              newBrands.push(brand);
-            }
-          });
-          return newBrands;
-        });
+        setBrands((prevBrands) => [...prevBrands, ...data]);
       }
 
       const totalPages = Math.ceil((count || 0) / ITEMS_PER_PAGE);
@@ -134,8 +123,8 @@ export function Brands() {
         </div>
 
         <CurrencySelect
-          currency={currency}
-          setCurrency={setCurrency}
+          allowAllCurrencies={true}
+          onCurrencyChange={setFilterCurrency}
           triggerClassName="w-80 py-6 px-6 rounded-full"
         />
       </BlurFade>
