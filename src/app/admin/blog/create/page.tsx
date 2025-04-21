@@ -206,7 +206,11 @@ export default function CreateBlogPage() {
     const content = editor.getJSON();
     console.log(content.content);
 
-    const slug = title.toLowerCase().replace(/ /g, '-');
+    const slug = title.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '') // Remove any non-alphanumeric characters except spaces and hyphens
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+      .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
 
     const { data: newPost, error: newPostError } = await supabase
       .from('blog_posts')
