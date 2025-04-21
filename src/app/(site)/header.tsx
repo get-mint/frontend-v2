@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 import {
   MenuIcon,
@@ -10,6 +11,7 @@ import {
   ShirtIcon,
   BookIcon,
   LogOut,
+  HistoryIcon,
 } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
@@ -23,15 +25,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const items = [
+const nonAuthItems = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/about", label: "About", icon: BookIcon },
+  { href: "/brands", label: "Brands", icon: ShirtIcon },
+];
+
+const authItems = [
+  { href: "/user", label: "Account", icon: UserIcon },
+  { href: "/user/activity", label: "Activity", icon: HistoryIcon },
   { href: "/brands", label: "Brands", icon: ShirtIcon },
 ];
 
 export function Header() {
   const isMobile = useIsMobile();
   const { user, logOut } = useAuth();
+  const pathname = usePathname();
+
+  const items = user ? authItems : nonAuthItems;
 
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
@@ -63,7 +74,11 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="font-semibold transition-all hover:text-primary"
+                  className={`font-semibold transition-all ${
+                    pathname === item.href
+                      ? "text-primary"
+                      : "hover:text-primary"
+                  }`}
                 >
                   {item.label}
                 </Link>
@@ -89,19 +104,34 @@ export function Header() {
                     <UserIcon className="size-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-48 mr-4">
-                  <DropdownMenuItem asChild>
-                    <Link href="/user/account" className="flex items-center gap-2">
-                      <UserIcon className="size-4" />
-                      Account
+                <DropdownMenuContent className="w-40 mr-4">
+                  <DropdownMenuItem
+                    asChild
+                    className={`transition-all text-md cursor-point ${
+                      pathname === "/user" ? "bg-primary/10" : ""
+                    }`}
+                  >
+                    <Link href="/user" className="flex items-center gap-2">
+                      <UserIcon
+                        className={`size-4 ${
+                          pathname === "/user" ? "text-primary" : ""
+                        }`}
+                      />
+                      <span
+                        className={
+                          pathname === "/user" ? "text-primary font-medium" : ""
+                        }
+                      >
+                        Account
+                      </span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem 
-                    className="text-destructive focus:text-destructive flex items-center gap-2 cursor-pointer"
+                  <DropdownMenuItem
+                    className="flex items-center gap-2 transition-all cursor-pointer text-destructive focus:text-destructive text-md"
                     onClick={() => logOut()}
                   >
                     <LogOut className="size-4" />
-                    Log Out
+                    <span>Log Out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -114,16 +144,33 @@ export function Header() {
                     <MenuIcon className="size-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-32 mr-4">
+                <DropdownMenuContent className="w-40 mr-4">
                   {items.map((item) => (
                     <DropdownMenuItem
                       key={item.href}
                       asChild
-                      className="transition-all text-md cursor-point"
+                      className={`transition-all text-md cursor-point ${
+                        pathname === item.href ? "bg-primary/10" : ""
+                      }`}
                     >
-                      <Link href={item.href}>
-                        <item.icon className="size-5 text-primary" />
-                        {item.label}
+                      <Link
+                        href={item.href}
+                        className="flex items-center gap-2"
+                      >
+                        <item.icon
+                          className={`size-5 ${
+                            pathname === item.href ? "text-primary" : ""
+                          }`}
+                        />
+                        <span
+                          className={
+                            pathname === item.href
+                              ? "text-primary font-medium"
+                              : ""
+                          }
+                        >
+                          {item.label}
+                        </span>
                       </Link>
                     </DropdownMenuItem>
                   ))}
