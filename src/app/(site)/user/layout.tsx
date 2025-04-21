@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-import { CurrencySelect } from "@/components/currency-select";
+import { CurrencySelect } from "@/components/currency/currency-select";
 
 const pageTitles: Record<string, string> = {
   "/user": "Account",
