@@ -7,6 +7,7 @@ import { CurrencySelect } from "@/components/currency-select";
 const pageTitles: Record<string, string> = {
   "/user": "Account",
   "/user/activity": "Activity",
+  "/user/affiliate": "Refer & Earn",
 };
 
 export default function UserLayout({

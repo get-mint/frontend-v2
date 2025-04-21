@@ -12,6 +12,7 @@ import {
   BookIcon,
   LogOut,
   HistoryIcon,
+  HandCoinsIcon,
 } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
@@ -35,6 +36,8 @@ const authItems = [
   { href: "/user", label: "Account", icon: UserIcon },
   { href: "/user/activity", label: "Activity", icon: HistoryIcon },
   { href: "/brands", label: "Brands", icon: ShirtIcon },
+  { href: "/user/affiliate", label: "Refer & Earn", icon: HandCoinsIcon },
+
 ];
 
 export function Header() {
