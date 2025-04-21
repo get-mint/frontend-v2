@@ -1,24 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { createClient } from "@/lib/supabase/client";
+import { useCurrency } from "@/lib/providers/currency-provider";
+
 import { Tables } from "@/types/supabase";
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Loader } from "@/components/loader";
 
-interface AffiliateDashboardProps {
-  affiliate: Tables<"affiliates">;
+interface RewardStage extends Tables<"affiliate_reward_stages"> {
+  referral_count: number; // Added this to match updated database schema
 }
 
-export default function AffiliateDashboard({
+export default function Dashboard({
   affiliate,
-}: AffiliateDashboardProps) {
+}: {
+  affiliate: Tables<"affiliates">;
+}) {
+  const { currency } = useCurrency();
+
   const [referralCodes, setReferralCodes] = useState<
     Tables<"affiliate_codes">[]
   >([]);
-  const [rewardStages, setRewardStages] = useState<
-    Tables<"affiliate_reward_stages">[]
-  >([]);
+  const [rewardStages, setRewardStages] = useState<RewardStage[]>([]);
   const [balanceEntries, setBalanceEntries] = useState<
     Tables<"affiliate_balance_entries">[]
   >([]);
@@ -34,7 +41,6 @@ export default function AffiliateDashboard({
       const supabase = createClient();
 
       try {
-        // Fetch referral codes
         const { data: codesData, error: codesError } = await supabase
           .from("affiliate_codes")
           .select("*")
@@ -44,17 +50,15 @@ export default function AffiliateDashboard({
         if (codesError) throw codesError;
         setReferralCodes(codesData || []);
 
-        // Fetch reward stages
         const { data: stagesData, error: stagesError } = await supabase
           .from("affiliate_reward_stages")
           .select("*")
           .eq("affiliate_id", affiliate.id)
-          .order("month", { ascending: true });
+          .order("referral_count", { ascending: true });
 
         if (stagesError) throw stagesError;
-        setRewardStages(stagesData || []);
+        setRewardStages((stagesData as RewardStage[]) || []);
 
-        // Fetch balance entries
         const { data: entriesData, error: entriesError } = await supabase
           .from("affiliate_balance_entries")
           .select("*")
@@ -64,22 +68,26 @@ export default function AffiliateDashboard({
         if (entriesError) throw entriesError;
         setBalanceEntries(entriesData || []);
 
-        // Calculate total earnings
         const totalEarnings = entriesData
           ? entriesData.reduce((sum, entry) => sum + entry.amount, 0)
           : 0;
 
-        // Get current reward percentage (latest applicable one)
-        const currentRewardPct =
-          stagesData && stagesData.length > 0 ? stagesData[0].reward_pct : 0;
-
-        // Count referred users (done through RLS on Supabase)
         const { count, error: countError } = await supabase
           .from("users")
           .select("*", { count: "exact", head: true })
           .eq("referred_by_code", codesData?.[0]?.code || "");
 
         if (countError) throw countError;
+
+        let currentRewardPct = 0;
+        if (stagesData && stagesData.length > 0) {
+          const applicableStage = (stagesData as RewardStage[]).find(
+            (stage) => count !== null && count >= stage.referral_count
+          );
+          currentRewardPct = applicableStage
+            ? applicableStage.reward_pct
+            : (stagesData as RewardStage[])[0].reward_pct;
+        }
 
         setStats({
           referredUsers: count || 0,
@@ -96,137 +104,100 @@ export default function AffiliateDashboard({
     fetchAffiliateData();
   }, [affiliate.id]);
 
-  const copyReferralCode = (code: string) => {
-    navigator.clipboard.writeText(`mintcashback.com/refer?code=${code}`);
-    // Could add toast notification here
-  };
-
-  if (loading) {
-    return <div className="py-8 text-center">Loading affiliate data...</div>;
-  }
-
   const mainReferralCode =
     referralCodes.length > 0 ? referralCodes[0].code : "No code available";
 
-  return (
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currency?.acronym || "USD",
+    }).format(amount);
+  };
+
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="space-y-6">
-      {/* Profile Section */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex items-center gap-4">
-            {affiliate.avatar_url && (
-              <img
-                src={affiliate.avatar_url}
-                alt={affiliate.display_name}
-                className="object-cover w-16 h-16 rounded-full"
-              />
-            )}
-            <div>
-              <h2 className="text-xl font-semibold">
-                {affiliate.display_name}
-              </h2>
-              {affiliate.bio && (
-                <p className="mt-1 text-muted-foreground">{affiliate.bio}</p>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Referral Code Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Referral Link</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-2">
-            <input
-              type="text"
-              value={`mintcashback.com/refer?code=${mainReferralCode}`}
-              readOnly
-              className="flex-1 p-2 border rounded-md bg-accent"
-              aria-label="Your referral link"
-            />
-            <Button
-              onClick={() => copyReferralCode(mainReferralCode)}
-              variant="secondary"
-            >
-              Copy
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Stats Section */}
+      {/* Stats Section Moved to Top */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
-          <CardContent className="pt-6">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Referred Users
-            </h3>
-            <p className="mt-2 text-2xl font-bold">{stats.referredUsers}</p>
+          <CardHeader>
+            <CardTitle>Referred Users</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">{stats.referredUsers}</p>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="pt-6">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Total Earnings
-            </h3>
-            <p className="mt-2 text-2xl font-bold">
-              ${stats.totalEarnings.toFixed(2)}
+          <CardHeader>
+            <CardTitle>Total Earnings</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">
+              {formatCurrency(stats.totalEarnings)}
             </p>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="pt-6">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Current Reward %
-            </h3>
-            <p className="mt-2 text-2xl font-bold">{stats.currentRewardPct}%</p>
+          <CardHeader>
+            <CardTitle>Current Reward %</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">{stats.currentRewardPct}%</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Reward Schedule Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Reward Schedule</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {rewardStages.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-border">
-                <thead className="bg-muted">
-                  <tr>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-muted-foreground">
-                      Month
-                    </th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-muted-foreground">
-                      Reward %
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {rewardStages.map((stage) => (
-                    <tr key={stage.id}>
-                      <td className="px-6 py-4 text-sm whitespace-nowrap">
-                        {stage.month}
-                      </td>
-                      <td className="px-6 py-4 text-sm whitespace-nowrap">
-                        {stage.reward_pct}%
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+      {/* Profile and Referral Code in 2 columns */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Profile</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4">
+              {affiliate.avatar_url && (
+                <img
+                  src={affiliate.avatar_url}
+                  alt={affiliate.display_name}
+                  className="object-cover w-16 h-16 rounded-full"
+                />
+              )}
+              <div>
+                <h2 className="text-xl font-semibold">
+                  {affiliate.display_name}
+                </h2>
+                {affiliate.bio && (
+                  <p className="mt-1 text-muted-foreground">{affiliate.bio}</p>
+                )}
+              </div>
             </div>
-          ) : (
-            <p className="italic text-muted-foreground">
-              No reward stages configured
-            </p>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Your Referral Code</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={mainReferralCode}
+                readOnly
+                className="flex-1 p-2 border rounded-md bg-accent"
+                aria-label="Your referral code"
+              />
+              <Button
+                onClick={() => navigator.clipboard.writeText(mainReferralCode)}
+                variant="secondary"
+              >
+                Copy
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Earnings History */}
       <Card>
@@ -272,7 +243,7 @@ export default function AffiliateDashboard({
                           }
                         >
                           {entry.amount >= 0 ? "+" : ""}
-                          {entry.amount.toFixed(2)}
+                          {formatCurrency(entry.amount)}
                         </span>
                       </td>
                     </tr>

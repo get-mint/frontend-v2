@@ -9,7 +9,7 @@ import { Tables } from "@/types/supabase";
 import { Loader } from "@/components/loader";
 
 import { Onboarding } from "./onboarding";
-import AffiliateDashboard from "./dashboard";
+import Dashboard from "./dashboard";
 
 export default function UserAffiliatePage() {
   const { user } = useAuth();
@@ -52,7 +52,7 @@ export default function UserAffiliatePage() {
       {!affiliate ? (
         <Onboarding onSuccess={setAffiliate} />
       ) : (
-        <AffiliateDashboard affiliate={affiliate} />
+        <Dashboard affiliate={affiliate} />
       )}
     </>
   );
