@@ -122,7 +122,9 @@ export default function AffiliateDashboard({
               />
             )}
             <div>
-              <h2 className="text-xl font-semibold">{affiliate.display_name}</h2>
+              <h2 className="text-xl font-semibold">
+                {affiliate.display_name}
+              </h2>
               {affiliate.bio && (
                 <p className="mt-1 text-muted-foreground">{affiliate.bio}</p>
               )}
@@ -159,13 +161,17 @@ export default function AffiliateDashboard({
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
           <CardContent className="pt-6">
-            <h3 className="text-sm font-medium text-muted-foreground">Referred Users</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">
+              Referred Users
+            </h3>
             <p className="mt-2 text-2xl font-bold">{stats.referredUsers}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <h3 className="text-sm font-medium text-muted-foreground">Total Earnings</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">
+              Total Earnings
+            </h3>
             <p className="mt-2 text-2xl font-bold">
               ${stats.totalEarnings.toFixed(2)}
             </p>
@@ -192,10 +198,10 @@ export default function AffiliateDashboard({
               <table className="min-w-full divide-y divide-border">
                 <thead className="bg-muted">
                   <tr>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-muted-foreground uppercase">
+                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-muted-foreground">
                       Month
                     </th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-muted-foreground uppercase">
+                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-muted-foreground">
                       Reward %
                     </th>
                   </tr>
@@ -215,7 +221,9 @@ export default function AffiliateDashboard({
               </table>
             </div>
           ) : (
-            <p className="italic text-muted-foreground">No reward stages configured</p>
+            <p className="italic text-muted-foreground">
+              No reward stages configured
+            </p>
           )}
         </CardContent>
       </Card>
@@ -231,13 +239,13 @@ export default function AffiliateDashboard({
               <table className="min-w-full divide-y divide-border">
                 <thead className="bg-muted">
                   <tr>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-muted-foreground uppercase">
+                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-muted-foreground">
                       Date
                     </th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-muted-foreground uppercase">
+                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-muted-foreground">
                       Description
                     </th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-muted-foreground uppercase">
+                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-left uppercase text-muted-foreground">
                       Amount
                     </th>
                   </tr>
@@ -256,7 +264,13 @@ export default function AffiliateDashboard({
                           }`}
                       </td>
                       <td className="px-6 py-4 text-sm whitespace-nowrap">
-                        <span className={entry.amount >= 0 ? "text-primary" : "text-destructive"}>
+                        <span
+                          className={
+                            entry.amount >= 0
+                              ? "text-primary"
+                              : "text-destructive"
+                          }
+                        >
                           {entry.amount >= 0 ? "+" : ""}
                           {entry.amount.toFixed(2)}
                         </span>
@@ -267,7 +281,9 @@ export default function AffiliateDashboard({
               </table>
             </div>
           ) : (
-            <p className="italic text-muted-foreground">No earnings history yet</p>
+            <p className="italic text-muted-foreground">
+              No earnings history yet
+            </p>
           )}
         </CardContent>
       </Card>
