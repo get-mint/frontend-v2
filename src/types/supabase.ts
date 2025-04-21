@@ -103,6 +103,64 @@ export type Database = {
           },
         ]
       }
+      affiliate_balance_entries: {
+        Row: {
+          affiliate_id: string
+          amount: number
+          created_at: string
+          currency_id: string
+          id: string
+          note: string | null
+          transaction_id: string | null
+          type: Database["public"]["Enums"]["balance_entry_type"]
+          updated_balance: number
+        }
+        Insert: {
+          affiliate_id: string
+          amount?: number
+          created_at?: string
+          currency_id: string
+          id?: string
+          note?: string | null
+          transaction_id?: string | null
+          type: Database["public"]["Enums"]["balance_entry_type"]
+          updated_balance?: number
+        }
+        Update: {
+          affiliate_id?: string
+          amount?: number
+          created_at?: string
+          currency_id?: string
+          id?: string
+          note?: string | null
+          transaction_id?: string | null
+          type?: Database["public"]["Enums"]["balance_entry_type"]
+          updated_balance?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_balance_entries_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "affiliate_balance_entries_currency_id_fkey"
+            columns: ["currency_id"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "affiliate_balance_entries_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "user_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       affiliate_codes: {
         Row: {
           affiliate_id: string
@@ -517,6 +575,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "affiliates"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_transactions_tracking_id_fkey"
+            columns: ["tracking_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["tracking_id"]
           },
           {
             foreignKeyName: "user_transactions_user_id_fkey"
