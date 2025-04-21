@@ -33,7 +33,9 @@ export async function updateSession(request: NextRequest) {
   const previousPage = request.headers.get("referer") || "/";
 
   if (request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL("/user", request.url));
+    if (await isUserAuthenticated(supabase)) {
+      return NextResponse.redirect(new URL("/user", request.url));
+    }
   }
 
   if (request.nextUrl.pathname.startsWith("/admin")) {
