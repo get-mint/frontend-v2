@@ -35,7 +35,6 @@ const nonAuthItems = [
 const authItems = [
   { href: "/user", label: "Account", icon: UserIcon },
   { href: "/user/activity", label: "Activity", icon: HistoryIcon },
-  { href: "/brands", label: "Brands", icon: ShirtIcon },
   { href: "/user/affiliate", label: "Refer & Earn", icon: HandCoinsIcon },
 
 ];
