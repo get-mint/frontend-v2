@@ -47,7 +47,7 @@ export function Header() {
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
       <div className="container flex items-center justify-between h-16 px-6 mx-auto max-w-7xl">
-        <Link href="/" className="transition-all hover:opacity-90">
+        <Link href={`${user ? "/user" : "/"}`} className="transition-all hover:opacity-90">
           {isMobile ? (
             <Image
               src="/brand/mint.svg"
