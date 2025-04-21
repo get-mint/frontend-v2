@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { useCurrency } from "@/lib/providers/currency-provider";
-import { Tables } from "@/types/supabase";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+
+import { useCurrency } from "@/lib/providers/currency-provider";
+
+import { Tables } from "@/types/supabase";
 
 import {
   Select,
@@ -12,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function CurrencySelect({
   triggerClassName,
@@ -25,9 +28,8 @@ export function CurrencySelect({
   onCurrencyChange?: (currency: Tables<"currencies"> | null) => void;
 }) {
   const { currency, currencies, setCurrency, loading } = useCurrency();
-  const [selectedValue, setSelectedValue] = useState<string>(""); 
+  const [selectedValue, setSelectedValue] = useState<string>("");
 
-  // Update the selected value when currency changes
   useEffect(() => {
     if (currency) {
       setSelectedValue(currency.id.toString());
@@ -38,9 +40,8 @@ export function CurrencySelect({
 
   const handleCurrencyChange = (value: string) => {
     setSelectedValue(value);
-    
+
     if (value === "all_currencies") {
-      // Only set to null if allowAllCurrencies is true
       if (allowAllCurrencies && onCurrencyChange) {
         onCurrencyChange(null);
       }
@@ -48,14 +49,12 @@ export function CurrencySelect({
       const selectedCurrency = currencies.find(
         (c) => c.id.toString() === value
       );
-      
+
       if (selectedCurrency) {
-        // Update global currency if this is not just for filtering
         if (!allowAllCurrencies) {
           setCurrency(selectedCurrency);
         }
-        
-        // Call the callback if provided
+
         if (onCurrencyChange) {
           onCurrencyChange(selectedCurrency);
         }
@@ -63,20 +62,15 @@ export function CurrencySelect({
     }
   };
 
-  if (loading) {
-    return <div className="animate-pulse h-10 w-40 bg-gray-200 rounded"></div>;
-  }
+  const selectedCurrency =
+    selectedValue === "all_currencies"
+      ? null
+      : currencies.find((c) => c.id.toString() === selectedValue);
 
-  // Find the selected currency object for display
-  const selectedCurrency = selectedValue === "all_currencies" 
-    ? null 
-    : currencies.find(c => c.id.toString() === selectedValue);
-
-  return (
-    <Select
-      value={selectedValue}
-      onValueChange={handleCurrencyChange}
-    >
+  return loading ? (
+    <Skeleton className="w-40 h-10 rounded-xs"></Skeleton>
+  ) : (
+    <Select value={selectedValue} onValueChange={handleCurrencyChange}>
       <SelectTrigger className={triggerClassName}>
         <SelectValue placeholder="Select a currency">
           {selectedValue === "all_currencies" ? (
