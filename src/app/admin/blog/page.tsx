@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tables } from "@/types/supabase";
 import { createClient } from "@/lib/supabase/client";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function BlogPage() {
   const router = useRouter();
@@ -28,6 +29,19 @@ export default function BlogPage() {
     }
 
     setPosts(data);
+  };
+
+  const handleDeletePost = async (postId: string) => {
+    const supabase = createClient();
+
+    const { error } = await supabase.from("blog_posts").delete().eq("id", postId);
+
+    if (error) {
+      console.error(error);
+    } else {
+      toast.success("Post deleted successfully");
+      fetchPosts();
+    }
   };
 
   useEffect(() => {
@@ -64,12 +78,17 @@ export default function BlogPage() {
 
               <div className="space-y-1">
                 <h2 className="text-2xl font-bold">{post.title}</h2>
-                <p className="font-semibold text-md text-muted-foreground">
-                  {post.published_at &&
-                    new Date(post.published_at).toLocaleDateString()}
-                </p>
               </div>
             </Link>
+            <div className="flex items-center justify-between gap-2">
+              <p className="font-semibold text-md text-muted-foreground">
+                {post.published_at &&
+                  new Date(post.published_at).toLocaleDateString()}
+              </p>
+              <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600" onClick={() => handleDeletePost(post.id)}>
+                <Trash2Icon className="h-4 w-4" />
+              </Button>
+            </div>
           </BlurFade>
         ))}
       </div>
