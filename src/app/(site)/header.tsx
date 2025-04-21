@@ -36,20 +36,23 @@ const authItems = [
   { href: "/user", label: "Account", icon: UserIcon },
   { href: "/user/activity", label: "Activity", icon: HistoryIcon },
   { href: "/user/affiliate", label: "Refer & Earn", icon: HandCoinsIcon },
-
 ];
 
 export function Header() {
+  const pathname = usePathname();
+
   const isMobile = useIsMobile();
   const { user, logOut } = useAuth();
-  const pathname = usePathname();
 
   const items = user ? authItems : nonAuthItems;
 
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
       <div className="container flex items-center justify-between h-16 px-6 mx-auto max-w-7xl">
-        <Link href={`${user ? "/user" : "/"}`} className="transition-all hover:opacity-90">
+        <Link
+          href={`${user ? "/user" : "/"}`}
+          className="transition-all hover:opacity-90"
+        >
           {isMobile ? (
             <Image
               src="/brand/mint.svg"
@@ -100,43 +103,16 @@ export function Header() {
                 </Link>
               </>
             ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="icon" className="size-10">
-                    <UserIcon className="size-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-40 mr-4">
-                  <DropdownMenuItem
-                    asChild
-                    className={`transition-all text-md cursor-point ${
-                      pathname === "/user" ? "bg-primary/10" : ""
-                    }`}
-                  >
-                    <Link href="/user" className="flex items-center gap-2">
-                      <UserIcon
-                        className={`size-4 ${
-                          pathname === "/user" ? "text-primary" : ""
-                        }`}
-                      />
-                      <span
-                        className={
-                          pathname === "/user" ? "text-primary font-medium" : ""
-                        }
-                      >
-                        Account
-                      </span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="flex items-center gap-2 transition-all cursor-pointer text-destructive focus:text-destructive text-md"
-                    onClick={() => logOut()}
-                  >
-                    <LogOut className="size-4" />
-                    <span>Log Out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <>
+                <Button
+                  variant="destructive"
+                  onClick={() => logOut()}
+                  className="text-destructive"
+                >
+                  <LogOut />
+                  <span>Log Out</span>
+                </Button>
+              </>
             )}
 
             {isMobile && (
