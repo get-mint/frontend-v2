@@ -5,7 +5,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/react';
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";  
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input';
 import { createClient } from "@/lib/supabase/client";
@@ -148,7 +148,7 @@ export default function CreateBlogPage() {
   const [title, setTitle] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [relatedPosts, setRelatedPosts] = useState<string[]>([]);
+  const [relatedPosts, setRelatedPosts] = useState<number[]>([]);
   const [availablePosts, setAvailablePosts] = useState<Tables<"blog_posts">[]>([]);
   const [selectedValue, setSelectedValue] = useState<string>("");
 
@@ -172,13 +172,14 @@ export default function CreateBlogPage() {
   }, []);
 
   const handleRelatedPostSelect = (postId: string) => {
-    if (!relatedPosts.includes(postId)) {
-      setRelatedPosts(prev => [...prev, postId]);
+    const numericId = parseInt(postId, 10);
+    if (!isNaN(numericId) && !relatedPosts.includes(numericId)) {
+      setRelatedPosts(prev => [...prev, numericId]);
     }
     setSelectedValue(""); // Reset the select value
   };
 
-  const handleRemoveRelatedPost = (postId: string) => {
+  const handleRemoveRelatedPost = (postId: number) => {
     setRelatedPosts(prev => prev.filter(id => id !== postId));
   };
 
@@ -200,59 +201,66 @@ export default function CreateBlogPage() {
 
   const handleSubmit = async () => {
     if (!editor) return;
+    setIsLoading(true);
 
-    const supabase = createClient();
+    try {
+      const supabase = createClient();
+      const content = editor.getJSON();
+      
+      const slug = title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '') // Remove any non-alphanumeric characters except spaces and hyphens
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+        .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
 
-    const content = editor.getJSON();
-    console.log(content.content);
+      // Insert the blog post
+      const { data: newPost, error: newPostError } = await supabase
+        .from('blog_posts')
+        .insert({
+          title: title,
+          slug: slug,
+          body: content,
+        })
+        .select()
+        .single();
 
-    const slug = title.toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '') // Remove any non-alphanumeric characters except spaces and hyphens
-      .replace(/\s+/g, '-') // Replace spaces with hyphens
-      .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-      .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
-
-    const { data: newPost, error: newPostError } = await supabase
-      .from('blog_posts')
-      .insert({
-        title: title,
-        slug: slug,
-        content: content,
-        published: true,
-        published_at: new Date(),
-        created_at: new Date(),
-        image_url: uploadedImageUrl,
-      });
-
-    if (newPostError) {
-      console.error(newPostError);
-      return;
-    }
-
-    console.log(newPost);
-
-    if (relatedPosts.length > 0 && newPost) {
-      const { data, error } = await supabase
-        .from('blog_post_related_blog_posts')
-        .insert(
-          relatedPosts.map(postId => ({
-            related_blog_post_id: postId,
-            blog_post_id: (newPost as Tables<"blog_posts">).id,
-          }))
-        );
-
-      if (error) {
-        console.error(error);
+      if (newPostError) {
+        console.error(newPostError);
+        toast.error('Failed to create blog post');
+        return;
       }
-    }
 
-    router.push('/admin/blog');
+      // Handle related posts if we have any
+      if (relatedPosts.length > 0 && newPost) {
+        const { error } = await supabase
+          .from('blog_posts_categories')
+          .insert(
+            relatedPosts.map(postId => ({
+              blog_post_category_id: postId,
+              blog_post_id: newPost.id,
+            }))
+          );
+
+        if (error) {
+          console.error(error);
+          toast.error('Failed to add categories');
+        }
+      }
+
+      toast.success('Blog post created successfully');
+      router.push('/admin/blog');
+    } catch (error) {
+      console.error('Error creating blog post:', error);
+      toast.error('An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const handleSaveDraft = async () => {
-    if (!editor) return;
-
-    const supabase = createClient();
+    // Similar to handleSubmit but with draft status
+    // Implement if needed
+    toast.info('Draft saving not implemented yet');
   }
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -296,113 +304,121 @@ export default function CreateBlogPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-bold">Create Blog Post</h1>
+    <div>
+      <div className="p-4">
+        <h1 className="text-2xl font-bold">Create New Blog Post</h1>
       </div>
-      <div>
-        <Input
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            asChild
-            disabled={isUploading}
-          >
-            <label className="cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageUpload}
-              />
-              {isUploading ? 'Uploading...' : 'Upload Image'}
-            </label>
-          </Button>
-        </div>
-        {uploadedImageUrl && (
+      <div className="p-4">
+        <div className="flex flex-col gap-4">
           <div>
-            <div className="flex justify-center items-center w-full max-w-2xl">
-              <img
-                src={uploadedImageUrl}
-                alt="Blog post cover"
-                className="w-full h-auto rounded-lg object-cover"
-              />
-            </div>
-            <div className="flex p-2 pt-2">
+            <h2 className="text-sm font-semibold">Title</h2>
+            <Input
+              placeholder="Enter blog post title..."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="text-lg"
+            />
+          </div>
+          
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              asChild
+              disabled={isUploading}
+              size="sm"
+            >
+              <label className="cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
+                {isUploading ? 'Uploading...' : 'Upload Featured Image'}
+              </label>
+            </Button>
+          </div>
+          
+          {uploadedImageUrl && (
+            <div>
+              <div className="flex items-center justify-center w-full max-w-2xl">
+                <img
+                  src={uploadedImageUrl}
+                  alt="Blog post featured image"
+                  className="object-contain max-h-60"
+                />
+              </div>
               <Button
-                variant="destructive"
+                variant="outline"
                 size="sm"
-                className=""
+                className="mt-2"
                 onClick={() => setUploadedImageUrl(null)}
               >
-                Remove
+                Remove Image
               </Button>
             </div>
+          )}
+          
+          <div>
+            <h2 className="text-sm font-semibold">Related Posts (Categories)</h2>
+            <div className="flex flex-col gap-2">
+              <Select
+                value={selectedValue}
+                onValueChange={handleRelatedPostSelect}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availablePosts.map((post) => (
+                    <SelectItem key={post.id} value={post.id.toString()}>
+                      {post.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              {relatedPosts.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {relatedPosts.map((postId) => {
+                    const post = availablePosts.find((p) => p.id === postId);
+                    return (
+                      <div
+                        key={postId}
+                        className="flex items-center gap-1 px-2 py-1 bg-gray-100 rounded-md"
+                      >
+                        <span>{post?.title || `Post ${postId}`}</span>
+                        <button
+                          className="text-red-500"
+                          onClick={() => handleRemoveRelatedPost(postId)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Related Posts</label>
-        <Select value={selectedValue} onValueChange={handleRelatedPostSelect}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select related posts" />
-          </SelectTrigger>
-          <SelectContent>
-            {availablePosts.map((post) => (
-              <SelectItem key={post.id} value={post.id}>
-                {post.title}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {relatedPosts.length > 0 && (
-          <div className="mt-2">
-            <p className="text-sm text-muted-foreground">Selected posts:</p>
-            <ul className="mt-1 space-y-1">
-              {relatedPosts.map((postId) => {
-                const post = availablePosts.find(p => p.id === postId);
-                return post ? (
-                  <li key={postId} className="text-sm flex items-center justify-between">
-                    <span>{post.title}</span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 p-0"
-                      onClick={() => handleRemoveRelatedPost(postId)}
-                    >
-                      ×
-                    </Button>
-                  </li>
-                ) : null;
-              })}
-            </ul>
+          
+          <div>
+            <h2 className="text-sm font-semibold">Content</h2>
+            <div className="overflow-hidden border rounded-md">
+              <MenuBar editor={editor} />
+              <EditorContent editor={editor} />
+            </div>
           </div>
-        )}
-      </div>
-      <div className="border rounded-lg">
-        <div>
-          <MenuBar editor={editor} />
-          <EditorContent
-            editor={editor}
-            className="prose max-w-none min-h-[200px] p-4"
-          />
+          
+          <div className="flex gap-2">
+            <Button onClick={handleSubmit} disabled={isLoading}>
+              {isLoading ? 'Creating...' : 'Create Post'}
+            </Button>
+            <Button variant="outline" onClick={handleSaveDraft} disabled={isLoading}>
+              Save as Draft
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className="flex gap-4 flex-row justify-end p-4">
-        <PreviewDialog
-          title={title}
-          imageUrl={uploadedImageUrl}
-          content={editor?.getJSON() || { content: [] }}
-          relatedPosts={availablePosts.filter(post => relatedPosts.includes(post.id))}
-        />
-        <Button onClick={handleSaveDraft}>Save Draft</Button>
-        <Button onClick={handleSubmit}>Submit</Button>
       </div>
     </div>
   );
