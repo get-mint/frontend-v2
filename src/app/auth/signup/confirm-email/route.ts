@@ -5,22 +5,33 @@ import { sendFormattedMessage } from "@/lib/utils/discord";
 
 import { createHash } from "crypto";
 
-async function deleteAuthUserAndLog(userId: string, requestUrl: URL) {
-  const supabase = createAdminClient();
+// Helper to handle errors and redirects
+async function handleError(
+  userId: string | null,
+  requestUrl: URL,
+  channel: "auth" | "site",
+  severity: "info" | "success" | "warning" | "error" | "update",
+  title: string,
+  message: string,
+  fields: { name: string; value: string }[] = []
+) {
+  await sendFormattedMessage(channel, severity, title, message, fields);
 
-  const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
+  // Delete auth user if one was created
+  if (userId) {
+    const supabase = createAdminClient();
+    const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
 
-  await sendFormattedMessage(
-    "auth",
-    "error",
-    "Auth User Deleted After Database Failure",
-    `Deleted auth user ${userId}`,
-    [
-      ...(deleteError
-        ? [{ name: "Deletion Error", value: JSON.stringify(deleteError) }]
-        : []),
-    ]
-  );
+    if (deleteError) {
+      await sendFormattedMessage(
+        "auth",
+        "error",
+        "Auth User Deletion Failed",
+        `Failed to delete auth user ${userId}`,
+        [{ name: "Deletion Error", value: JSON.stringify(deleteError) }]
+      );
+    }
+  }
 
   return NextResponse.redirect(
     new URL("/auth/signup/confirmation-error", requestUrl.origin)
@@ -32,31 +43,31 @@ export async function GET(request: Request) {
   const token_hash = requestUrl.searchParams.get("token_hash");
   const type = requestUrl.searchParams.get("type") || "email";
 
+  // Validate token_hash exists
   if (!token_hash) {
-    await sendFormattedMessage(
+    return handleError(
+      null,
+      requestUrl,
       "auth",
       "warning",
       "Email Confirmation Failed",
       "Missing token_hash parameter in URL",
       [{ name: "URL", value: request.url }]
     );
-
-    return NextResponse.redirect(
-      new URL("/auth/signup/confirmation-error", requestUrl.origin)
-    );
   }
 
   const supabase = createAdminClient();
 
+  // Verify OTP
   const { data, error } = await supabase.auth.verifyOtp({
     token_hash,
     type: type as "email",
   });
 
-  const adminClient = createAdminClient();
-
   if (error || !data?.user?.id || !data.user.email) {
-    await sendFormattedMessage(
+    return handleError(
+      null,
+      requestUrl,
       "auth",
       "error",
       "Email Verification Failed",
@@ -66,10 +77,6 @@ export async function GET(request: Request) {
         { name: "Has User Data", value: Boolean(data?.user).toString() },
       ]
     );
-
-    return NextResponse.redirect(
-      new URL("/auth/signup/confirmation-error", requestUrl.origin)
-    );
   }
 
   const userId = data.user.id;
@@ -78,66 +85,29 @@ export async function GET(request: Request) {
     .update(email.toLowerCase())
     .digest("hex");
 
-  const { data: existingUser, error: selectError } = await adminClient
-    .from("users")
-    .select("*")
-    .eq("user_id", userId)
-    .maybeSingle();
+  const { error: dbError } = await supabase.from("users").upsert(
+    {
+      auth_user_id: userId,
+      tracking_id: trackingId,
+    },
+    {
+      onConflict: "auth_user_id",
+    }
+  );
 
-  if (selectError) {
-    await sendFormattedMessage(
+  if (dbError) {
+    return handleError(
+      userId,
+      requestUrl,
       "auth",
       "error",
-      "User Query Failed",
-      `Failed to query for existing user`,
+      "User Upsert Failed",
+      "Failed to save user data",
       [
         { name: "User ID", value: userId },
-        { name: "Error", value: JSON.stringify(selectError, null, 2) },
+        { name: "Error", value: JSON.stringify(dbError, null, 2) },
       ]
     );
-
-    return deleteAuthUserAndLog(userId, requestUrl);
-  }
-
-  if (existingUser) {
-    const { error: updateError } = await adminClient
-      .from("users")
-      .update({ tracking_id: trackingId })
-      .eq("user_id", userId);
-
-    if (updateError) {
-      await sendFormattedMessage(
-        "auth",
-        "error",
-        "User Update Failed",
-        `Failed to update existing user`,
-        [
-          { name: "User ID", value: userId },
-          { name: "Error", value: JSON.stringify(updateError, null, 2) },
-        ]
-      );
-
-      return deleteAuthUserAndLog(userId, requestUrl);
-    }
-  } else {
-    const { error: insertError } = await adminClient
-      .from("users")
-      .insert({ user_id: userId, tracking_id: trackingId });
-
-    if (insertError) {
-      await sendFormattedMessage(
-        "auth",
-        "error",
-        "User Insert Failed",
-        `Failed to insert new user`,
-        [
-          { name: "User ID", value: userId },
-          { name: "Error", value: JSON.stringify(insertError, null, 2) },
-        ]
-      );
-
-      return deleteAuthUserAndLog(userId, requestUrl);
-    }
   }
 
   await sendFormattedMessage(
