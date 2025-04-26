@@ -61,8 +61,8 @@ export function UsersTable({
           </TableHeader>
           <TableBody>
             {filteredUsers.map((user) => (
-              <TableRow key={user.user_id}>
-                <TableCell className="w-[100px]">{user.user_id}</TableCell>
+              <TableRow key={user.auth_user_id}>
+                <TableCell className="w-[100px]">{user.auth_user_id}</TableCell>
                 <TableCell className="w-[200px]">{user.email}</TableCell>
                 <TableCell className="w-[150px]">{user.tracking_id}</TableCell>
                 <TableCell className="w-[150px]">
@@ -78,7 +78,7 @@ export function UsersTable({
                 <TableCell className="w-[150px]">
                   <Button
                     variant={user.is_admin ? "destructive" : "default"}
-                    onClick={() => user.user_id && onToggleAdmin(user.user_id, user.is_admin)}
+                    onClick={() => user.auth_user_id && onToggleAdmin(user.auth_user_id, user.is_admin)}
                   >
                     {user.is_admin ? "Remove Admin" : "Make Admin"}
                   </Button>

@@ -20,7 +20,7 @@ import { AppearanceTab } from "./appearance-tab";
 import { FinancialTab } from "./financial-tab";
 import { AdvancedTab } from "./advanced-tab";
 
-export type Advertiser = Database["public"]["Tables"]["advertisers"]["Row"];
+export type Advertiser = Database["public"]["Tables"]["brands"]["Row"];
 
 export type Network = {
   id: string;
@@ -38,15 +38,19 @@ export const formSchema = z.object({
   domain: z.string().min(1, "Domain is required"),
   slug: z.string().min(1, "Slug is required"),
   description: z.string().optional(),
-  network_id: z.string().min(1, "Network is required"),
-  currency_id: z.string().min(1, "Currency is required"),
+  network_id: z.coerce.number().min(1, "Network is required"),
+  currency_id: z.coerce.number().min(1, "Currency is required"),
   image_url: z.string().url().optional().or(z.literal("")),
-  brand_hex_color: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
-    message: "Must be a valid hex color code (e.g. #FF0000)",
-  }).optional().or(z.literal("")),
-  up_to_pct: z.coerce.number().min(0).max(100).optional(),
-  priority: z.coerce.number().min(0).default(100),
-  active: z.boolean().default(true),
+  color: z
+    .string()
+    .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
+      message: "Must be a valid hex color code (e.g. #FF0000)",
+    })
+    .optional()
+    .or(z.literal("")),
+  max_pct_reward: z.coerce.number().min(0).max(100).optional(),
+  max_cashback_reward: z.coerce.number().min(0).optional(),
+  is_enabled: z.boolean().default(true),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
@@ -58,17 +62,17 @@ interface AdvertiserFormProps {
   currencies: Currency[];
 }
 
-export function AdvertiserForm({ 
-  advertiserId, 
-  advertiser, 
-  networks, 
-  currencies 
+export function AdvertiserForm({
+  advertiserId,
+  advertiser,
+  networks,
+  currencies,
 }: AdvertiserFormProps) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
   const [metadata, setMetadata] = useState<string>("");
   const supabase = createClient();
-  
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,32 +80,34 @@ export function AdvertiserForm({
       domain: "",
       slug: "",
       description: "",
-      network_id: "",
-      currency_id: "",
+      network_id: 0,
+      currency_id: 0,
       image_url: "",
-      brand_hex_color: "",
-      up_to_pct: undefined,
-      priority: 100,
-      active: true,
+      color: "",
+      max_pct_reward: undefined,
+      max_cashback_reward: undefined,
+      is_enabled: true,
     },
   });
 
   useEffect(() => {
     if (advertiser) {
-      setMetadata(advertiser.metadata ? JSON.stringify(advertiser.metadata, null, 2) : "");
-      
+      setMetadata(
+        advertiser.metadata ? JSON.stringify(advertiser.metadata, null, 2) : ""
+      );
+
       form.reset({
         name: advertiser.name,
         domain: advertiser.domain,
         slug: advertiser.slug,
         description: advertiser.description || "",
-        network_id: advertiser.network_id || "",
-        currency_id: advertiser.currency_id || "",
+        network_id: advertiser.network_id || 0,
+        currency_id: advertiser.currency_id || 0,
         image_url: advertiser.image_url || "",
-        brand_hex_color: advertiser.brand_hex_color || "",
-        up_to_pct: advertiser.up_to_pct || undefined,
-        priority: advertiser.priority || 100,
-        active: advertiser.active,
+        color: advertiser.color || "",
+        max_pct_reward: advertiser.max_pct_reward || undefined,
+        max_cashback_reward: advertiser.max_cashback_reward || undefined,
+        is_enabled: advertiser.is_enabled,
       });
     }
   }, [advertiser, form]);
@@ -116,13 +122,15 @@ export function AdvertiserForm({
         }
       } catch (e) {
         console.error("Invalid JSON in metadata:", e);
-        toast.error("The metadata contains invalid JSON. Please correct it before saving.");
+        toast.error(
+          "The metadata contains invalid JSON. Please correct it before saving."
+        );
         setIsSaving(false);
         return;
       }
 
       const { error } = await supabase
-        .from("advertisers")
+        .from("brands")
         .update({
           ...values,
           metadata: parsedMetadata,
@@ -130,41 +138,41 @@ export function AdvertiserForm({
         .eq("id", advertiserId);
 
       if (error) throw error;
-      
+
       // Send webhook notification to Discord
       try {
         await sendFormattedMessage(
           "site",
           "update",
-          "Advertiser Updated",
-          `Advertiser "${values.name}" has been updated.`,
+          "Brand Updated",
+          `Brand "${values.name}" has been updated.`,
           [
             {
               name: "ID",
               value: advertiserId,
-              inline: true
+              inline: true,
             },
             {
               name: "Domain",
               value: values.domain,
-              inline: true
+              inline: true,
             },
             {
               name: "Status",
-              value: values.active ? "Active" : "Inactive",
-              inline: true
-            }
+              value: values.is_enabled ? "Active" : "Inactive",
+              inline: true,
+            },
           ]
         );
       } catch (webhookError) {
         console.error("Failed to send Discord notification:", webhookError);
         // Don't show error to user as the advertiser update was successful
       }
-      
-      toast.success("Advertiser updated successfully");
+
+      toast.success("Brand updated successfully");
     } catch (error) {
-      console.error("Error updating advertiser:", error);
-      toast.error("Error updating advertiser");
+      console.error("Error updating brand:", error);
+      toast.error("Error updating brand");
     } finally {
       setIsSaving(false);
     }
@@ -180,30 +188,30 @@ export function AdvertiserForm({
             <TabsTrigger value="financial">Financial</TabsTrigger>
             <TabsTrigger value="advanced">Advanced</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="basic">
             <BasicInfoTab form={form} />
           </TabsContent>
-          
+
           <TabsContent value="appearance">
             <AppearanceTab form={form} />
           </TabsContent>
-          
+
           <TabsContent value="financial">
-            <FinancialTab form={form} networks={networks} currencies={currencies} />
+            <FinancialTab
+              form={form}
+              networks={networks}
+              currencies={currencies}
+            />
           </TabsContent>
-          
+
           <TabsContent value="advanced">
             <AdvancedTab metadata={metadata} setMetadata={setMetadata} />
           </TabsContent>
         </Tabs>
-        
+
         <div className="flex justify-end gap-2 mt-6">
-          <Button 
-            type="button"
-            variant="outline" 
-            onClick={() => router.back()}
-          >
+          <Button type="button" variant="outline" onClick={() => router.back()}>
             Cancel
           </Button>
           <Button type="submit" disabled={isSaving}>
@@ -214,4 +222,4 @@ export function AdvertiserForm({
       </form>
     </Form>
   );
-} 
+}

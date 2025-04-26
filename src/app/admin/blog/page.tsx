@@ -57,7 +57,7 @@ export default function BlogPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-bold">Blog Posts</h1>
         <Button onClick={() => router.push("/admin/blog/create")} size="lg">
-          <PlusIcon className="h-5 w-5" />
+          <PlusIcon className="w-5 h-5" />
           Create Blog Post
         </Button>
       </div>
@@ -82,11 +82,11 @@ export default function BlogPage() {
             </Link>
             <div className="flex items-center justify-between gap-2">
               <p className="font-semibold text-md text-muted-foreground">
-                {post.published_at &&
-                  new Date(post.published_at).toLocaleDateString()}
+                {post.created_at &&
+                  new Date(post.created_at).toLocaleDateString()}
               </p>
-              <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600" onClick={() => handleDeletePost(post.id)}>
-                <Trash2Icon className="h-4 w-4" />
+              <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600" onClick={() => handleDeletePost(post.id.toString())}>
+                <Trash2Icon className="w-4 h-4" />
               </Button>
             </div>
           </BlurFade>

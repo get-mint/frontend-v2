@@ -16,11 +16,11 @@ import { Loader } from "@/components/loader";
 import { AdvertisersContent } from "./content";
 
 export const metadata: Metadata = {
-  title: "Admin | Advertisers",
-  description: "Manage all advertisers in the system",
+  title: "Admin | Brands",
+  description: "Manage all brands in the system",
 };
 
-export default async function AdvertisersPage({
+export default async function BrandsPage({
   searchParams,
 }: {
   searchParams: Promise<{ page?: string; search?: string }>;
@@ -33,15 +33,15 @@ export default async function AdvertisersPage({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-bold">Advertisers</h1>
+        <h1 className="text-4xl font-bold">Brands</h1>
         <CreateAdvertiser />
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Manage Advertisers</CardTitle>
+          <CardTitle>Manage Brands</CardTitle>
           <CardDescription>
-            View and manage all advertisers in the system
+            View and manage all brands in the system
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -51,7 +51,7 @@ export default async function AdvertisersPage({
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   name="search"
-                  placeholder="Search advertisers..."
+                  placeholder="Search brands..."
                   className="pl-8"
                   defaultValue={searchQuery}
                 />

@@ -39,8 +39,8 @@ import {
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   domain: z.string().min(1, "Domain is required"),
-  network_id: z.string().optional(),
-  currency_id: z.string().optional(),
+  network_id: z.coerce.number().optional(),
+  currency_id: z.coerce.number().optional(),
   image_url: z.string().url().optional().or(z.literal("")),
 });
 
@@ -88,8 +88,8 @@ export function CreateAdvertiser() {
     defaultValues: {
       name: "",
       domain: "",
-      network_id: "",
-      currency_id: "",
+      network_id: undefined,
+      currency_id: undefined,
       image_url: "",
     },
   });
@@ -98,7 +98,7 @@ export function CreateAdvertiser() {
     setIsLoading(true);
     try {
       const { data, error } = await supabase
-        .from("advertisers")
+        .from("brands")
         .insert([
           {
             ...values,
@@ -117,7 +117,7 @@ export function CreateAdvertiser() {
         router.push(`/admin/advertisers/${data[0].id}`);
       }
     } catch (error) {
-      console.error("Error adding advertiser:", error);
+      console.error("Error adding brand:", error);
     } finally {
       setIsLoading(false);
     }
@@ -126,13 +126,13 @@ export function CreateAdvertiser() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add New Advertiser</Button>
+        <Button>Add New Brand</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Advertiser</DialogTitle>
+          <DialogTitle>Add New Brand</DialogTitle>
           <DialogDescription>
-            Fill in the details to add a new advertiser to the system.
+            Fill in the details to add a new brand to the system.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -144,7 +144,7 @@ export function CreateAdvertiser() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Advertiser name" {...field} />
+                    <Input placeholder="Brand name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -171,15 +171,15 @@ export function CreateAdvertiser() {
                   <FormLabel>Network (Optional)</FormLabel>
                   <FormControl>
                     <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      onValueChange={(value) => field.onChange(Number(value))}
+                      value={field.value ? String(field.value) : undefined}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select a network" />
                       </SelectTrigger>
                       <SelectContent className="text-foreground">
                         {networks.map((network) => (
-                          <SelectItem key={network.id} value={network.id}>
+                          <SelectItem key={network.id} value={String(network.id)}>
                             {network.name}
                           </SelectItem>
                         ))}
@@ -198,8 +198,8 @@ export function CreateAdvertiser() {
                   <FormLabel>Currency (Optional)</FormLabel>
                   <FormControl>
                     <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      onValueChange={(value) => field.onChange(Number(value))}
+                      value={field.value ? String(field.value) : undefined}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select a currency" />
@@ -208,7 +208,7 @@ export function CreateAdvertiser() {
                         {currencies.map((currency) => (
                           <SelectItem
                             key={currency.id}
-                            value={currency.id}
+                            value={String(currency.id)}
                             className="text-foreground"
                           >
                             {currency.name} ({currency.acronym})

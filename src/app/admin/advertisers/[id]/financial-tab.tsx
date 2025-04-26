@@ -51,17 +51,17 @@ export function FinancialTab({ form, networks, currencies }: FinancialTabProps) 
                 <FormLabel>Currency</FormLabel>
                 <FormControl>
                   <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    value={field.value ? String(field.value) : undefined}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger> 
                       <SelectValue placeholder="Select a currency" />
                     </SelectTrigger>
                     <SelectContent>
                       {currencies.map((currency) => (
                         <SelectItem
                           key={currency.id}
-                          value={currency.id}
+                          value={String(currency.id)}
                         >
                           {currency.name} ({currency.acronym})
                         </SelectItem>
@@ -70,7 +70,7 @@ export function FinancialTab({ form, networks, currencies }: FinancialTabProps) 
                   </Select>
                 </FormControl>
                 <FormDescription>
-                  The currency used for transactions with this advertiser
+                  The currency used for transactions with this brand
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -85,8 +85,8 @@ export function FinancialTab({ form, networks, currencies }: FinancialTabProps) 
                 <FormLabel>Network</FormLabel>
                 <FormControl>
                   <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    value={field.value ? String(field.value) : undefined}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select a network" />
@@ -95,7 +95,7 @@ export function FinancialTab({ form, networks, currencies }: FinancialTabProps) 
                       {networks.map((network) => (
                         <SelectItem
                           key={network.id}
-                          value={network.id}
+                          value={String(network.id)}
                         >
                           {network.name}
                         </SelectItem>
@@ -104,7 +104,7 @@ export function FinancialTab({ form, networks, currencies }: FinancialTabProps) 
                   </Select>
                 </FormControl>
                 <FormDescription>
-                  The affiliate network this advertiser belongs to
+                  The affiliate network this brand belongs to
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -114,7 +114,7 @@ export function FinancialTab({ form, networks, currencies }: FinancialTabProps) 
         
         <FormField
           control={form.control}
-          name="up_to_pct"
+          name="max_pct_reward"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Maximum Cashback Percentage</FormLabel>

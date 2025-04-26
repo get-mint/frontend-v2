@@ -54,12 +54,12 @@ export function AppearanceTab({ form }: AppearanceTabProps) {
                 <div className="mt-2">
                   <p className="mb-2 text-sm font-medium">Logo Preview:</p>
                   <div 
-                    className={`flex justify-center p-4 rounded-md ${!form.watch("brand_hex_color") ? "border" : ""}`}
+                    className={`flex justify-center p-4 rounded-md ${!form.watch("color") ? "border" : ""}`}
                     style={
-                      form.watch("brand_hex_color")
-                        ? { backgroundColor: form.watch("brand_hex_color") }
+                      form.watch("color")
+                        ? { backgroundColor: form.watch("color") }
                         : undefined
-                    }
+                    } 
                   >
                     <img 
                       src={field.value} 
@@ -78,7 +78,7 @@ export function AppearanceTab({ form }: AppearanceTabProps) {
         
         <FormField
           control={form.control}
-          name="brand_hex_color"
+          name="color"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Brand Color</FormLabel>
@@ -106,7 +106,7 @@ export function AppearanceTab({ form }: AppearanceTabProps) {
         
         <FormField
           control={form.control}
-          name="priority"
+          name="max_pct_reward"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Priority</FormLabel>

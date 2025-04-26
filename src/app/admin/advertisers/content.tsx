@@ -95,7 +95,7 @@ export async function AdvertisersContent({
   return (
     <>
       <AdvertisersTable
-        advertisers={advertisers}
+        advertisers={advertisers as never[]}
         toggleActiveAction={toggleAdvertiserActive}
       />
 

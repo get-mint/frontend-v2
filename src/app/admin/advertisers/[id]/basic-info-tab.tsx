@@ -102,7 +102,7 @@ export function BasicInfoTab({ form }: BasicInfoTabProps) {
         
         <FormField
           control={form.control}
-          name="active"
+          name="is_enabled"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between p-4 border rounded-lg">
               <div className="space-y-0.5">

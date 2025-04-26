@@ -17,7 +17,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-type Advertiser = Tables<"advertisers">;
+type Advertiser = Tables<"brands">;
 
 interface DeleteAdvertiserDialogProps {
   advertiser: Advertiser;
@@ -37,7 +37,7 @@ export function DeleteAdvertiserDialog({
     startTransition(async () => {
       try {
         const { error } = await supabase
-          .from("advertisers")
+          .from("brands")
           .delete()
           .eq("id", advertiser.id);
 
@@ -72,7 +72,7 @@ export function DeleteAdvertiserDialog({
           size="icon"
           className="text-destructive hover:text-destructive"
         >
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="w-4 h-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -98,7 +98,7 @@ export function DeleteAdvertiserDialog({
             disabled={isPending}
           >
             {isPending && (
-              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              <LoaderCircle className="w-4 h-4 mr-2 animate-spin" />
             )}
             Delete
           </Button>

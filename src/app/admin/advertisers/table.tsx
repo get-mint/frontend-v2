@@ -18,7 +18,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 
-type Advertiser = Tables<"advertisers"> & {
+type Advertiser = Tables<"brands"> & {
   network?: { name: string };
   currency?: { acronym: string };
 };
@@ -83,17 +83,17 @@ export function AdvertisersTable({
           <TableRow
             key={advertiser.id}
             className="cursor-pointer hover:bg-muted/50"
-            onClick={() => handleRowClick(advertiser.id)}
+            onClick={() => handleRowClick(advertiser.id.toString())}
           >
             <TableCell onClick={(e) => e.stopPropagation()}>
               {advertiser.image_url && (
                 <div
                   className={`flex items-center justify-center p-3 rounded-md ${
-                    !advertiser.brand_hex_color ? "border" : ""
+                    !advertiser.color ? "border" : ""
                   }`}
                   style={
-                    advertiser.brand_hex_color
-                      ? { backgroundColor: advertiser.brand_hex_color }
+                    advertiser.color
+                      ? { backgroundColor: advertiser.color }
                       : undefined
                   }
                 >
@@ -110,16 +110,16 @@ export function AdvertisersTable({
             <TableCell>{advertiser.network?.name || "N/A"}</TableCell>
             <TableCell>{advertiser.currency?.acronym || "N/A"}</TableCell>
             <TableCell>
-              {advertiser.up_to_pct ? `Up to ${advertiser.up_to_pct}%` : "N/A"}
+              {advertiser.max_pct_reward ? `Up to ${advertiser.max_pct_reward}%` : "N/A"}
             </TableCell>
             <TableCell>
-              {advertiser.brand_hex_color ? (
+              {advertiser.color ? (
                 <div className="flex items-center gap-2">
                   <div
                     className="w-4 h-4 rounded-full"
-                    style={{ backgroundColor: advertiser.brand_hex_color }}
+                    style={{ backgroundColor: advertiser.color }}
                   ></div>
-                  <span className="text-xs">{advertiser.brand_hex_color}</span>
+                  <span className="text-xs">{advertiser.color}</span>
                 </div>
               ) : (
                 "N/A"
@@ -127,7 +127,7 @@ export function AdvertisersTable({
             </TableCell>
             <TableCell onClick={(e) => e.stopPropagation()}>
               <div className="relative">
-                <Switch checked={advertiser.active} disabled={true} />
+                <Switch checked={advertiser.is_enabled} disabled={true} />
               </div>
             </TableCell>
             <TableCell onClick={(e) => e.stopPropagation()}>
