@@ -34,108 +34,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      advertisers: {
-        Row: {
-          active: boolean
-          brand_hex_color: string | null
-          created_at: string
-          currency_id: string | null
-          description: string | null
-          domain: string
-          id: string
-          image_url: string | null
-          metadata: Json | null
-          name: string
-          network_id: string | null
-          priority: number
-          slug: string
-          up_to_pct: number | null
-          updated_at: string
-        }
-        Insert: {
-          active?: boolean
-          brand_hex_color?: string | null
-          created_at?: string
-          currency_id?: string | null
-          description?: string | null
-          domain: string
-          id?: string
-          image_url?: string | null
-          metadata?: Json | null
-          name: string
-          network_id?: string | null
-          priority?: number
-          slug?: string
-          up_to_pct?: number | null
-          updated_at?: string
-        }
-        Update: {
-          active?: boolean
-          brand_hex_color?: string | null
-          created_at?: string
-          currency_id?: string | null
-          description?: string | null
-          domain?: string
-          id?: string
-          image_url?: string | null
-          metadata?: Json | null
-          name?: string
-          network_id?: string | null
-          priority?: number
-          slug?: string
-          up_to_pct?: number | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "advertisers_currency_id_fkey"
-            columns: ["currency_id"]
-            isOneToOne: false
-            referencedRelation: "currencies"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "advertisers_network_id_fkey"
-            columns: ["network_id"]
-            isOneToOne: false
-            referencedRelation: "networks"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       affiliate_balance_entries: {
         Row: {
           affiliate_id: string
           amount: number
+          balance_after: number
           created_at: string
-          currency_id: string
+          currency_id: number
           id: string
-          note: string | null
-          transaction_id: string | null
+          note: string
+          transaction_id: string
           type: Database["public"]["Enums"]["balance_entry_type"]
-          updated_balance: number
+          user_id: string
         }
         Insert: {
           affiliate_id: string
-          amount?: number
+          amount: number
+          balance_after: number
           created_at?: string
-          currency_id: string
+          currency_id: number
           id?: string
-          note?: string | null
-          transaction_id?: string | null
+          note: string
+          transaction_id: string
           type: Database["public"]["Enums"]["balance_entry_type"]
-          updated_balance?: number
+          user_id: string
         }
         Update: {
           affiliate_id?: string
           amount?: number
+          balance_after?: number
           created_at?: string
-          currency_id?: string
+          currency_id?: number
           id?: string
-          note?: string | null
-          transaction_id?: string | null
+          note?: string
+          transaction_id?: string
           type?: Database["public"]["Enums"]["balance_entry_type"]
-          updated_balance?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -156,26 +90,33 @@ export type Database = {
             foreignKeyName: "affiliate_balance_entries_transaction_id_fkey"
             columns: ["transaction_id"]
             isOneToOne: false
-            referencedRelation: "user_transactions"
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "affiliate_balance_entries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
       affiliate_codes: {
         Row: {
-          affiliate_id: string
+          affiliate_id: string | null
           code: string
           created_at: string
           id: string
         }
         Insert: {
-          affiliate_id: string
+          affiliate_id?: string | null
           code: string
           created_at?: string
           id?: string
         }
         Update: {
-          affiliate_id?: string
+          affiliate_id?: string | null
           code?: string
           created_at?: string
           id?: string
@@ -190,58 +131,65 @@ export type Database = {
           },
         ]
       }
-      affiliate_reward_stages: {
+      affiliate_users: {
         Row: {
           affiliate_id: string
           created_at: string
+          expires_at: string
           id: string
-          month: number
-          reward_pct: number
+          is_capped: boolean
+          total_earnings: number
+          user_id: string
         }
         Insert: {
           affiliate_id: string
           created_at?: string
+          expires_at?: string
           id?: string
-          month?: number
-          reward_pct?: number
+          is_capped?: boolean
+          total_earnings?: number
+          user_id: string
         }
         Update: {
           affiliate_id?: string
           created_at?: string
+          expires_at?: string
           id?: string
-          month?: number
-          reward_pct?: number
+          is_capped?: boolean
+          total_earnings?: number
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "affiliate_reward_stages_affiliate_id_fkey"
+            foreignKeyName: "affiliate_users_affiliate_id_fkey"
             columns: ["affiliate_id"]
             isOneToOne: false
             referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "affiliate_users_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
       affiliates: {
         Row: {
-          avatar_url: string | null
-          bio: string | null
           created_at: string
           display_name: string
           id: string
           user_id: string
         }
         Insert: {
-          avatar_url?: string | null
-          bio?: string | null
           created_at?: string
           display_name: string
           id?: string
           user_id: string
         }
         Update: {
-          avatar_url?: string | null
-          bio?: string | null
           created_at?: string
           display_name?: string
           id?: string
@@ -253,186 +201,377 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["id"]
           },
         ]
       }
-      blog_post_related_blog_posts: {
+      blog_post_categories: {
         Row: {
-          blog_post_id: string
           created_at: string
-          id: string
-          related_blog_post_id: string
+          id: number
+          name: string
+          slug: string
         }
         Insert: {
-          blog_post_id: string
           created_at?: string
-          id?: string
-          related_blog_post_id: string
+          id?: number
+          name: string
+          slug: string
         }
         Update: {
-          blog_post_id?: string
           created_at?: string
-          id?: string
-          related_blog_post_id?: string
+          id?: number
+          name?: string
+          slug?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "blog_post_related_blog_posts_blog_post_id_fkey"
-            columns: ["blog_post_id"]
-            isOneToOne: false
-            referencedRelation: "blog_posts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "blog_post_related_blog_posts_related_blog_post_id_fkey"
-            columns: ["related_blog_post_id"]
-            isOneToOne: false
-            referencedRelation: "blog_posts"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       blog_posts: {
         Row: {
-          content: Json
+          body: Json
           created_at: string
-          id: string
-          image_url: string | null
-          published: boolean
-          published_at: string | null
+          id: number
           slug: string
           title: string
         }
         Insert: {
-          content: Json
+          body: Json
           created_at?: string
-          id?: string
-          image_url?: string | null
-          published?: boolean
-          published_at?: string | null
+          id?: number
           slug: string
           title: string
         }
         Update: {
-          content?: Json
+          body?: Json
           created_at?: string
-          id?: string
-          image_url?: string | null
-          published?: boolean
-          published_at?: string | null
+          id?: number
           slug?: string
           title?: string
         }
         Relationships: []
       }
+      blog_posts_categories: {
+        Row: {
+          blog_post_category_id: number
+          blog_post_id: number
+          created_at: string
+          id: string
+        }
+        Insert: {
+          blog_post_category_id: number
+          blog_post_id: number
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          blog_post_category_id?: number
+          blog_post_id?: number
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_categories_blog_post_category_id_fkey"
+            columns: ["blog_post_category_id"]
+            isOneToOne: false
+            referencedRelation: "blog_post_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blog_posts_categories_blog_post_id_fkey"
+            columns: ["blog_post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      brand_categories: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      brands: {
+        Row: {
+          created_at: string
+          currency_id: number
+          description: string | null
+          domain: string
+          id: number
+          is_enabled: boolean
+          max_cashback_reward: number | null
+          max_pct_reward: number | null
+          metadata: Json | null
+          name: string
+          network_id: number
+        }
+        Insert: {
+          created_at?: string
+          currency_id: number
+          description?: string | null
+          domain: string
+          id?: number
+          is_enabled?: boolean
+          max_cashback_reward?: number | null
+          max_pct_reward?: number | null
+          metadata?: Json | null
+          name: string
+          network_id: number
+        }
+        Update: {
+          created_at?: string
+          currency_id?: number
+          description?: string | null
+          domain?: string
+          id?: number
+          is_enabled?: boolean
+          max_cashback_reward?: number | null
+          max_pct_reward?: number | null
+          metadata?: Json | null
+          name?: string
+          network_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "advertisers_currency_id_fkey"
+            columns: ["currency_id"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "advertisers_network_id_fkey"
+            columns: ["network_id"]
+            isOneToOne: false
+            referencedRelation: "networks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      brands_categories: {
+        Row: {
+          brand_category_id: number
+          brand_id: number
+          created_at: string
+          id: string
+        }
+        Insert: {
+          brand_category_id: number
+          brand_id: number
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          brand_category_id?: number
+          brand_id?: number
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brands_categories_brand_category_id_fkey"
+            columns: ["brand_category_id"]
+            isOneToOne: false
+            referencedRelation: "brand_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "brands_categories_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       currencies: {
         Row: {
           acronym: string
           created_at: string
-          id: string
+          id: number
           name: string
           symbol: string
-          updated_at: string
         }
         Insert: {
           acronym: string
           created_at?: string
-          id?: string
-          name: string
+          id?: number
+          name?: string
           symbol: string
-          updated_at?: string
         }
         Update: {
           acronym?: string
           created_at?: string
-          id?: string
+          id?: number
           name?: string
           symbol?: string
-          updated_at?: string
         }
         Relationships: []
       }
       networks: {
         Row: {
-          active: boolean
           created_at: string
-          domain: string | null
-          id: string
+          domain: string
+          id: number
           name: string
-          transactions_last_updated_at: string | null
-          updated_at: string
         }
         Insert: {
-          active?: boolean
           created_at?: string
-          domain?: string | null
-          id?: string
+          domain: string
+          id?: number
           name: string
-          transactions_last_updated_at?: string | null
-          updated_at?: string
         }
         Update: {
-          active?: boolean
           created_at?: string
-          domain?: string | null
-          id?: string
+          domain?: string
+          id?: number
           name?: string
-          transactions_last_updated_at?: string | null
-          updated_at?: string
         }
         Relationships: []
       }
       roles: {
         Row: {
           created_at: string
-          id: string
+          id: number
           name: string
         }
         Insert: {
           created_at?: string
-          id?: string
+          id?: number
           name: string
         }
         Update: {
           created_at?: string
-          id?: string
+          id?: number
           name?: string
         }
         Relationships: []
       }
-      user_balance_entries: {
+      transactions: {
         Row: {
-          amount: number
+          brand_id: number
+          commission_total: number
           created_at: string
-          currency_id: string
+          currency_id: number
           id: string
-          note: string | null
-          transaction_id: string | null
-          type: Database["public"]["Enums"]["balance_entry_type"]
-          updated_balance: number
+          metadata: Json | null
+          mint_gross: number
+          network_id: number
+          sale_amount: number
+          status: Database["public"]["Enums"]["transaction_status"]
+          updated_at: string
+          user_cashback: number
           user_id: string
         }
         Insert: {
-          amount?: number
+          brand_id: number
+          commission_total: number
           created_at?: string
-          currency_id: string
+          currency_id: number
           id?: string
-          note?: string | null
-          transaction_id?: string | null
+          metadata?: Json | null
+          mint_gross: number
+          network_id: number
+          sale_amount: number
+          status?: Database["public"]["Enums"]["transaction_status"]
+          updated_at?: string
+          user_cashback: number
+          user_id: string
+        }
+        Update: {
+          brand_id?: number
+          commission_total?: number
+          created_at?: string
+          currency_id?: number
+          id?: string
+          metadata?: Json | null
+          mint_gross?: number
+          network_id?: number
+          sale_amount?: number
+          status?: Database["public"]["Enums"]["transaction_status"]
+          updated_at?: string
+          user_cashback?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_currency_id_fkey"
+            columns: ["currency_id"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_network_id_fkey"
+            columns: ["network_id"]
+            isOneToOne: false
+            referencedRelation: "networks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_balance_entries: {
+        Row: {
+          amount: number
+          balance_after: number
+          created_at: string
+          currency_id: number
+          id: string
+          note: string
+          transaction_id: string
           type: Database["public"]["Enums"]["balance_entry_type"]
-          updated_balance?: number
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          balance_after: number
+          created_at?: string
+          currency_id: number
+          id?: string
+          note: string
+          transaction_id: string
+          type: Database["public"]["Enums"]["balance_entry_type"]
           user_id: string
         }
         Update: {
           amount?: number
+          balance_after?: number
           created_at?: string
-          currency_id?: string
+          currency_id?: number
           id?: string
-          note?: string | null
-          transaction_id?: string | null
+          note?: string
+          transaction_id?: string
           type?: Database["public"]["Enums"]["balance_entry_type"]
-          updated_balance?: number
           user_id?: string
         }
         Relationships: [
@@ -447,7 +586,7 @@ export type Database = {
             foreignKeyName: "user_balance_entries_transaction_id_fkey"
             columns: ["transaction_id"]
             isOneToOne: false
-            referencedRelation: "user_transactions"
+            referencedRelation: "transactions"
             referencedColumns: ["id"]
           },
           {
@@ -455,7 +594,7 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -463,19 +602,19 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          role_id: string
+          role_id: number
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          role_id?: string
+          role_id: number
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
-          role_id?: string
+          role_id?: number
           user_id?: string
         }
         Relationships: [
@@ -491,136 +630,100 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["id"]
           },
         ]
       }
-      user_transactions: {
+      user_total_balances: {
         Row: {
-          advertiser_id: string
-          affiliate_pct: number | null
+          balance: number
           created_at: string
-          currency_id: string
+          currency_id: number
           id: string
-          metadata: Json | null
-          network_id: string
-          referred_by_affiliate_id: string | null
-          sale_amount: number
-          total_commission: number
-          tracking_id: string
-          transaction_status: Database["public"]["Enums"]["transaction_status"]
           updated_at: string
-          user_commission_reward_pct: number
-          user_id: string | null
+          user_id: string
         }
         Insert: {
-          advertiser_id: string
-          affiliate_pct?: number | null
+          balance?: number
           created_at?: string
-          currency_id: string
+          currency_id?: number
           id?: string
-          metadata?: Json | null
-          network_id: string
-          referred_by_affiliate_id?: string | null
-          sale_amount: number
-          total_commission?: number
-          tracking_id: string
-          transaction_status?: Database["public"]["Enums"]["transaction_status"]
           updated_at?: string
-          user_commission_reward_pct?: number
-          user_id?: string | null
+          user_id: string
         }
         Update: {
-          advertiser_id?: string
-          affiliate_pct?: number | null
+          balance?: number
           created_at?: string
-          currency_id?: string
+          currency_id?: number
           id?: string
-          metadata?: Json | null
-          network_id?: string
-          referred_by_affiliate_id?: string | null
-          sale_amount?: number
-          total_commission?: number
-          tracking_id?: string
-          transaction_status?: Database["public"]["Enums"]["transaction_status"]
           updated_at?: string
-          user_commission_reward_pct?: number
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_transactions_advertiser_id_fkey"
-            columns: ["advertiser_id"]
-            isOneToOne: false
-            referencedRelation: "advertisers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_transactions_currency_id_fkey"
+            foreignKeyName: "user_total_balances_currency_id_fkey"
             columns: ["currency_id"]
             isOneToOne: false
             referencedRelation: "currencies"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_transactions_network_id_fkey"
-            columns: ["network_id"]
-            isOneToOne: false
-            referencedRelation: "networks"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_transactions_referred_by_affiliate_id_fkey"
-            columns: ["referred_by_affiliate_id"]
-            isOneToOne: false
-            referencedRelation: "affiliates"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_transactions_tracking_id_fkey"
-            columns: ["tracking_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["tracking_id"]
-          },
-          {
-            foreignKeyName: "user_transactions_user_id_fkey"
+            foreignKeyName: "user_total_balances_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["id"]
           },
         ]
       }
       users: {
         Row: {
+          auth_user_id: string
+          bonus_amount: number
+          bonus_currency_id: number
+          bonus_status: Database["public"]["Enums"]["bonus_status"]
           created_at: string
-          referral_updated_at: string | null
-          referred_by_code: string | null
+          first_redemption_at: string | null
+          id: string
+          selected_currency_id: number
           tracking_id: string
-          user_id: string | null
         }
         Insert: {
+          auth_user_id: string
+          bonus_amount?: number
+          bonus_currency_id?: number
+          bonus_status?: Database["public"]["Enums"]["bonus_status"]
           created_at?: string
-          referral_updated_at?: string | null
-          referred_by_code?: string | null
+          first_redemption_at?: string | null
+          id?: string
+          selected_currency_id?: number
           tracking_id: string
-          user_id?: string | null
         }
         Update: {
+          auth_user_id?: string
+          bonus_amount?: number
+          bonus_currency_id?: number
+          bonus_status?: Database["public"]["Enums"]["bonus_status"]
           created_at?: string
-          referral_updated_at?: string | null
-          referred_by_code?: string | null
+          first_redemption_at?: string | null
+          id?: string
+          selected_currency_id?: number
           tracking_id?: string
-          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "users_referred_by_code_fkey"
-            columns: ["referred_by_code"]
+            foreignKeyName: "users_bonus_currency_id_fkey"
+            columns: ["bonus_currency_id"]
             isOneToOne: false
-            referencedRelation: "affiliate_codes"
-            referencedColumns: ["code"]
+            referencedRelation: "currencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_default_currency_id_fkey"
+            columns: ["selected_currency_id"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -629,20 +732,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      has_role: {
+        Args: { p_user_id: string; p_role_id: number }
+        Returns: boolean
+      }
       is_admin: {
         Args: { user_id: string }
         Returns: boolean
       }
     }
     Enums: {
-      balance_entry_type: "credit" | "redeem" | "adjustment"
-      transaction_status:
-        | "pending"
-        | "approved"
-        | "declined"
-        | "expired"
-        | "paid"
-        | "credited"
+      balance_entry_type: "cashback" | "adjustment" | "redemption" | "bonus"
+      bonus_status: "none" | "locked" | "unlocked" | "expired"
+      transaction_status: "pending" | "approved" | "paid"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -761,15 +863,9 @@ export const Constants = {
   },
   public: {
     Enums: {
-      balance_entry_type: ["credit", "redeem", "adjustment"],
-      transaction_status: [
-        "pending",
-        "approved",
-        "declined",
-        "expired",
-        "paid",
-        "credited",
-      ],
+      balance_entry_type: ["cashback", "adjustment", "redemption", "bonus"],
+      bonus_status: ["none", "locked", "unlocked", "expired"],
+      transaction_status: ["pending", "approved", "paid"],
     },
   },
 } as const
