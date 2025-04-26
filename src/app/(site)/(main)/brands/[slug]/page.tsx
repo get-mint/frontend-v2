@@ -22,12 +22,12 @@ export async function generateMetadata({
 
   return {
     title: `Mint Cashback | Cashback on ${brand.name}`,
-    description: `Earn up to ${brand.up_to_pct ?? "0"}% cashback on ${
+    description: `Earn up to ${brand.max_pct_reward ?? "0"}% cashback on ${
       brand.name
     } with Mint. ${brand.description}`,
     openGraph: {
       title: `${brand.name} | Mint Cashback`,
-      description: `Earn up to ${brand.up_to_pct ?? "0"}% cashback on ${
+      description: `Earn up to ${brand.max_pct_reward ?? "0"}% cashback on ${
         brand.name
       } with Mint. ${brand.description}`,
       images: brand.image_url ? [brand.image_url] : undefined,

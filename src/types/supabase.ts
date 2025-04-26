@@ -756,7 +756,7 @@ export type Database = {
     Enums: {
       balance_entry_type: "cashback" | "adjustment" | "redemption" | "bonus"
       bonus_status: "none" | "locked" | "unlocked" | "expired"
-      transaction_status: "pending" | "approved" | "paid"
+      transaction_status: "pending" | "approved" | "paid" | "declined" | "expired" | "credited"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -877,7 +877,7 @@ export const Constants = {
     Enums: {
       balance_entry_type: ["cashback", "adjustment", "redemption", "bonus"],
       bonus_status: ["none", "locked", "unlocked", "expired"],
-      transaction_status: ["pending", "approved", "paid"],
+      transaction_status: ["pending", "approved", "paid", "declined", "expired", "credited"],
     },
   },
 } as const

@@ -144,7 +144,7 @@ export default function AdministratorsPage() {
 
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user.user_id === userId ? { ...user, is_admin } : user
+          user.auth_user_id === userId ? { ...user, is_admin } : user
         )
       );
     } catch (error) {
@@ -153,7 +153,7 @@ export default function AdministratorsPage() {
   };
 
   if (loading) {
-    return <div className="container mx-auto py-6">Loading...</div>;
+    return <div className="container py-6 mx-auto">Loading...</div>;
   }
 
   return (
