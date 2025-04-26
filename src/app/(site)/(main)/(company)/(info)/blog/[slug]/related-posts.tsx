@@ -106,8 +106,8 @@ export async function RelatedPosts({ slug }: { slug: string }) {
             </div>
             <h3 className="font-medium">{post.title}</h3>
             <p className="text-sm text-muted-foreground">
-              {post.published_at &&
-                new Date(post.published_at).toLocaleDateString()}
+              {post.created_at &&
+                new Date(post.created_at).toLocaleDateString()}
             </p>
           </Link>
         </BlurFade>

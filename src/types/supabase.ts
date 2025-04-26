@@ -231,6 +231,7 @@ export type Database = {
           body: Json
           created_at: string
           id: number
+          image_url: string
           slug: string
           title: string
         }
@@ -238,6 +239,7 @@ export type Database = {
           body: Json
           created_at?: string
           id?: number
+          image_url: string
           slug: string
           title: string
         }
@@ -245,6 +247,7 @@ export type Database = {
           body?: Json
           created_at?: string
           id?: number
+          image_url?: string
           slug?: string
           title?: string
         }
