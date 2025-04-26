@@ -1,21 +1,27 @@
 "use client";
 
-import { Editor } from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
-import { EditorContent, useEditor } from '@tiptap/react';
+import { Editor } from "@tiptap/core";
+import StarterKit from "@tiptap/starter-kit";
+import { EditorContent, useEditor } from "@tiptap/react";
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from '@/components/ui/input';
+import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { Tables } from "@/types/supabase";
 
-import { MenuBar } from "@/app/admin/blog/create/page";
-import { ArrowLeft, ArrowLeftIcon } from 'lucide-react';
+import { MenuBar } from "@/app/admin/blog/create/menu-bar";
+import { ArrowLeft, ArrowLeftIcon } from "lucide-react";
 import { PreviewDialog } from "../../preview";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function EditBlogPage() {
   const router = useRouter();
@@ -24,14 +30,16 @@ export default function EditBlogPage() {
   const [blogPost, setBlogPost] = useState<Tables<"blog_posts"> | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [title, setTitle] = useState('');
-  const [relatedPosts, setRelatedPosts] = useState<string[]>([]);
-  const [availablePosts, setAvailablePosts] = useState<Tables<"blog_posts">[]>([]);
+  const [title, setTitle] = useState("");
+  const [relatedPosts, setRelatedPosts] = useState<number[]>([]);
+  const [availablePosts, setAvailablePosts] = useState<Tables<"blog_posts">[]>(
+    []
+  );
   const [selectedValue, setSelectedValue] = useState<string>("");
 
   const editor = useEditor({
     extensions: [StarterKit],
-    content: blogPost?.content as Record<string, any> || '',
+    content: (blogPost?.body as Record<string, any>) || "",
   });
 
   useEffect(() => {
@@ -39,7 +47,8 @@ export default function EditBlogPage() {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("blog_posts")
-        .select("*").eq("id", id);
+        .select("*")
+        .eq("id", id);
 
       if (error) {
         console.error(error);
@@ -47,20 +56,24 @@ export default function EditBlogPage() {
 
       setBlogPost(data?.[0]);
       setUploadedImageUrl(data?.[0]?.image_url || null);
-      setTitle(data?.[0]?.title || '');
+      setTitle(data?.[0]?.title || "");
 
       // Fetch related posts
-      const { data: relatedPostsData, error: relatedPostsError } = await supabase
-        .from("blog_post_related_blog_posts")
-        .select("related_blog_post_id")
-        .eq("blog_post_id", id);
+      const { data: relatedPostsData, error: relatedPostsError } =
+        await supabase
+          .from("blog_post_related_blog_posts")
+          .select("related_blog_post_id")
+          .eq("blog_post_id", id);
 
       if (relatedPostsError) {
         console.error(relatedPostsError);
       } else {
-        setRelatedPosts(relatedPostsData?.map(rp => rp.related_blog_post_id) || []);
+        // Convert string IDs to numbers if needed
+        setRelatedPosts(
+          relatedPostsData?.map((rp) => Number(rp.related_blog_post_id)) || []
+        );
       }
-    }
+    };
 
     fetchBlogPost();
   }, [id]);
@@ -86,17 +99,19 @@ export default function EditBlogPage() {
 
   useEffect(() => {
     if (editor) {
-      editor.commands.setContent(blogPost?.content as Record<string, any> || '');
+      editor.commands.setContent((blogPost?.body as Record<string, any>) || "");
     }
   }, [editor, blogPost]);
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     // Check if file is an image
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please upload an image file');
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload an image file");
       return;
     }
 
@@ -105,40 +120,42 @@ export default function EditBlogPage() {
 
     try {
       // Upload to Supabase Storage
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${Math.random()}.${fileExt}`;
       const { data, error } = await supabase.storage
-        .from('blog-post-images')
+        .from("blog-post-images")
         .upload(fileName, file);
 
       if (error) throw error;
 
       // Get the public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('blog-post-images')
-        .getPublicUrl(fileName);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("blog-post-images").getPublicUrl(fileName);
 
       setUploadedImageUrl(publicUrl);
-      toast.success('Image uploaded successfully');
+      toast.success("Image uploaded successfully");
     } catch (error) {
-      console.error('Error uploading image:', error);
-      toast.error('Failed to upload image');
+      console.error("Error uploading image:", error);
+      toast.error("Failed to upload image");
     } finally {
       setIsUploading(false);
       // Reset the input
-      event.target.value = '';
+      event.target.value = "";
     }
   };
 
   const handleRelatedPostSelect = (postId: string) => {
-    if (!relatedPosts.includes(postId)) {
-      setRelatedPosts(prev => [...prev, postId]);
+    // Convert string postId to number
+    const numericPostId = Number(postId);
+    if (!relatedPosts.includes(numericPostId)) {
+      setRelatedPosts((prev) => [...prev, numericPostId]);
     }
     setSelectedValue(""); // Reset the select value
   };
 
-  const handleRemoveRelatedPost = (postId: string) => {
-    setRelatedPosts(prev => prev.filter(id => id !== postId));
+  const handleRemoveRelatedPost = (postId: number) => {
+    setRelatedPosts((prev) => prev.filter((id) => id !== postId));
   };
 
   const handleSave = async () => {
@@ -148,39 +165,39 @@ export default function EditBlogPage() {
     const content = editor.getJSON();
 
     const { error } = await supabase
-      .from('blog_posts')
+      .from("blog_posts")
       .update({
         title: title,
-        content: content,
+        body: content,
         image_url: uploadedImageUrl,
       })
-      .eq('id', blogPost.id);
+      .eq("id", blogPost.id);
 
     if (error) {
       console.error(error);
-      toast.error('Failed to save blog post');
+      toast.error("Failed to save blog post");
       return;
     }
 
     // Update related posts
     // First, delete all existing related posts
     const { error: deleteError } = await supabase
-      .from('blog_post_related_blog_posts')
+      .from("blog_post_related_blog_posts")
       .delete()
-      .eq('blog_post_id', blogPost.id);
+      .eq("blog_post_id", blogPost.id);
 
     if (deleteError) {
       console.error(deleteError);
-      toast.error('Failed to update related posts');
+      toast.error("Failed to update related posts");
       return;
     }
 
     // Then insert the new related posts
     if (relatedPosts.length > 0) {
       const { error: insertError } = await supabase
-        .from('blog_post_related_blog_posts')
+        .from("blog_post_related_blog_posts")
         .insert(
-          relatedPosts.map(postId => ({
+          relatedPosts.map((postId) => ({
             related_blog_post_id: postId,
             blog_post_id: blogPost.id,
           }))
@@ -188,13 +205,13 @@ export default function EditBlogPage() {
 
       if (insertError) {
         console.error(insertError);
-        toast.error('Failed to update related posts');
+        toast.error("Failed to update related posts");
         return;
       }
     }
 
-    toast.success('Blog post saved successfully');
-    router.push('/admin/blog');
+    toast.success("Blog post saved successfully");
+    router.push("/admin/blog");
   };
 
   useEffect(() => {
@@ -203,7 +220,7 @@ export default function EditBlogPage() {
 
   return (
     <div>
-      <div className="flex p-4 gap-2">
+      <div className="flex gap-2 p-4">
         <Button variant="outline" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="w-4 h-4" />
         </Button>
@@ -221,11 +238,7 @@ export default function EditBlogPage() {
             />
           </div>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              asChild
-              disabled={isUploading}
-            >
+            <Button variant="outline" asChild disabled={isUploading}>
               <label className="cursor-pointer">
                 <input
                   type="file"
@@ -233,17 +246,17 @@ export default function EditBlogPage() {
                   className="hidden"
                   onChange={handleImageUpload}
                 />
-                {isUploading ? 'Uploading...' : 'Upload Image'}
+                {isUploading ? "Uploading..." : "Upload Image"}
               </label>
             </Button>
           </div>
           {uploadedImageUrl && (
             <div>
-              <div className="flex justify-center items-center w-full max-w-2xl">
+              <div className="flex items-center justify-center w-full max-w-2xl">
                 <img
                   src={uploadedImageUrl}
                   alt="Blog post cover"
-                  className="w-full h-auto rounded-lg object-cover"
+                  className="object-cover w-full h-auto rounded-lg"
                 />
               </div>
               <div className="flex p-2 pt-2">
@@ -266,9 +279,10 @@ export default function EditBlogPage() {
             </SelectTrigger>
             <SelectContent>
               {availablePosts
-                .filter(post => post.id !== blogPost?.id) // Exclude current post
+                .filter((post) => post.id !== blogPost?.id) // Exclude current post
                 .map((post) => (
-                  <SelectItem key={post.id} value={post.id}>
+                  // Convert number to string for SelectItem value
+                  <SelectItem key={post.id} value={post.id.toString()}>
                     {post.title}
                   </SelectItem>
                 ))}
@@ -279,14 +293,18 @@ export default function EditBlogPage() {
               <p className="text-sm text-muted-foreground">Selected posts:</p>
               <ul className="mt-1 space-y-1">
                 {relatedPosts.map((postId) => {
-                  const post = availablePosts.find(p => p.id === postId);
+                  // Compare as numbers instead of strings
+                  const post = availablePosts.find((p) => p.id === postId);
                   return post ? (
-                    <li key={postId} className="text-sm flex items-center justify-between">
+                    <li
+                      key={postId}
+                      className="flex items-center justify-between text-sm"
+                    >
                       <span>{post.title}</span>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-6 w-6 p-0"
+                        className="w-6 h-6 p-0"
                         onClick={() => handleRemoveRelatedPost(postId)}
                       >
                         ×
@@ -298,22 +316,22 @@ export default function EditBlogPage() {
             </div>
           )}
         </div>
-        <MenuBar editor={editor} />
+        {editor && <MenuBar editor={editor} />}
         <EditorContent
           editor={editor}
           className="prose max-w-none min-h-[200px] p-4"
         />
       </div>
-      <div className="flex justify-end p-4 gap-2">
+      <div className="flex justify-end gap-2 p-4">
         <PreviewDialog
           title={title}
           imageUrl={uploadedImageUrl}
           content={editor?.getJSON() || { content: [] }}
-          relatedPosts={availablePosts.filter(post => relatedPosts.includes(post.id))}
+          relatedPosts={availablePosts.filter((post) =>
+            relatedPosts.includes(post.id)
+          )}
         />
-        <Button onClick={handleSave}>
-          Save
-        </Button>
+        <Button onClick={handleSave}>Save</Button>
       </div>
     </div>
   );

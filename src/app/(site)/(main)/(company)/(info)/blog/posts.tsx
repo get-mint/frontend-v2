@@ -13,8 +13,7 @@ const fetchPostsData = async () => {
   const { data: posts, error } = await supabase
     .from("blog_posts")
     .select("*")
-    .eq("published", true)
-    .order("published_at", { ascending: false })
+    .order("created_at", { ascending: false })
     .limit(12);
 
   if (error) {
@@ -52,8 +51,8 @@ export default async function Posts() {
             <div className="space-y-1">
               <h2 className="text-2xl font-bold">{post.title}</h2>
               <p className="font-semibold text-md text-muted-foreground">
-                {post.published_at &&
-                  new Date(post.published_at).toLocaleDateString()}
+                {post.created_at &&
+                  new Date(post.created_at).toLocaleDateString()}
               </p>
             </div>
           </Link>
