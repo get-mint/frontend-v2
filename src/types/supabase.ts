@@ -312,43 +312,52 @@ export type Database = {
       }
       brands: {
         Row: {
+          color: string | null
           created_at: string
           currency_id: number
           description: string | null
           domain: string
           id: number
+          image_url: string | null
           is_enabled: boolean
           max_cashback_reward: number | null
           max_pct_reward: number | null
           metadata: Json | null
           name: string
           network_id: number
+          slug: string
         }
         Insert: {
+          color?: string | null
           created_at?: string
           currency_id: number
           description?: string | null
           domain: string
           id?: number
+          image_url?: string | null
           is_enabled?: boolean
           max_cashback_reward?: number | null
           max_pct_reward?: number | null
           metadata?: Json | null
           name: string
           network_id: number
+          slug: string
         }
         Update: {
+          color?: string | null
           created_at?: string
           currency_id?: number
           description?: string | null
           domain?: string
           id?: number
+          image_url?: string | null
           is_enabled?: boolean
           max_cashback_reward?: number | null
           max_pct_reward?: number | null
           metadata?: Json | null
           name?: string
           network_id?: number
+          slug?: string
         }
         Relationships: [
           {

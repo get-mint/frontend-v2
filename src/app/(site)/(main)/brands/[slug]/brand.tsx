@@ -20,7 +20,7 @@ export async function Brand({ slug }: { slug: string }) {
   return (
     <>
       <div
-        style={{ backgroundColor: `${brand.brand_hex_color}` }}
+        style={{ backgroundColor: `${brand.color}` }}
         className="flex flex-col items-center justify-center gap-8 px-6 py-16"
       >
         <BlurFade>
@@ -37,7 +37,7 @@ export async function Brand({ slug }: { slug: string }) {
           className="max-w-xl text-5xl font-bold text-center text-white"
           startOnView={false}
         >
-          {`Earn up to ${brand.up_to_pct ?? "0"}% cashback on ${
+          {`Earn up to ${brand.max_pct_reward ?? "0"}% cashback on ${
             brand.name
           } with Mint`}
         </TextAnimate>
@@ -84,7 +84,7 @@ export async function Brand({ slug }: { slug: string }) {
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-medium">💸 Cashback Rate</h3>
                 <p className="text-xl font-bold text-primary">
-                  up to {brand.up_to_pct}%
+                  up to {brand.max_pct_reward}%
                 </p>
               </div>
 

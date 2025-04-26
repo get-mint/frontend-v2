@@ -8,7 +8,7 @@ const fetchBrandData = async (slug: string) => {
   const supabase = createAdminClient();
 
   const { data: brand, error } = await supabase
-    .from("advertisers")
+    .from("brands")
     .select("*")
     .eq("slug", slug)
     .single();
@@ -18,7 +18,7 @@ const fetchBrandData = async (slug: string) => {
     return null;
   }
 
-  return brand as Tables<"advertisers">;
+  return brand as Tables<"brands">;
 };
 
 export const fetchBrand = unstable_cache(fetchBrandData, ["brand"], {
