@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import crypto from "crypto";
 
-import { createAdminClient } from "@workspace/supabase/server";
-import { Tables } from "@workspace/supabase/types";
+import { createAdminClient } from "@/lib/supabase/server/client";
+import { Tables } from "@/types/supabase";
 
 import { getRakutenAdvertisingLink } from "./rakuten-advertising";
 

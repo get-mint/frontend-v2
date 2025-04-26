@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { createAdminClient } from "@workspace/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server/client";
 
 export async function GET(request: NextRequest) {
   const domain = request.nextUrl.searchParams.get("domain");

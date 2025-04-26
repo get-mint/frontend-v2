@@ -1,6 +1,6 @@
-import { getAccessToken } from "@/lib/utils/rakuten-advertising";
+import { getAccessToken } from "@/app/api/networks/rakuten-advertising";
 
-import { Tables } from "@workspace/supabase/types";
+import { Tables } from "@/types/supabase";
 
 export async function getRakutenAdvertisingLink(
   url: string,
