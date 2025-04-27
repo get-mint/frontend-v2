@@ -20,7 +20,15 @@ export async function GET(request: NextRequest) {
   if (!domain && !slug) {
     return NextResponse.json(
       { error: "At least one of domain or slug is required" },
-      { status: 400 }
+      {
+        status: 400,
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
   }
 
@@ -47,12 +55,31 @@ export async function GET(request: NextRequest) {
   if (brandAndNetworkError) {
     return NextResponse.json(
       { error: "Error: " + brandAndNetworkError.message },
-      { status: 400 }
+      {
+        status: 400,
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
   }
 
   if (!brandAndNetwork) {
-    return NextResponse.json({ error: "Brand not found" }, { status: 404 });
+    return NextResponse.json(
+      { error: "Brand not found" },
+      {
+        status: 404,
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
   }
 
   brandAndNetwork = brandAndNetwork as unknown as Tables<"brands"> & {
@@ -73,18 +100,47 @@ export async function GET(request: NextRequest) {
           error:
             "Failed to get Rakuten advertiser active offers (getRakutenAdvertiserActiveOffers)",
         },
-        { status: 400 }
+        {
+          status: 400,
+          headers: {
+            "Cache-Control":
+              "no-store, no-cache, must-revalidate, proxy-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        }
       );
     }
   } else {
     return NextResponse.json(
       { error: "Brand has invalid network" },
-      { status: 400 }
+      {
+        status: 400,
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
   }
 
-  return NextResponse.json({
-    ...brandAndNetwork,
-    offers: offers.sort((a, b) => (b.is_base_commission ? 1 : 0) - (a.is_base_commission ? 1 : 0)),
-  });
+  return NextResponse.json(
+    {
+      ...brandAndNetwork,
+      offers: offers.sort(
+        (a, b) =>
+          (b.is_base_commission ? 1 : 0) - (a.is_base_commission ? 1 : 0)
+      ),
+    },
+    {
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    }
+  );
 }
