@@ -5,7 +5,7 @@ import crypto from "crypto";
 import { createAdminClient } from "@/lib/supabase/server/client";
 import { Tables } from "@/types/supabase";
 
-import { getRakutenAdvertisingLink } from "./rakuten-advertising";
+import { getRakutenAdvertisingLink } from "./rakuten";
 
 export async function GET(request: NextRequest) {
   const url = request.nextUrl;
