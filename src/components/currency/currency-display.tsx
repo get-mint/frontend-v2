@@ -1,6 +1,6 @@
 "use client";
 
-import { useCurrency } from "@/lib/providers/currency-provider";
+import { useCurrency } from "@/lib/providers/currency";
 
 import { Skeleton } from "@/components/ui/skeleton";
 

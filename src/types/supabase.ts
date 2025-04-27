@@ -292,18 +292,21 @@ export type Database = {
       brand_categories: {
         Row: {
           created_at: string
+          emoji: string
           id: number
           name: string
           slug: string
         }
         Insert: {
           created_at?: string
+          emoji?: string
           id?: number
           name: string
           slug: string
         }
         Update: {
           created_at?: string
+          emoji?: string
           id?: number
           name?: string
           slug?: string
@@ -646,48 +649,6 @@ export type Database = {
           },
         ]
       }
-      user_total_balances: {
-        Row: {
-          balance: number
-          created_at: string
-          currency_id: number
-          id: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          balance?: number
-          created_at?: string
-          currency_id?: number
-          id?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          balance?: number
-          created_at?: string
-          currency_id?: number
-          id?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_total_balances_currency_id_fkey"
-            columns: ["currency_id"]
-            isOneToOne: false
-            referencedRelation: "currencies"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_total_balances_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       users: {
         Row: {
           auth_user_id: string
@@ -756,7 +717,7 @@ export type Database = {
     Enums: {
       balance_entry_type: "cashback" | "adjustment" | "redemption" | "bonus"
       bonus_status: "none" | "locked" | "unlocked" | "expired"
-      transaction_status: "pending" | "approved" | "paid" | "declined" | "expired" | "credited"
+      transaction_status: "pending" | "approved" | "paid"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -877,7 +838,7 @@ export const Constants = {
     Enums: {
       balance_entry_type: ["cashback", "adjustment", "redemption", "bonus"],
       bonus_status: ["none", "locked", "unlocked", "expired"],
-      transaction_status: ["pending", "approved", "paid", "declined", "expired", "credited"],
+      transaction_status: ["pending", "approved", "paid"],
     },
   },
 } as const

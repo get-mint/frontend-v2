@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { CurrencyContext } from "@/lib/providers/currency-provider";
+import { CurrencyContext } from "@/lib/providers/currency";
 
 export function useCurrency() {
   const context = React.useContext(CurrencyContext);

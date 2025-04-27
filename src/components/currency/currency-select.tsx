@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
-import { useCurrency } from "@/lib/providers/currency-provider";
+import { useCurrency } from "@/lib/providers/currency";
 
 import { Tables } from "@/types/supabase";
 
