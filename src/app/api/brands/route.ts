@@ -10,6 +10,7 @@ export interface Offer {
   description: string;
   commission: number;
   type: "flat" | "sale";
+  is_base_commission: boolean;
 }
 
 export async function GET(request: NextRequest) {
@@ -84,6 +85,6 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     ...brandAndNetwork,
-    offers,
+    offers: offers.sort((a, b) => (b.is_base_commission ? 1 : 0) - (a.is_base_commission ? 1 : 0)),
   });
 }

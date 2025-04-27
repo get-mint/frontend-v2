@@ -42,6 +42,7 @@ export async function getRakutenAdvertiserActiveOffers(
       description: offer.commissions[0].description,
       type: offer.commissions[0].commission_type,
       commission: offer.commissions[0].tiers[0].commission,
+      is_base_commission: offer.is_base_commission,
     });
   }
 
