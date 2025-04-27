@@ -13,6 +13,8 @@ export interface Offer {
   is_base_commission: boolean;
 }
 
+export const dynamic = 'force-dynamic'; // Completely disable static rendering and caching
+
 export async function GET(request: NextRequest) {
   const domain = request.nextUrl.searchParams.get("domain");
   const slug = request.nextUrl.searchParams.get("slug");
@@ -96,10 +98,19 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     ...brandAndNetwork,
     offers: offers.sort(
       (a, b) => (b.is_base_commission ? 1 : 0) - (a.is_base_commission ? 1 : 0)
     ),
   });
+  
+  response.headers.set('Cache-Control', 'no-store, max-age=0');
+  
+  // Alternative for 1-day caching per domain/slug (uncomment if preferred)
+  // const cacheKey = domain || slug;
+  // response.headers.set('Cache-Control', `public, max-age=86400`); // 1 day
+  // response.headers.set('Vary', 'domain, slug');
+
+  return response;
 }
