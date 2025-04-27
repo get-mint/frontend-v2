@@ -76,7 +76,10 @@ export async function GET(request: NextRequest) {
       console.error("Error when calling getRakutenAdvertisingLink", error);
 
       return NextResponse.json(
-        { error: "Failed to get Rakuten Advertising link (getRakutenAdvertisingLink)" },
+        {
+          error:
+            "Failed to get Rakuten Advertising link (getRakutenAdvertisingLink)",
+        },
         { status: 400 }
       );
     }
