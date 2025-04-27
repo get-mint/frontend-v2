@@ -4,7 +4,7 @@ import { createAdminClient } from "@/lib/supabase/server/client";
 
 import { Tables } from "@/types/supabase";
 
-import { getRakutenAdvertiserPartnershipDetails } from "./rakuten";
+import { getRakutenAdvertiserActiveOffers } from "./rakuten";
 
 export async function GET(request: NextRequest) {
   const domain = request.nextUrl.searchParams.get("domain");
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
   if (brandAndNetwork.network.id === 1) {
     try {
       const rakutenAdvertiserPartnershipDetails =
-        await getRakutenAdvertiserPartnershipDetails(brandAndNetwork);
+        await getRakutenAdvertiserActiveOffers(brandAndNetwork);
 
       return NextResponse.json({
         ...brandAndNetwork,
@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "Failed to get Rakuten partnership details (getRakutenAdvertiserPartnershipDetails)",
+            "Failed to get Rakuten advertiser active offers (getRakutenAdvertiserActiveOffers)",
         },
         { status: 400 }
       );

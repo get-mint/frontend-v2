@@ -1,8 +1,8 @@
 import { Tables } from "@/types/supabase";
 
-import { getAccessToken } from "../networks/rakuten-advertising";
+import { getAccessToken } from "../networks/rakuten";
 
-export async function getRakutenAdvertiserPartnershipDetails(brandAndNetwork: Tables<"brands"> & {
+export async function getRakutenAdvertiserActiveOffers(brandAndNetwork: Tables<"brands"> & {
   network: Tables<"networks">;
 }) {
   const advertiserId =
@@ -15,7 +15,7 @@ export async function getRakutenAdvertiserPartnershipDetails(brandAndNetwork: Ta
   const accessToken = await getAccessToken();
 
   const response = await fetch(
-    `https://api.linksynergy.com/v1/partnerships/${advertiserId}`,
+    `https://api.linksynergy.com/v1/offers?offer_status=active&advertiser=${advertiserId}`,
     {
       method: "GET",
       headers: {
@@ -27,7 +27,7 @@ export async function getRakutenAdvertiserPartnershipDetails(brandAndNetwork: Ta
   );
 
   if (!response.ok) {
-    throw new Error("Failed to get Rakuten partnership details");
+    throw new Error("Failed to get Rakuten advertiser active offers");
   }
 
   const data = await response.json();

@@ -10,15 +10,16 @@ export async function getAccessToken(): Promise<string> {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${process.env.RAKUTEN_ADVERTISING_BEARER_TOKEN}`,
+      Authorization: `Bearer ${process.env.RAKUTEN_BEARER_TOKEN}`,
     },
     body: new URLSearchParams({
-      scope: process.env.RAKUTEN_ADVERTISING_SCOPE as string,
+      scope: process.env.RAKUTEN_SCOPE as string,
     }),
   });
 
   if (!response.ok) {
     console.error("Failed to get access token:", response.body + " " + response.status);
+    
     throw new Error("Failed to get access token");
   }
 

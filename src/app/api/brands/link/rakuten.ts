@@ -1,4 +1,4 @@
-import { getAccessToken } from "@/app/api/networks/rakuten-advertising";
+import { getAccessToken } from "@/app/api/networks/rakuten";
 
 import { Tables } from "@/types/supabase";
 
