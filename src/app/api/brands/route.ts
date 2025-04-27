@@ -22,12 +22,6 @@ export async function GET(request: NextRequest) {
       { error: "At least one of domain or slug is required" },
       {
         status: 400,
-        headers: {
-          "Cache-Control":
-            "no-store, no-cache, must-revalidate, proxy-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
       }
     );
   }
@@ -57,12 +51,6 @@ export async function GET(request: NextRequest) {
       { error: "Error: " + brandAndNetworkError.message },
       {
         status: 400,
-        headers: {
-          "Cache-Control":
-            "no-store, no-cache, must-revalidate, proxy-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
       }
     );
   }
@@ -72,12 +60,6 @@ export async function GET(request: NextRequest) {
       { error: "Brand not found" },
       {
         status: 404,
-        headers: {
-          "Cache-Control":
-            "no-store, no-cache, must-revalidate, proxy-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
       }
     );
   }
@@ -102,12 +84,6 @@ export async function GET(request: NextRequest) {
         },
         {
           status: 400,
-          headers: {
-            "Cache-Control":
-              "no-store, no-cache, must-revalidate, proxy-revalidate",
-            Pragma: "no-cache",
-            Expires: "0",
-          },
         }
       );
     }
@@ -116,31 +92,14 @@ export async function GET(request: NextRequest) {
       { error: "Brand has invalid network" },
       {
         status: 400,
-        headers: {
-          "Cache-Control":
-            "no-store, no-cache, must-revalidate, proxy-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
       }
     );
   }
 
-  return NextResponse.json(
-    {
-      ...brandAndNetwork,
-      offers: offers.sort(
-        (a, b) =>
-          (b.is_base_commission ? 1 : 0) - (a.is_base_commission ? 1 : 0)
-      ),
-    },
-    {
-      headers: {
-        "Cache-Control":
-          "no-store, no-cache, must-revalidate, proxy-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
-    }
-  );
+  return NextResponse.json({
+    ...brandAndNetwork,
+    offers: offers.sort(
+      (a, b) => (b.is_base_commission ? 1 : 0) - (a.is_base_commission ? 1 : 0)
+    ),
+  });
 }

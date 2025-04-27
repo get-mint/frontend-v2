@@ -26,6 +26,12 @@ export async function getRakutenAdvertisingLink(
 
   console.log("Access token", accessToken);
 
+  console.log("Request body", {
+    url,
+    advertiser_id: advertiserId,
+    u1,
+  });
+
   const response = await fetch(
     "https://api.linksynergy.com/v1/links/deep_links",
     {
@@ -37,7 +43,7 @@ export async function getRakutenAdvertisingLink(
       },
       body: JSON.stringify({
         url,
-        advertiser_id: advertiserId,
+        advertiser_id: Number(advertiserId),
         u1,
       }),
     }
@@ -59,5 +65,5 @@ export async function getRakutenAdvertisingLink(
 
   console.log("Data", data);
 
-  return data.deep_link;
+  return data.advertiser.deep_link.deep_link_url;
 }
