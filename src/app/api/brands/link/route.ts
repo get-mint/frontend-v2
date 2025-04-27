@@ -7,6 +7,8 @@ import { Tables } from "@/types/supabase";
 
 import { getRakutenAdvertisingLink } from "./rakuten";
 
+export const dynamic = "force-dynamic"; // Completely disable static rendering and caching
+
 export async function GET(request: NextRequest) {
   const url = request.nextUrl;
 
@@ -14,10 +16,12 @@ export async function GET(request: NextRequest) {
   const email = url.searchParams.get("email");
 
   if (!link || !email) {
-    return NextResponse.json(
+    const response = NextResponse.json(
       { error: "Link and email are required" },
       { status: 400 }
     );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 
   const domain = new URL(link).hostname;
@@ -25,7 +29,12 @@ export async function GET(request: NextRequest) {
   console.log("Domain", domain);
 
   if (!domain) {
-    return NextResponse.json({ error: "Invalid link" }, { status: 400 });
+    const response = NextResponse.json(
+      { error: "Invalid link" },
+      { status: 400 }
+    );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 
   const supabase = createAdminClient();
@@ -42,14 +51,21 @@ export async function GET(request: NextRequest) {
     .maybeSingle();
 
   if (brandAndNetworkError) {
-    return NextResponse.json(
+    const response = NextResponse.json(
       { error: brandAndNetworkError.message },
       { status: 400 }
     );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 
   if (!brandAndNetwork) {
-    return NextResponse.json({ error: "Brand not found" }, { status: 404 });
+    const response = NextResponse.json(
+      { error: "Brand not found" },
+      { status: 404 }
+    );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 
   brandAndNetwork = brandAndNetwork as unknown as Tables<"brands"> & {
@@ -69,21 +85,30 @@ export async function GET(request: NextRequest) {
         brandAndNetwork
       );
 
-      return NextResponse.json({
+      const response = NextResponse.json({
         link: rakutenAdvertisingLink,
       });
+      response.headers.set("Cache-Control", "no-store, max-age=0");
+      return response;
     } catch (error) {
       console.error("Error when calling getRakutenAdvertisingLink", error);
 
-      return NextResponse.json(
+      const response = NextResponse.json(
         {
           error:
             "Failed to get Rakuten Advertising link (getRakutenAdvertisingLink)",
         },
         { status: 400 }
       );
+      response.headers.set("Cache-Control", "no-store, max-age=0");
+      return response;
     }
   } else {
-    return NextResponse.json({ error: "Invalid network" }, { status: 400 });
+    const response = NextResponse.json(
+      { error: "Invalid network" },
+      { status: 400 }
+    );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 }
