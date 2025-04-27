@@ -1,10 +1,13 @@
 import { Tables } from "@/types/supabase";
 
 import { getAccessToken } from "../networks/rakuten";
+import { Offer } from "./route";
 
-export async function getRakutenAdvertiserActiveOffers(brandAndNetwork: Tables<"brands"> & {
-  network: Tables<"networks">;
-}) {
+export async function getRakutenAdvertiserActiveOffers(
+  brandAndNetwork: Tables<"brands"> & {
+    network: Tables<"networks">;
+  }
+) {
   const advertiserId =
     typeof brandAndNetwork.metadata === "object" &&
     brandAndNetwork.metadata !== null &&
@@ -32,5 +35,15 @@ export async function getRakutenAdvertiserActiveOffers(brandAndNetwork: Tables<"
 
   const data = await response.json();
 
-  return data;
+  const offers: Offer[] = [];
+
+  for (const offer of data.offers[0].offer_rules) {
+    offers.push({
+      description: offer.commissions[0].description,
+      type: offer.commissions[0].commission_type,
+      commission: offer.commissions[0].tiers[0].commission,
+    });
+  }
+
+  return offers;
 }

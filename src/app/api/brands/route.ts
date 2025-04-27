@@ -6,6 +6,12 @@ import { Tables } from "@/types/supabase";
 
 import { getRakutenAdvertiserActiveOffers } from "./rakuten";
 
+export interface Offer {
+  description: string;
+  commission: number;
+  type: "flat" | "sale";
+}
+
 export async function GET(request: NextRequest) {
   const domain = request.nextUrl.searchParams.get("domain");
   const slug = request.nextUrl.searchParams.get("slug");
@@ -52,15 +58,14 @@ export async function GET(request: NextRequest) {
     network: Tables<"networks">;
   };
 
+  let offers: Offer[] = [];
+
   if (brandAndNetwork.network.id === 1) {
     try {
       const rakutenAdvertiserPartnershipDetails =
         await getRakutenAdvertiserActiveOffers(brandAndNetwork);
 
-      return NextResponse.json({
-        ...brandAndNetwork,
-        rakutenAdvertiserPartnershipDetails,
-      });
+      offers = rakutenAdvertiserPartnershipDetails;
     } catch (error) {
       return NextResponse.json(
         {
@@ -77,5 +82,8 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return NextResponse.json(brandAndNetwork);
+  return NextResponse.json({
+    ...brandAndNetwork,
+    offers,
+  });
 }
