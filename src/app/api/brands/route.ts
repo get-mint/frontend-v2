@@ -13,19 +13,21 @@ export interface Offer {
   is_base_commission: boolean;
 }
 
-export const dynamic = 'force-dynamic'; // Completely disable static rendering and caching
+export const dynamic = "force-dynamic"; // Completely disable static rendering and caching
 
 export async function GET(request: NextRequest) {
   const domain = request.nextUrl.searchParams.get("domain");
   const slug = request.nextUrl.searchParams.get("slug");
 
   if (!domain && !slug) {
-    return NextResponse.json(
+    const response = NextResponse.json(
       { error: "At least one of domain or slug is required" },
       {
         status: 400,
       }
     );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 
   const supabase = createAdminClient();
@@ -49,21 +51,25 @@ export async function GET(request: NextRequest) {
     await query.maybeSingle();
 
   if (brandAndNetworkError) {
-    return NextResponse.json(
+    const response = NextResponse.json(
       { error: "Error: " + brandAndNetworkError.message },
       {
         status: 400,
       }
     );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 
   if (!brandAndNetwork) {
-    return NextResponse.json(
+    const response = NextResponse.json(
       { error: "Brand not found" },
       {
         status: 404,
       }
     );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 
   brandAndNetwork = brandAndNetwork as unknown as Tables<"brands"> & {
@@ -79,7 +85,7 @@ export async function GET(request: NextRequest) {
 
       offers = rakutenAdvertiserPartnershipDetails;
     } catch (error) {
-      return NextResponse.json(
+      const response = NextResponse.json(
         {
           error:
             "Failed to get Rakuten advertiser active offers (getRakutenAdvertiserActiveOffers)",
@@ -88,14 +94,18 @@ export async function GET(request: NextRequest) {
           status: 400,
         }
       );
+      response.headers.set("Cache-Control", "no-store, max-age=0");
+      return response;
     }
   } else {
-    return NextResponse.json(
+    const response = NextResponse.json(
       { error: "Brand has invalid network" },
       {
         status: 400,
       }
     );
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   }
 
   const response = NextResponse.json({
@@ -104,13 +114,7 @@ export async function GET(request: NextRequest) {
       (a, b) => (b.is_base_commission ? 1 : 0) - (a.is_base_commission ? 1 : 0)
     ),
   });
-  
-  response.headers.set('Cache-Control', 'no-store, max-age=0');
-  
-  // Alternative for 1-day caching per domain/slug (uncomment if preferred)
-  // const cacheKey = domain || slug;
-  // response.headers.set('Cache-Control', `public, max-age=86400`); // 1 day
-  // response.headers.set('Vary', 'domain, slug');
 
+  response.headers.set("Cache-Control", "no-store, max-age=0");
   return response;
 }
