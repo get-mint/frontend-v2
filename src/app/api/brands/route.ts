@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
 
   if (brandAndNetworkError) {
     return NextResponse.json(
-      { error: brandAndNetworkError.message },
+      { error: "Error: " + brandAndNetworkError.message },
       { status: 400 }
     );
   }
