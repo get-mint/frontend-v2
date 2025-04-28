@@ -17,13 +17,15 @@ const ERROR_MESSAGES = {
   },
   otp_verification: {
     title: "Verification Failed",
-    message: "We couldn't verify your email address. This may happen if the link has expired or was already used.",
+    message:
+      "We couldn't verify your email address. This may happen if the link has expired or was already used.",
     action: "Please try signing up again with the same email address.",
   },
   user_creation: {
     title: "Account Creation Failed",
     message: "We encountered an error while creating your account.",
-    action: "Please try signing up again. If the problem persists, contact support.",
+    action:
+      "Please try signing up again. If the problem persists, contact support.",
   },
   user_deletion: {
     title: "Cleanup Failed",
@@ -40,9 +42,9 @@ const ERROR_MESSAGES = {
 export default async function ConfirmationErrorPage({
   searchParams,
 }: {
-  searchParams: Promise<{ 
-    stage?: string; 
-    error?: string; 
+  searchParams: Promise<{
+    stage?: string;
+    error?: string;
     code?: string;
     details?: string;
   }>;
@@ -75,22 +77,30 @@ export default async function ConfirmationErrorPage({
                     Technical Details
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="p-3 text-sm text-left rounded-md bg-muted space-y-2">
+                    <div className="p-3 space-y-2 text-sm text-left rounded-md bg-muted">
                       <div>
                         <span className="font-semibold">Stage: </span>
-                        <span className="text-muted-foreground">{stage || "unknown"}</span>
+                        <span className="text-muted-foreground">
+                          {stage || "unknown"}
+                        </span>
                       </div>
                       <div>
                         <span className="font-semibold">Error: </span>
-                        <span className="text-muted-foreground">{errorMessage}</span>
+                        <span className="text-muted-foreground">
+                          {errorMessage}
+                        </span>
                       </div>
                       <div>
                         <span className="font-semibold">Code: </span>
-                        <span className="text-muted-foreground">{errorCode}</span>
+                        <span className="text-muted-foreground">
+                          {errorCode}
+                        </span>
                       </div>
                       <div className="mt-2">
-                        <span className="font-semibold">Full Error Details:</span>
-                        <pre className="mt-1 p-2 text-xs whitespace-pre-wrap break-all rounded bg-background text-muted-foreground">
+                        <span className="font-semibold">
+                          Full Error Details:
+                        </span>
+                        <pre className="p-2 mt-1 text-xs break-all whitespace-pre-wrap rounded bg-background text-muted-foreground">
                           {errorDetails}
                         </pre>
                       </div>

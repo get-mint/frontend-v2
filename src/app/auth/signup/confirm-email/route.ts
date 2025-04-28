@@ -65,13 +65,15 @@ export async function GET(request: Request) {
     });
   }
 
-  const supabase = createAdminClient();
+  const supabaseBefore = createAdminClient();
 
   // Verify OTP
-  const { data, error } = await supabase.auth.verifyOtp({
+  const { data, error } = await supabaseBefore.auth.verifyOtp({
     token_hash,
     type: type as "email",
   });
+
+  const supabase = createAdminClient();
 
   if (error || !data?.user?.id || !data.user.email) {
     return handleError(
