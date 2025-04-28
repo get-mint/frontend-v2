@@ -12,8 +12,8 @@ export function Header({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile();
 
   return (
-    <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
-      <div className="container flex items-center justify-between h-16 gap-8 px-6 mx-auto max-w-7xl">
+    <div className="sticky top-0 border-b z-100 bg-white/85 backdrop-blur-md">
+      <div className="container flex items-center justify-between gap-8 px-6 mx-auto h-18 max-w-7xl">
         <Link
           href={`${user ? "/user" : "/"}`}
           className="transition-all hover:opacity-90"
@@ -30,7 +30,7 @@ export function Header({ children }: { children: React.ReactNode }) {
             <Image
               src="/brand/mint-cashback.svg"
               alt="Mint Cashback Logo"
-              width={175}
+              width={200}
               height={28}
               priority
             />

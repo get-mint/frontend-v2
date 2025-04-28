@@ -9,7 +9,7 @@ export default function UserLayout({
     <>
       <UserHeader />
 
-      <div className="container mx-auto max-w-7xl">{children}</div>
+      <div className="container px-6 py-6 mx-auto max-w-7xl">{children}</div>
     </>
   );
 }
