@@ -9,15 +9,45 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+const ERROR_MESSAGES = {
+  token_validation: {
+    title: "Invalid Confirmation Link",
+    message: "The confirmation link you used is invalid or has expired.",
+    action: "Please request a new confirmation email.",
+  },
+  otp_verification: {
+    title: "Verification Failed",
+    message: "We couldn't verify your email address. This may happen if the link has expired or was already used.",
+    action: "Please try signing up again with the same email address.",
+  },
+  user_creation: {
+    title: "Account Creation Failed",
+    message: "We encountered an error while creating your account.",
+    action: "Please try signing up again. If the problem persists, contact support.",
+  },
+  user_deletion: {
+    title: "Cleanup Failed",
+    message: "We encountered an error while cleaning up your account.",
+    action: "Please contact support for assistance.",
+  },
+  default: {
+    title: "Email Confirmation Failed",
+    message: "We encountered an error while confirming your email address.",
+    action: "Please try signing up again with the same email address.",
+  },
+} as const;
+
 export default async function ConfirmationErrorPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; details?: string }>;
+  searchParams: Promise<{ stage?: string; error?: string; details?: string }>;
 }) {
   const params = await searchParams;
-
+  const stage = params.stage as keyof typeof ERROR_MESSAGES | undefined;
   const errorMessage = params.error || "Unknown error";
   const errorDetails = params.details || "No additional details available";
+
+  const errorInfo = ERROR_MESSAGES[stage || "default"];
 
   return (
     <div className="flex flex-col items-center justify-center p-6 min-h-svh bg-muted md:p-10">
@@ -25,13 +55,12 @@ export default async function ConfirmationErrorPage({
         <Card>
           <CardContent className="p-6">
             <div className="flex flex-col items-center gap-6 text-center">
-              <h1 className="text-2xl font-bold">Email Confirmation Failed</h1>
+              <h1 className="text-2xl font-bold">{errorInfo.title}</h1>
               <p className="text-balance text-muted-foreground">
-                We encountered an error while confirming your email address.
-                This may happen if the confirmation link is invalid or expired.
+                {errorInfo.message}
               </p>
               <p className="text-sm text-muted-foreground">
-                Please try signing up again with the same email address.
+                {errorInfo.action}
               </p>
 
               <Accordion type="single" collapsible className="w-full">

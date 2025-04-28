@@ -12,7 +12,7 @@ import { Tables } from "@/types/supabase";
 
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { Input } from "@/components/ui/input";
-import { CurrencySelect } from "@/components/currency/currency-select";
+import { CurrencySelect } from "@/components/app/currency/currency-select";
 
 const ITEMS_PER_PAGE = 12;
 

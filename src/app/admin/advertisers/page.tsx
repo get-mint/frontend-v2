@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { CreateAdvertiser } from "./create-dialog";
-import { Loader } from "@/components/loader";
+import { Loader } from "@/components/ui/loader";
 import { AdvertisersContent } from "./content";
 
 export const metadata: Metadata = {

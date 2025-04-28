@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 
 import { Separator } from "@/components/ui/separator";
-import { Loader } from "@/components/loader";
+import { Loader } from "@/components/ui/loader";
 import { TextAnimate } from "@/components/magicui/text-animate";
 
 import Posts from "./posts";

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-import { CurrencySelect } from "@/components/currency/currency-select";
+import { CurrencySelect } from "@/components/app/currency/currency-select";
 
 const items: { label: string; href: string }[] = [
   {
