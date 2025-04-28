@@ -13,7 +13,7 @@ export function Header({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
-      <div className="container flex items-center justify-between h-16 px-6 mx-auto max-w-7xl">
+      <div className="container flex items-center justify-between h-16 gap-8 px-6 mx-auto max-w-7xl">
         <Link
           href={`${user ? "/user" : "/"}`}
           className="transition-all hover:opacity-90"
