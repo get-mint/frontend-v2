@@ -20,6 +20,7 @@ async function handleError(
     userId,
     error: error?.message || "Unknown error",
     code: error?.code || "No error code",
+    fullError: error ? JSON.stringify(error, null, 2) : "No error object",
   });
 
   if (userId) {
@@ -31,13 +32,25 @@ async function handleError(
         userId,
         error: deleteError.message,
         code: deleteError.code,
+        fullError: JSON.stringify(deleteError, null, 2),
       });
     }
   }
 
-  return NextResponse.redirect(
-    new URL(`/auth/signup/confirmation-error?stage=${stage}`, requestUrl.origin)
+  // Create error URL with all available error information
+  const errorUrl = new URL(
+    "/auth/signup/confirmation-error",
+    requestUrl.origin
   );
+  errorUrl.searchParams.set("stage", stage);
+  errorUrl.searchParams.set("error", error?.message || "Unknown error");
+  errorUrl.searchParams.set("code", error?.code || "No error code");
+  errorUrl.searchParams.set(
+    "details",
+    error ? JSON.stringify(error, null, 2) : "No error details"
+  );
+
+  return NextResponse.redirect(errorUrl);
 }
 
 export async function GET(request: Request) {
@@ -75,18 +88,51 @@ export async function GET(request: Request) {
     .update(email.toLowerCase())
     .digest("hex");
 
-  const { error: dbError } = await supabase.from("users").upsert(
-    {
+  // First check if user exists
+  const { data: existingUser, error: checkError } = await supabase
+    .from("users")
+    .select("auth_user_id")
+    .eq("auth_user_id", userId)
+    .single();
+
+  if (checkError && checkError.code !== "PGRST116") {
+    // PGRST116 is "no rows returned"
+    return handleError(userId, requestUrl, "user_creation", {
+      message: "Failed to check for existing user",
+      code: checkError.code,
+      details: checkError.details,
+      hint: checkError.hint,
+      fullError: checkError,
+    });
+  }
+
+  let dbError;
+  if (existingUser) {
+    // Update existing user
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ tracking_id: trackingId })
+      .eq("auth_user_id", userId);
+
+    dbError = updateError;
+  } else {
+    // Insert new user
+    const { error: insertError } = await supabase.from("users").insert({
       auth_user_id: userId,
       tracking_id: trackingId,
-    },
-    {
-      onConflict: "auth_user_id",
-    }
-  );
+    });
+
+    dbError = insertError;
+  }
 
   if (dbError) {
-    return handleError(userId, requestUrl, "user_creation", dbError);
+    return handleError(userId, requestUrl, "user_creation", {
+      message: dbError.message,
+      code: dbError.code,
+      details: dbError.details,
+      hint: dbError.hint,
+      fullError: dbError,
+    });
   }
 
   return NextResponse.redirect(new URL("/auth/login", requestUrl.origin));

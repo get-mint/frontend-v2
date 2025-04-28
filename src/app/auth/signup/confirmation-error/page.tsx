@@ -40,11 +40,17 @@ const ERROR_MESSAGES = {
 export default async function ConfirmationErrorPage({
   searchParams,
 }: {
-  searchParams: Promise<{ stage?: string; error?: string; details?: string }>;
+  searchParams: Promise<{ 
+    stage?: string; 
+    error?: string; 
+    code?: string;
+    details?: string;
+  }>;
 }) {
   const params = await searchParams;
   const stage = params.stage as keyof typeof ERROR_MESSAGES | undefined;
   const errorMessage = params.error || "Unknown error";
+  const errorCode = params.code || "No error code";
   const errorDetails = params.details || "No additional details available";
 
   const errorInfo = ERROR_MESSAGES[stage || "default"];
@@ -69,13 +75,25 @@ export default async function ConfirmationErrorPage({
                     Technical Details
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="p-3 text-sm text-left rounded-md bg-muted">
-                      <p className="font-semibold">Error: {errorMessage}</p>
-                      {errorDetails && (
-                        <p className="mt-2 text-xs whitespace-pre-wrap text-muted-foreground">
+                    <div className="p-3 text-sm text-left rounded-md bg-muted space-y-2">
+                      <div>
+                        <span className="font-semibold">Stage: </span>
+                        <span className="text-muted-foreground">{stage || "unknown"}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold">Error: </span>
+                        <span className="text-muted-foreground">{errorMessage}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold">Code: </span>
+                        <span className="text-muted-foreground">{errorCode}</span>
+                      </div>
+                      <div className="mt-2">
+                        <span className="font-semibold">Full Error Details:</span>
+                        <pre className="mt-1 p-2 text-xs whitespace-pre-wrap break-all rounded bg-background text-muted-foreground">
                           {errorDetails}
-                        </p>
-                      )}
+                        </pre>
+                      </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
