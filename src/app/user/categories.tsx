@@ -26,7 +26,7 @@ export async function Categories() {
           {brandCategories.map((category) => (
             <div
               key={category.id}
-              className="flex shrink-0 flex-col items-center justify-center p-4 rounded-xl bg-accent hover:ring-2 hover:ring-primary transition-all cursor-pointer min-w-[140px]"
+              className="flex shrink-0 flex-col items-center justify-center p-4 rounded-xl bg-accent hover:ring-2 hover:ring-primary transition-all cursor-pointer min-w-[140px] shadow-sm"
             >
               <span className="mb-2 text-2xl">{category.emoji}</span>
               <span className="text-sm font-medium text-muted-foreground">
