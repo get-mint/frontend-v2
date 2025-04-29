@@ -1,3 +1,5 @@
+import { Brand } from "./brand";
+
 export default async function BrandPage({
   params,
 }: {
@@ -5,5 +7,5 @@ export default async function BrandPage({
 }) {
   const { slug } = await params;
 
-  return <div>{slug}</div>;
+  return <Brand slug={slug} />;
 }
