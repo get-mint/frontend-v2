@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Tables } from "@/types/supabase";
 
 import { Brands, BrandsSkeleton } from "../brands";
+import { SearchIcon, TagsIcon } from "lucide-react";
 
 async function getBrands(search: string, page: number, categoryId?: string) {
   const supabase = createClient();
@@ -85,13 +86,23 @@ export default function BrandsPage() {
       {(searchTerm || hasCategory) && (
         <div className="flex flex-col gap-2">
           {searchTerm && (
-            <h2 className="text-2xl font-bold">
-              Search results for "{searchTerm}"
-            </h2>
+            <div className="flex flex-row items-center gap-3 px-6 py-4 rounded-xl bg-muted">
+              <SearchIcon className="size-6" />
+
+              <span className="text-xl font-semibold">
+                Searching for:
+              </span>
+
+              <h3 className="px-4 py-2 text-xl font-bold text-white rounded-full bg-primary">
+                {searchTerm}
+              </h3>
+            </div>
           )}
 
           {hasCategory && category && (
-            <div className="flex flex-row items-center gap-3 px-6 py-4 rounded-lg bg-muted">
+            <div className="flex flex-row items-center gap-3 px-6 py-4 rounded-xl bg-muted">
+              <TagsIcon className="size-6" />
+              
               <span className="text-xl font-semibold">
                 Filtering by category:
               </span>

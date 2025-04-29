@@ -26,7 +26,7 @@ import {
 export function UserHeader() {
   const router = useRouter();
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
 
   const handleSearch = () => {
     router.push(`/user/brands?search=${search}`);
@@ -46,10 +46,7 @@ export function UserHeader() {
             }
           }}
         />
-        <Button
-          size="icon"
-          onClick={handleSearch}
-        >
+        <Button size="icon" onClick={handleSearch}>
           <SearchIcon className="size-5" />
         </Button>
       </div>
