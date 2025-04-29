@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 
 import { Tables } from "@/types/supabase";
 
-import { Brands } from "./brands";
+import { Brands, BrandsSkeleton } from "./brands";
 
 export function TopBrands() {
   const { user } = useAuth();
@@ -44,7 +44,7 @@ export function TopBrands() {
     <div className="flex flex-col gap-6">
       <h1 className="text-3xl font-bold">Top Brands</h1>
 
-      <Brands brands={brands} />
+      {brands.length > 0 ? <Brands brands={brands} /> : <BrandsSkeleton />}
     </div>
   );
 }
