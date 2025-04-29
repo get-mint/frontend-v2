@@ -1,6 +1,6 @@
 "use client";
 
-import { BrandAndNetworkAndOffers } from "./brand";
+import { BrandAndNetworkAndOffers } from "./types";
 
 export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
   return (

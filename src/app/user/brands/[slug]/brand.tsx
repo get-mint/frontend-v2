@@ -1,15 +1,5 @@
-import { Tables } from "@/types/supabase";
-
 import Banner from "./banner";
-
-export interface BrandAndNetworkAndOffers extends Tables<"brands"> {
-  network: Tables<"networks">;
-  offers: {
-    description: string;
-    commission: number;
-    type: string;
-  }[];
-}
+import { BrandAndNetworkAndOffers } from "./types";
 
 async function getBrandFromSlug(
   slug: string
