@@ -18,8 +18,8 @@ export async function getAccessToken(): Promise<string> {
   });
 
   if (!response.ok) {
-    console.error("Failed to get access token:", response.body + " " + response.status);
-    
+    console.error("Failed to get access token:", response.status);
+
     throw new Error("Failed to get access token");
   }
 
