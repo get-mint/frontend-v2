@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { SearchIcon, TagsIcon } from "lucide-react";
@@ -9,11 +9,14 @@ import { useAuth } from "@/lib/hooks/use-auth";
 
 import { Tables } from "@/types/supabase";
 
-import { Brands, BrandsSkeleton } from "../brands";
+import { Brands as BrandsList, BrandsSkeleton } from "../brands";
 import { getBrands, getCategoryFromId, PAGE_SIZE } from "./data";
 
-export default function BrandsPage() {
+function SearchAndFilterContent() {
   const searchParams = useSearchParams();
+
+  const searchQuery = searchParams.get("search") || "";
+  const categoryId = searchParams.get("category") || "";
 
   const { user } = useAuth();
 
@@ -31,9 +34,6 @@ export default function BrandsPage() {
     async (pageNumber: number, isInitialLoad: boolean = false) => {
       setIsLoading(true);
 
-      const search = searchParams.get("search") || "";
-      const categoryId = searchParams.get("category") || "";
-
       if (isInitialLoad && categoryId) {
         const category = await getCategoryFromId(categoryId);
         setCategory(category);
@@ -42,10 +42,10 @@ export default function BrandsPage() {
       }
 
       const data = await getBrands(
-        search,
+        searchQuery,
         pageNumber,
         user?.selected_currency_id || 1,
-        categoryId
+        categoryId || undefined
       );
 
       if (isInitialLoad) {
@@ -58,14 +58,14 @@ export default function BrandsPage() {
       setPage(pageNumber);
       setIsLoading(false);
     },
-    [searchParams]
+    [searchQuery, categoryId, user?.selected_currency_id]
   );
 
   useEffect(() => {
     setBrands([]);
     setPage(1);
     loadBrands(1, true);
-  }, [searchParams, loadBrands]);
+  }, [searchQuery, categoryId, loadBrands]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -86,21 +86,20 @@ export default function BrandsPage() {
     return () => observer.disconnect();
   }, [isLoading, hasMore, page, loadBrands, brands.length]);
 
-  const searchTerm = searchParams.get("search") || "";
-  const hasCategory = searchParams.has("category");
+  const hasCategory = Boolean(categoryId);
 
   return (
     <div className="flex flex-col gap-6">
-      {(searchTerm || hasCategory) && (
+      {(searchQuery || hasCategory) && (
         <div className="flex flex-col gap-2">
-          {searchTerm && (
+          {searchQuery && (
             <div className="flex flex-row items-center gap-3 px-6 py-4 rounded-xl bg-muted">
               <SearchIcon className="size-6" />
 
               <span className="text-xl font-semibold">Searching for:</span>
 
               <h3 className="px-4 py-2 text-xl font-bold text-white rounded-full bg-primary">
-                {searchTerm}
+                {searchQuery}
               </h3>
             </div>
           )}
@@ -125,7 +124,7 @@ export default function BrandsPage() {
         <BrandsSkeleton />
       ) : (
         <>
-          <Brands brands={brands} />
+          <BrandsList brands={brands} />
 
           <div ref={lastBrandRef} className="w-full h-4" />
         </>
@@ -137,5 +136,13 @@ export default function BrandsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function BrandsPage() {
+  return (
+    <Suspense fallback={<BrandsSkeleton />}>
+      <SearchAndFilterContent />
+    </Suspense>
   );
 }
