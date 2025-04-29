@@ -1,32 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
+
+import { SearchIcon, TagsIcon } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
 
 import { Tables } from "@/types/supabase";
 
 import { Brands, BrandsSkeleton } from "../brands";
-import { SearchIcon, TagsIcon } from "lucide-react";
+
+const PAGE_SIZE = 20;
 
 async function getBrands(search: string, page: number, categoryId?: string) {
   const supabase = createClient();
 
-  let query = supabase
-    .from("brands")
-    .select("*, brands_categories!inner(*)")
-    .order("priority", { ascending: true });
+  let query;
+  
+  if (categoryId) {
+    query = supabase
+      .from("brands")
+      .select("*, brands_categories!inner(*)")
+      .eq("brands_categories.brand_category_id", categoryId)
+      .order("priority", { ascending: true });
+  } else {
+    query = supabase
+      .from("brands")
+      .select("*")
+      .order("priority", { ascending: true });
+  }
 
   if (search) {
     query = query.ilike("name", `%${search}%`);
   }
 
-  if (categoryId) {
-    query = query.eq("brands_categories.brand_category_id", categoryId);
-  }
-
-  const { data, error } = await query.range((page - 1) * 10, page * 10 - 1);
+  const { data, error } = await query.range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
 
   if (error) {
     throw error;
@@ -52,31 +61,61 @@ export default function BrandsPage() {
 
   const [brands, setBrands] = useState<Tables<"brands">[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [page, setPage] = useState(1);
   const [category, setCategory] = useState<
     Tables<"brand_categories"> | undefined
   >(undefined);
 
-  useEffect(() => {
-    const loadBrands = async () => {
-      setIsLoading(true);
+  const observer = useRef<IntersectionObserver | null>(null);
 
-      const search = searchParams.get("search") || "";
-      const page = parseInt(searchParams.get("page") || "1");
-      const categoryId = searchParams.get("category") || "";
+  // Function to load more brands
+  const loadBrands = useCallback(async (pageNumber: number, isInitialLoad: boolean = false) => {
+    setIsLoading(true);
 
-      if (categoryId) {
-        const category = await getCategoryFromId(categoryId);
-        setCategory(category);
-      }
+    const search = searchParams.get("search") || "";
+    const categoryId = searchParams.get("category") || "";
 
-      const data = await getBrands(search, page, categoryId);
+    if (isInitialLoad && categoryId) {
+      const category = await getCategoryFromId(categoryId);
+      setCategory(category);
+    } else if (isInitialLoad) {
+      setCategory(undefined);
+    }
+
+    const data = await getBrands(search, pageNumber, categoryId);
+    
+    if (isInitialLoad) {
       setBrands(data);
+    } else {
+      setBrands(prev => [...prev, ...data]);
+    }
 
-      setIsLoading(false);
-    };
-
-    loadBrands();
+    setHasMore(data.length === PAGE_SIZE);
+    setPage(pageNumber);
+    setIsLoading(false);
   }, [searchParams]);
+
+  // Initial load and when search params change
+  useEffect(() => {
+    setBrands([]);
+    setPage(1);
+    loadBrands(1, true);
+  }, [searchParams, loadBrands]);
+
+  // Set up intersection observer for infinite loading
+  const lastBrandElementRef = useCallback((node: HTMLDivElement | null) => {
+    if (isLoading) return;
+    if (observer.current) observer.current.disconnect();
+    
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        loadBrands(page + 1);
+      }
+    });
+    
+    if (node) observer.current.observe(node);
+  }, [isLoading, hasMore, page, loadBrands]);
 
   const searchTerm = searchParams.get("search") || "";
   const hasCategory = searchParams.has("category");
@@ -89,9 +128,7 @@ export default function BrandsPage() {
             <div className="flex flex-row items-center gap-3 px-6 py-4 rounded-xl bg-muted">
               <SearchIcon className="size-6" />
 
-              <span className="text-xl font-semibold">
-                Searching for:
-              </span>
+              <span className="text-xl font-semibold">Searching for:</span>
 
               <h3 className="px-4 py-2 text-xl font-bold text-white rounded-full bg-primary">
                 {searchTerm}
@@ -115,7 +152,55 @@ export default function BrandsPage() {
         </div>
       )}
 
-      {isLoading ? <BrandsSkeleton /> : <Brands brands={brands} />}
+      {isLoading && brands.length === 0 ? (
+        <BrandsSkeleton />
+      ) : (
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
+          {brands.map((brand, index) => {
+            const isLastElement = index === brands.length - 1;
+            
+            return (
+              <div
+                key={brand.id}
+                ref={isLastElement ? lastBrandElementRef : null}
+                className="flex flex-col gap-2 cursor-pointer group"
+              >
+                <div
+                  className={`relative aspect-square flex items-center justify-center p-6 rounded-xl overflow-hidden ${
+                    !brand.color ? "bg-muted" : ""
+                  }`}
+                  style={{ backgroundColor: brand.color || undefined }}
+                >
+                  <img
+                    src={brand.image_url ?? "/placeholder.svg"}
+                    alt={brand.name}
+                    className="object-contain max-w-full max-h-full"
+                    width={120}
+                    height={120}
+                  />
+                  <button
+                    className="absolute h-8 px-3 text-sm rounded-md bottom-2 right-2 bg-background/80 hover:bg-background backdrop-blur-sm"
+                  >
+                    Shop
+                  </button>
+                </div>
+
+                <div className="flex flex-col gap-0.5">
+                  <div className="text-lg font-bold transition-all group-hover:underline">
+                    {brand.name}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {isLoading && brands.length > 0 && (
+        <div className="flex justify-center py-4">
+          <div className="w-6 h-6 rounded-full animate-pulse bg-primary/20"></div>
+        </div>
+      )}
     </div>
   );
 }

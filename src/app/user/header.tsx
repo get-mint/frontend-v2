@@ -53,7 +53,7 @@ export function UserHeader() {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className="flex flex-row items-center justify-center p-2 transition-all border rounded-full cursor-pointer hover:border-primary hover:ring-1 hover:ring-primary">
+          <div className="flex flex-row items-center justify-center p-2 transition-all bg-white border rounded-full cursor-pointer hover:border-primary hover:ring-1 hover:ring-primary">
             <Button size="icon" className="mr-3">
               <UserIcon className="size-5" />
             </Button>
