@@ -1,6 +1,6 @@
 "use client";
 
-import { createAdminClient } from "@/lib/supabase/server/client";
+import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/lib/hooks/use-auth";
 
 import { Tables } from "@/types/supabase";
@@ -8,7 +8,7 @@ import { Tables } from "@/types/supabase";
 import { Brands } from "./brands";
 
 async function getBrands(currencyId?: number) {
-  const supabase = createAdminClient();
+  const supabase = createClient();
 
   let query = supabase
     .from("brands")
