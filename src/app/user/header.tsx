@@ -7,6 +7,7 @@ import {
   HistoryIcon,
   LogOutIcon,
   ChevronDownIcon,
+  LayoutDashboardIcon,
 } from "lucide-react";
 
 import { Header } from "@/components/layout/header";
@@ -50,7 +51,7 @@ export function UserHeader() {
           </div>
 
           <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
-            <UserIcon className="size-5 text-foreground" />
+            <LayoutDashboardIcon className="size-5 text-foreground" />
             Dashboard
           </DropdownMenuItem>
 

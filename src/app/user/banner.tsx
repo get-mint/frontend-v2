@@ -2,19 +2,20 @@ import { Button } from "@/components/ui/button";
 
 export function Banner() {
   return (
-    <div className="flex flex-row items-center w-full p-8 rounded-2xl bg-gradient-to-tr from-primary to-primary/60">
-      <div className="flex flex-col gap-3">
-        <span className="text-4xl font-extrabold text-primary-foreground">
-          How to Use Mint
-        </span>
+    <div className="flex flex-col items-center justify-center w-full p-12 rounded-2xl bg-[#2ECC71] text-center">
+      <div className="flex flex-col items-center gap-8">
+        <h1 className="text-4xl font-bold text-white">
+          Get Real Cash Back at 50+ Stores
+        </h1>
         
-        <span className="text-lg text-primary-foreground">
-          Easy steps to get started
-        </span>
-        
-        <Button className="bg-primary-foreground text-foreground hover:bg-primary-foreground">
-          Get Started
-        </Button>
+        <div className="flex flex-row gap-4">
+          <Button className="bg-white text-black hover:bg-gray-100 font-semibold px-6 py-2 text-lg">
+            Start Saving
+          </Button>
+          <Button className="bg-white text-black hover:bg-gray-100 font-semibold px-6 py-2 text-lg">
+            Browse Brands
+          </Button>
+        </div>
       </div>
     </div>
   );
