@@ -1,24 +1,23 @@
 import Link from "next/link";
 
-import { SearchIcon, UserIcon, HandCoinsIcon, HistoryIcon, LogOutIcon, ChevronDownIcon } from "lucide-react";
+import {
+  SearchIcon,
+  UserIcon,
+  HandCoinsIcon,
+  HistoryIcon,
+  LogOutIcon,
+  ChevronDownIcon,
+} from "lucide-react";
 
 import { Header } from "@/components/layout/header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-
-const items = [
-  {
-    href: "/user/refer-and-earn",
-    label: "Refer & Earn",
-    icon: HandCoinsIcon,
-  },
-  {
-    href: "/user/activity",
-    label: "Activity",
-    icon: HistoryIcon,
-  },
-];
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function UserHeader() {
   return (
@@ -33,59 +32,43 @@ export function UserHeader() {
         </Button>
       </div>
 
-      <div className="flex flex-row items-center justify-center gap-6">
-        {items.map((item) => (
-          <Link
-            href={item.href}
-            key={item.href}
-            className="flex flex-row items-center justify-center gap-2 group"
-          >
-            <item.icon className="transition-all size-5 group-hover:text-primary" />
-            <span className="font-semibold transition-all group-hover:text-primary">
-              {item.label}
-            </span>
-          </Link>
-        ))}
-      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className="flex flex-row items-center justify-center p-2 transition-all border rounded-full cursor-pointer hover:border-primary hover:ring-1 hover:ring-primary">
+            <Button size="icon" className="mr-3">
+              <UserIcon className="size-5" />
+            </Button>
 
+            <span className="mr-1 font-semibold">$24.00</span>
+            <ChevronDownIcon className="mr-1 size-5" />
+          </div>
+        </DropdownMenuTrigger>
 
-<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <div className="flex flex-row items-center justify-center p-2 transition-all border rounded-full cursor-pointer hover:border-primary hover:ring-1 hover:ring-primary">
-      <Button size="icon" className="mr-3">
-        <UserIcon className="size-5" />
-        </Button>
+        <DropdownMenuContent className="w-64 p-0 mt-1 rounded-t-none z-49">
+          <div className="p-4 border-b">
+            <span className="text-lg font-bold">My Account</span>
+          </div>
 
-        <span className="mr-1 font-semibold">$24.00</span>
-        <ChevronDownIcon className="mr-1 size-5" />
-      </div>
-      </DropdownMenuTrigger>
+          <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
+            <UserIcon className="size-5 text-foreground" />
+            Dashboard
+          </DropdownMenuItem>
 
-      <DropdownMenuContent className="w-64 p-0 mt-1 rounded-t-none z-49">
-        <div className="p-4 border-b">
-          <span className="text-lg font-bold">My Account</span>
-        </div>
-        
-        <DropdownMenuItem className="p-4 font-semibold rounded-none cursor-pointer text-md">
-          <UserIcon className="size-5 text-foreground" />
-          My Account
-        </DropdownMenuItem>
-        
-        <DropdownMenuItem className="p-4 font-semibold rounded-none cursor-pointer text-md">
-          <HistoryIcon className="size-5 text-foreground" />
-          Activity
-        </DropdownMenuItem>
+          <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
+            <HistoryIcon className="size-5 text-foreground" />
+            Activity
+          </DropdownMenuItem>
 
-        <DropdownMenuItem className="p-4 font-semibold rounded-none cursor-pointer text-md">
-          <HandCoinsIcon className="size-5 text-foreground" />
-          Refer & Earn
-        </DropdownMenuItem>
+          <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
+            <HandCoinsIcon className="size-5 text-foreground" />
+            Refer & Earn
+          </DropdownMenuItem>
 
-        <DropdownMenuItem className="p-4 font-semibold rounded-none cursor-pointer text-md text-destructive">
-          <LogOutIcon className="size-5 text-destructive" />
-          Logout
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+          <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md text-destructive">
+            <LogOutIcon className="size-5 text-destructive" />
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
       </DropdownMenu>
     </Header>
   );
