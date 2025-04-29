@@ -1,6 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { DownloadIcon, TagsIcon } from "lucide-react";
 
 import { createAdminClient } from "@/lib/supabase/server/client";
+
+import { Button } from "@/components/ui/button";
 
 async function getBrandCount() {
   const supabase = createAdminClient();
@@ -23,15 +25,17 @@ export async function Banner() {
     <div className="flex flex-col items-center justify-center w-full p-12 text-center rounded-3xl bg-gradient-to-br from-primary to-primary/60">
       <div className="flex flex-col items-center gap-6">
         <h1 className="text-4xl font-extrabold text-white">
-         Earn Real Cashback at {brandCount} Stores
+          Earn Real Cashback at {brandCount} Stores
         </h1>
 
         <div className="flex flex-row gap-4">
-          <Button className="w-48 h-12 text-lg font-semibold transition-all shadow-md hover:shadow-lg bg-primary-foreground hover:w-50 text-primary hover:bg-primary-foreground">
+          <Button className="w-48 h-12 text-lg font-semibold transition-all bg-primary-foreground hover:w-50 text-primary hover:bg-primary-foreground">
             Start Saving
+            <DownloadIcon className="size-5" />
           </Button>
-          <Button className="w-48 h-12 text-lg font-semibold text-white transition-all bg-transparent border-2 shadow-md hover:shadow-lg border-primary-foreground hover:w-50 hover:bg-transparent">
+          <Button className="w-48 h-12 text-lg font-semibold text-white transition-all bg-transparent border-2 border-primary-foreground hover:w-50 hover:bg-transparent">
             Browse Brands
+            <TagsIcon className="size-5" />
           </Button>
         </div>
       </div>
