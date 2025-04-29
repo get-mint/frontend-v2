@@ -58,7 +58,6 @@ export function Brands({ brands }: { brands: Tables<"brands">[] }) {
               <Button
                 className="absolute h-8 text-sm bottom-2 right-2"
                 variant="ghost"
-                onClick={(e) => e.stopPropagation()}
               >
                 Shop
                 <ExternalLinkIcon className="size-4" />
