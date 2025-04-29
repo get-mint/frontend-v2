@@ -3,8 +3,7 @@ import Script from "next/script";
 import { Figtree } from "next/font/google";
 
 import { ThemeProvider } from "@/lib/providers/theme-provider";
-import { AuthProvider } from "@/lib/providers/old-auth";
-import { CurrencyProvider } from "@/lib/providers/currency-provider";
+import { AuthProvider } from "@/lib/providers/auth-provider";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -89,21 +88,19 @@ export default function Layout({
 
       <body className={`${figtree.className} antialiased`}>
         <AuthProvider>
-          <CurrencyProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              forcedTheme="light"
-              disableTransitionOnChange
-              storageKey="theme-preference"
-            >
-              <main>
-                <Toaster position="top-center" />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            forcedTheme="light"
+            disableTransitionOnChange
+            storageKey="theme-preference"
+          >
+            <main>
+              <Toaster position="top-center" />
 
-                {children}
-              </main>
-            </ThemeProvider>
-          </CurrencyProvider>
+              {children}
+            </main>
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>
