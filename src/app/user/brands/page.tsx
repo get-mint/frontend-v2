@@ -5,59 +5,10 @@ import { useSearchParams } from "next/navigation";
 
 import { SearchIcon, TagsIcon } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/client";
-
 import { Tables } from "@/types/supabase";
 
 import { Brands, BrandsSkeleton } from "../brands";
-
-const PAGE_SIZE = 20;
-
-async function getBrands(search: string, page: number, categoryId?: string) {
-  const supabase = createClient();
-
-  let query;
-
-  if (categoryId) {
-    query = supabase
-      .from("brands")
-      .select("*, brands_categories!inner(*)")
-      .eq("brands_categories.brand_category_id", categoryId)
-      .order("priority", { ascending: true });
-  } else {
-    query = supabase
-      .from("brands")
-      .select("*")
-      .order("priority", { ascending: true });
-  }
-
-  if (search) {
-    query = query.ilike("name", `%${search}%`);
-  }
-
-  const { data, error } = await query.range(
-    (page - 1) * PAGE_SIZE,
-    page * PAGE_SIZE - 1
-  );
-
-  if (error) {
-    throw error;
-  }
-
-  return data as Tables<"brands">[];
-}
-
-async function getCategoryFromId(categoryId: string) {
-  const supabase = createClient();
-
-  const { data } = await supabase
-    .from("brand_categories")
-    .select("*")
-    .eq("id", categoryId)
-    .single();
-
-  return data as Tables<"brand_categories">;
-}
+import { getBrands, getCategoryFromId, PAGE_SIZE } from "./data";
 
 export default function BrandsPage() {
   const searchParams = useSearchParams();
@@ -70,10 +21,8 @@ export default function BrandsPage() {
     Tables<"brand_categories"> | undefined
   >(undefined);
 
-  const observer = useRef<IntersectionObserver | null>(null);
   const lastBrandRef = useRef<HTMLDivElement>(null);
 
-  // Function to load more brands
   const loadBrands = useCallback(
     async (pageNumber: number, isInitialLoad: boolean = false) => {
       setIsLoading(true);
@@ -103,14 +52,12 @@ export default function BrandsPage() {
     [searchParams]
   );
 
-  // Initial load and when search params change
   useEffect(() => {
     setBrands([]);
     setPage(1);
     loadBrands(1, true);
   }, [searchParams, loadBrands]);
 
-  // Set up intersection observer for infinite loading
   useEffect(() => {
     if (isLoading) return;
 
