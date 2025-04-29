@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { ExternalLinkIcon } from "lucide-react";
 
 import { Tables } from "@/types/supabase";
@@ -29,14 +31,18 @@ export function Brands({ brands }: { brands: Tables<"brands">[] }) {
       {brands.map((brand, index) => (
         <div
           key={`${brand.id}-${index}`}
-          className="flex flex-col gap-2 transition-all cursor-pointer group animate-in fade-in slide-in-from-bottom-4"
+          className="flex flex-col gap-2 transition-all group"
         >
           <div
-            className={`relative aspect-square flex items-center justify-center p-6 rounded-xl overflow-hidden ${
+            className={`relative aspect-square flex items-center justify-center p-6 rounded-xl overflow-hidden group-hover:shadow-md transition-shadow ${
               !brand.color ? "bg-muted" : ""
             }`}
             style={{ backgroundColor: brand.color || undefined }}
           >
+            <Link
+              href={`/user/brands/${brand.slug}`}
+              className="absolute inset-0"
+            />
             <img
               src={brand.image_url ?? "/placeholder.svg"}
               alt={brand.name}
@@ -44,20 +50,30 @@ export function Brands({ brands }: { brands: Tables<"brands">[] }) {
               width={120}
               height={120}
             />
-            <Button
-              className="absolute h-8 text-sm bottom-2 right-2"
-              variant="ghost"
+            <Link
+              href={`https://${brand.domain}`}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Shop
-              <ExternalLinkIcon className="size-4" />
-            </Button>
+              <Button
+                className="absolute h-8 text-sm bottom-2 right-2"
+                variant="ghost"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Shop
+                <ExternalLinkIcon className="size-4" />
+              </Button>
+            </Link>
           </div>
 
-          <div className="flex flex-col gap-0.5">
+          <Link
+            href={`/user/brands/${brand.slug}`}
+            className="flex flex-col gap-0.5"
+          >
             <div className="text-lg font-bold transition-all group-hover:underline">
               {brand.name}
             </div>
-          </div>
+          </Link>
         </div>
       ))}
     </div>

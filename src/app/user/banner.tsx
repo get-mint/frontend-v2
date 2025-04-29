@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { DownloadIcon, TagsIcon } from "lucide-react";
 
 import { createAdminClient } from "@/lib/supabase/server/client";
@@ -29,14 +31,19 @@ export async function Banner() {
         </h1>
 
         <div className="flex flex-row gap-4">
-          <Button className="w-48 h-12 text-lg font-semibold transition-all bg-primary-foreground hover:w-50 text-primary hover:bg-primary-foreground">
-            Start Saving
-            <DownloadIcon className="size-5" />
-          </Button>
-          <Button className="w-48 h-12 text-lg font-semibold text-white transition-all bg-transparent border-2 border-primary-foreground hover:w-50 hover:bg-transparent">
-            Browse Brands
-            <TagsIcon className="size-5" />
-          </Button>
+          <Link href="/home/download" passHref>
+            <Button className="w-48 h-12 text-lg font-semibold transition-all bg-primary-foreground hover:w-50 text-primary hover:bg-primary-foreground">
+              Start Saving
+              <DownloadIcon className="size-5" />
+            </Button>
+          </Link>
+
+          <Link href="/user/brands" passHref>
+            <Button className="w-48 h-12 text-lg font-semibold text-white transition-all bg-transparent border-2 border-primary-foreground hover:w-50 hover:bg-transparent">
+              Browse Brands
+              <TagsIcon className="size-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
