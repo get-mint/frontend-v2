@@ -19,7 +19,7 @@ const loginSchema = z.object({
 export function LoginForm() {
   const router = useRouter();
 
-  const { logIn, error: authError } = useAuth();
+  const { logIn } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,11 +66,6 @@ export function LoginForm() {
             Login to your account
           </p>
         </div>
-        {authError && (
-          <div className="text-sm text-destructive text-center">
-            {authError}
-          </div>
-        )}
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -113,7 +108,7 @@ export function LoginForm() {
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Continue"}
         </Button>
-        <div className="text-center text-sm">
+        <div className="text-sm text-center">
           Don&apos;t have an account?{" "}
           <a href="/auth/signup" className="underline underline-offset-4">
             Sign up
