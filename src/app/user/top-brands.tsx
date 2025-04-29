@@ -1,7 +1,9 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
+import { useState, useEffect } from "react";
+
 import { useAuth } from "@/lib/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
 
 import { Tables } from "@/types/supabase";
 
@@ -29,10 +31,14 @@ async function getBrands(currencyId?: number) {
   return data as Tables<"brands">[];
 }
 
-export async function TopBrands() {
+export function TopBrands() {
   const { user } = useAuth();
 
-  const brands = await getBrands(user?.selected_currency_id);
+  const [brands, setBrands] = useState<Tables<"brands">[]>([]);
+
+  useEffect(() => {
+    getBrands(user?.selected_currency_id).then(setBrands);
+  }, [user?.selected_currency_id]);
 
   return (
     <div className="flex flex-col gap-6">
