@@ -17,7 +17,7 @@ async function getBrands(search: string, page: number, categoryId?: string) {
   const supabase = createClient();
 
   let query;
-  
+
   if (categoryId) {
     query = supabase
       .from("brands")
@@ -35,7 +35,10 @@ async function getBrands(search: string, page: number, categoryId?: string) {
     query = query.ilike("name", `%${search}%`);
   }
 
-  const { data, error } = await query.range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
+  const { data, error } = await query.range(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE - 1
+  );
 
   if (error) {
     throw error;
@@ -68,33 +71,37 @@ export default function BrandsPage() {
   >(undefined);
 
   const observer = useRef<IntersectionObserver | null>(null);
+  const lastBrandRef = useRef<HTMLDivElement>(null);
 
   // Function to load more brands
-  const loadBrands = useCallback(async (pageNumber: number, isInitialLoad: boolean = false) => {
-    setIsLoading(true);
+  const loadBrands = useCallback(
+    async (pageNumber: number, isInitialLoad: boolean = false) => {
+      setIsLoading(true);
 
-    const search = searchParams.get("search") || "";
-    const categoryId = searchParams.get("category") || "";
+      const search = searchParams.get("search") || "";
+      const categoryId = searchParams.get("category") || "";
 
-    if (isInitialLoad && categoryId) {
-      const category = await getCategoryFromId(categoryId);
-      setCategory(category);
-    } else if (isInitialLoad) {
-      setCategory(undefined);
-    }
+      if (isInitialLoad && categoryId) {
+        const category = await getCategoryFromId(categoryId);
+        setCategory(category);
+      } else if (isInitialLoad) {
+        setCategory(undefined);
+      }
 
-    const data = await getBrands(search, pageNumber, categoryId);
-    
-    if (isInitialLoad) {
-      setBrands(data);
-    } else {
-      setBrands(prev => [...prev, ...data]);
-    }
+      const data = await getBrands(search, pageNumber, categoryId);
 
-    setHasMore(data.length === PAGE_SIZE);
-    setPage(pageNumber);
-    setIsLoading(false);
-  }, [searchParams]);
+      if (isInitialLoad) {
+        setBrands(data);
+      } else {
+        setBrands((prev) => [...prev, ...data]);
+      }
+
+      setHasMore(data.length === PAGE_SIZE);
+      setPage(pageNumber);
+      setIsLoading(false);
+    },
+    [searchParams]
+  );
 
   // Initial load and when search params change
   useEffect(() => {
@@ -104,18 +111,24 @@ export default function BrandsPage() {
   }, [searchParams, loadBrands]);
 
   // Set up intersection observer for infinite loading
-  const lastBrandElementRef = useCallback((node: HTMLDivElement | null) => {
+  useEffect(() => {
     if (isLoading) return;
-    if (observer.current) observer.current.disconnect();
-    
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        loadBrands(page + 1);
-      }
-    });
-    
-    if (node) observer.current.observe(node);
-  }, [isLoading, hasMore, page, loadBrands]);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting && hasMore) {
+          loadBrands(page + 1);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (lastBrandRef.current) {
+      observer.observe(lastBrandRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isLoading, hasMore, page, loadBrands, brands.length]);
 
   const searchTerm = searchParams.get("search") || "";
   const hasCategory = searchParams.has("category");
@@ -139,7 +152,7 @@ export default function BrandsPage() {
           {hasCategory && category && (
             <div className="flex flex-row items-center gap-3 px-6 py-4 rounded-xl bg-muted">
               <TagsIcon className="size-6" />
-              
+
               <span className="text-xl font-semibold">
                 Filtering by category:
               </span>
@@ -155,45 +168,11 @@ export default function BrandsPage() {
       {isLoading && brands.length === 0 ? (
         <BrandsSkeleton />
       ) : (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
-          {brands.map((brand, index) => {
-            const isLastElement = index === brands.length - 1;
-            
-            return (
-              <div
-                key={brand.id}
-                ref={isLastElement ? lastBrandElementRef : null}
-                className="flex flex-col gap-2 cursor-pointer group"
-              >
-                <div
-                  className={`relative aspect-square flex items-center justify-center p-6 rounded-xl overflow-hidden ${
-                    !brand.color ? "bg-muted" : ""
-                  }`}
-                  style={{ backgroundColor: brand.color || undefined }}
-                >
-                  <img
-                    src={brand.image_url ?? "/placeholder.svg"}
-                    alt={brand.name}
-                    className="object-contain max-w-full max-h-full"
-                    width={120}
-                    height={120}
-                  />
-                  <button
-                    className="absolute h-8 px-3 text-sm rounded-md bottom-2 right-2 bg-background/80 hover:bg-background backdrop-blur-sm"
-                  >
-                    Shop
-                  </button>
-                </div>
+        <>
+          <Brands brands={brands} />
 
-                <div className="flex flex-col gap-0.5">
-                  <div className="text-lg font-bold transition-all group-hover:underline">
-                    {brand.name}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+          <div ref={lastBrandRef} className="w-full h-4" />
+        </>
       )}
 
       {isLoading && brands.length > 0 && (

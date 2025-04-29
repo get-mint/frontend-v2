@@ -1,5 +1,7 @@
 import { ExternalLinkIcon } from "lucide-react";
+
 import { Tables } from "@/types/supabase";
+
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -24,10 +26,10 @@ export function BrandsSkeleton() {
 export function Brands({ brands }: { brands: Tables<"brands">[] }) {
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
-      {brands.map((brand) => (
+      {brands.map((brand, index) => (
         <div
-          key={brand.id}
-          className="flex flex-col gap-2 cursor-pointer group"
+          key={`${brand.id}-${index}`}
+          className="flex flex-col gap-2 transition-all cursor-pointer group animate-in fade-in slide-in-from-bottom-4"
         >
           <div
             className={`relative aspect-square flex items-center justify-center p-6 rounded-xl overflow-hidden ${
