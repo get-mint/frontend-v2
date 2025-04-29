@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Figtree } from "next/font/google";
 
-import { ThemeProvider } from "@/lib/providers/theme";
-import { AuthProvider } from "@/lib/providers/auth";
-import { CurrencyProvider } from "@/lib/providers/currency";
+import { ThemeProvider } from "@/lib/providers/theme-provider";
+import { AuthProvider } from "@/lib/providers/old-auth";
+import { CurrencyProvider } from "@/lib/providers/currency-provider";
 
 import { Toaster } from "@/components/ui/sonner";
 

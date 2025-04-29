@@ -1,4 +1,19 @@
-async function getBrandFromSlug(slug: string) {
+import { Tables } from "@/types/supabase";
+
+import Banner from "./banner";
+
+export interface BrandAndNetworkAndOffers extends Tables<"brands"> {
+  network: Tables<"networks">;
+  offers: {
+    description: string;
+    commission: number;
+    type: string;
+  }[];
+}
+
+async function getBrandFromSlug(
+  slug: string
+): Promise<BrandAndNetworkAndOffers | undefined> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/brands?slug=${encodeURIComponent(
       slug
@@ -17,35 +32,17 @@ async function getBrandFromSlug(slug: string) {
 }
 
 export async function Brand({ slug }: { slug: string }) {
-  const brandData = await getBrandFromSlug(slug);
+  const brand = await getBrandFromSlug(slug);
 
-  if (!brandData) {
-    return (
-      <div>
-        <h1>Brand not found</h1>
-        <p>
-          We couldn't find the brand you're looking for. Please try again later.
-        </p>
-      </div>
-    );
-  }
-
-  return (
+  return brand ? (
+    <>
+      <Banner brand={brand} />
+    </>
+  ) : (
     <div>
-      <h1>{brandData.name}</h1>
-      {brandData.offers && brandData.offers.length > 0 && (
-        <div>
-          <h2>Offers</h2>
-          <ul>
-            {brandData.offers.map((offer: any, index: number) => (
-              <li key={index}>
-                {offer.description} - {offer.commission}%{" "}
-                {offer.type === "flat" ? "flat" : "on sale"}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <p>
+        We couldn't find the brand you're looking for. Please try again later.
+      </p>
     </div>
   );
 }
