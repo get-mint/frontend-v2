@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 
 import { SearchIcon, TagsIcon } from "lucide-react";
 
+import { useAuth } from "@/lib/hooks/use-auth";
+
 import { Tables } from "@/types/supabase";
 
 import { Brands, BrandsSkeleton } from "../brands";
@@ -12,6 +14,8 @@ import { getBrands, getCategoryFromId, PAGE_SIZE } from "./data";
 
 export default function BrandsPage() {
   const searchParams = useSearchParams();
+
+  const { user } = useAuth();
 
   const [brands, setBrands] = useState<Tables<"brands">[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +41,12 @@ export default function BrandsPage() {
         setCategory(undefined);
       }
 
-      const data = await getBrands(search, pageNumber, categoryId);
+      const data = await getBrands(
+        search,
+        pageNumber,
+        user?.selected_currency_id || 1,
+        categoryId
+      );
 
       if (isInitialLoad) {
         setBrands(data);
