@@ -11,7 +11,11 @@ export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
   return (
     <>
       <div className="relative flex flex-row items-center justify-center">
-        <Button  variant="default" onClick={() => router.back()} className="absolute left-0">
+        <Button
+          variant="default"
+          onClick={() => router.back()}
+          className="absolute left-0"
+        >
           <ArrowLeft />
           Back
         </Button>
