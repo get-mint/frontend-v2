@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/ui/loader";
 
-export default function LaunchPage() {
+function LaunchContent() {
   const searchParams = useSearchParams();
 
   const [countdown, setCountdown] = useState<number>(3);
@@ -78,5 +78,20 @@ export default function LaunchPage() {
         Go Now
       </Button>
     </div>
+  );
+}
+
+export default function LaunchPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-screen p-4">
+        <Loader className="mb-4 size-14 text-primary" />
+        <p className="text-lg font-semibold text-muted-foreground">
+          Loading...
+        </p>
+      </div>
+    }>
+      <LaunchContent />
+    </Suspense>
   );
 }
