@@ -1,21 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/ui/loader";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 export default function LaunchPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const [countdown, setCountdown] = useState<number>(3);
   const [redirectUrl, setRedirectUrl] = useState<string>("");
@@ -28,7 +20,7 @@ export default function LaunchPage() {
 
       if (!domain || !email) {
         console.error("Missing domain or email parameter");
-        router.back();
+        window.close();
         return;
       }
 
@@ -38,7 +30,7 @@ export default function LaunchPage() {
 
       if (!response.ok) {
         console.error("Failed to get redirect link");
-        router.back();
+        window.close();
         return;
       }
 
@@ -72,24 +64,19 @@ export default function LaunchPage() {
     </div>
   ) : (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <Card className="p-12 mx-auto my-8">
-        <CardHeader>
-          <CardTitle>Redirecting in {countdown}...</CardTitle>
-          <CardDescription>
-            You will be redirected shortly. If nothing happens, please click the
-            button below.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center gap-4">
-          <div className="font-bold text-primary text-7xl">{countdown}</div>
-          <Button
-            variant="default"
-            onClick={() => (window.location.href = redirectUrl)}
-          >
-            Go Now
-          </Button>
-        </CardContent>
-      </Card>
+      <p className="mb-4 text-muted-foreground">
+        You will be redirected shortly. If nothing happens, please click the
+        button below.
+      </p>
+
+      <div className="mb-4 font-bold text-primary text-7xl">{countdown}</div>
+
+      <Button
+        variant="outline"
+        onClick={() => (window.location.href = redirectUrl)}
+      >
+        Go Now
+      </Button>
     </div>
   );
 }
