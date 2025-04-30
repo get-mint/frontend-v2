@@ -2,23 +2,23 @@ const sections = [
   {
     title: "About",
     links: [
-      { label: "About", href: "/home/about" },
-      { label: "Download", href: "/home/download" },
+      { label: "About", href: "/about" },
+      { label: "Download", href: "/download" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Terms of Service", href: "/home/terms" },
-      { label: "Privacy Policy", href: "/home/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
     ],
   },
   {
     title: "Get in touch",
     links: [
-      { label: "Contact us", href: "/home/contact-us" },
-      { label: "Give us feedback", href: "/home/give-us-feedback" },
-      { label: "Help Center", href: "/home/help-center" },
+      { label: "Contact us", href: "/contact-us" },
+      { label: "Give us feedback", href: "/give-us-feedback" },
+      { label: "Help Center", href: "/help-center" },
     ],
   },
 ];
