@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 
 import { ExternalLinkIcon } from "lucide-react";
+
+import { useAuth } from "@/lib/hooks/use-auth";
 
 import { Tables } from "@/types/supabase";
 
@@ -26,6 +30,8 @@ export function BrandsSkeleton() {
 }
 
 export function Brands({ brands }: { brands: Tables<"brands">[] }) {
+  const { authUser } = useAuth();
+
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
       {brands.map((brand, index) => (
@@ -51,7 +57,7 @@ export function Brands({ brands }: { brands: Tables<"brands">[] }) {
               height={120}
             />
             <Link
-              href={`https://${brand.domain}`}
+              href={`/launch?domain=${brand.domain}&email=${authUser?.email}`}
               target="_blank"
               rel="noopener noreferrer"
             >
