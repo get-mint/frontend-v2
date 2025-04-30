@@ -9,7 +9,9 @@ export default function SiteLayout({
   return (
     <>
       <SiteHeader />
+
       {children}
+      
       <Footer />
     </>
   );
