@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 
-import { Brand } from "./brand";
 import { Loader } from "@/components/ui/loader";
+
+import { Brand } from "./brand";
 
 export default async function BrandPage({
   params,

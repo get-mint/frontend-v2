@@ -1,5 +1,7 @@
-import Banner from "./banner";
 import { BrandAndNetworkAndOffers } from "./types";
+
+import Banner from "./banner";
+import { Details } from "./details";
 
 async function getBrandFromSlug(
   slug: string
@@ -27,6 +29,7 @@ export async function Brand({ slug }: { slug: string }) {
   return brand ? (
     <>
       <Banner brand={brand} />
+      <Details brand={brand} />
     </>
   ) : (
     <div>

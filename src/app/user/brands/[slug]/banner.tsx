@@ -21,7 +21,7 @@ export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
         <Button
           variant="default"
           onClick={() => router.back()}
-          className="absolute left-0"
+          className="absolute left-0 hidden md:flex"
         >
           <ArrowLeft />
           Back
@@ -29,8 +29,10 @@ export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
 
         <h1 className="text-4xl font-extrabold text-center">
           Earn up to {brand.offers[0].commission / 2}
-          {brand.offers[0].type === "sale" ? "%" : selectedCurrency?.symbol} cashback
-          on {brand.name}
+          {brand.offers[0].type === "sale"
+            ? "%"
+            : selectedCurrency?.symbol}{" "}
+          cashback on {brand.name}
         </h1>
       </div>
 
