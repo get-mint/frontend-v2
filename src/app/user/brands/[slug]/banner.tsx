@@ -1,13 +1,20 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+
+import { ArrowLeft } from "lucide-react";
+
+import { useAuth } from "@/lib/hooks/use-auth";
+
+import { Button } from "@/components/ui/button";
 
 import { BrandAndNetworkAndOffers } from "./types";
 
 export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
   const router = useRouter();
+
+  const { selectedCurrency } = useAuth();
+
   return (
     <>
       <div className="relative flex flex-row items-center justify-center">
@@ -22,7 +29,8 @@ export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
 
         <h1 className="text-4xl font-extrabold text-center">
           Earn up to {brand.offers[0].commission / 2}
-          {brand.offers[0].type === "sale" ? "%" : "€"} cashback on {brand.name}
+          {brand.offers[0].type === "sale" ? "%" : selectedCurrency?.symbol} cashback
+          on {brand.name}
         </h1>
       </div>
 
