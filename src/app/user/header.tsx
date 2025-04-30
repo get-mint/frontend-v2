@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   SearchIcon,
@@ -12,6 +12,9 @@ import {
   ChevronDownIcon,
   LayoutDashboardIcon,
 } from "lucide-react";
+
+import { useAuth } from "@/lib/hooks/use-auth";
+import { useIsMobile } from "@/lib/hooks/use-mobile";
 
 import { Header } from "@/components/layout/header";
 import { Input } from "@/components/ui/input";
@@ -25,6 +28,9 @@ import {
 
 export function UserHeader() {
   const router = useRouter();
+
+  const { logOut } = useAuth();
+  const isMobile = useIsMobile();
 
   const [search, setSearch] = useState<string>("");
 
@@ -54,11 +60,13 @@ export function UserHeader() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex flex-row items-center justify-center p-2 transition-all bg-white border rounded-full cursor-pointer hover:border-primary hover:ring-1 hover:ring-primary">
-            <Button size="icon" className="mr-3">
-              <UserIcon className="size-5" />
-            </Button>
+            {!isMobile && (
+              <Button size="icon" className="mr-3">
+                <UserIcon className="size-5" />
+              </Button>
+            )}
 
-            <span className="mr-1 font-semibold">$24.00</span>
+            <span className="mr-1 font-semibold">$0.00</span>
             <ChevronDownIcon className="mr-1 size-5" />
           </div>
         </DropdownMenuTrigger>
@@ -83,7 +91,13 @@ export function UserHeader() {
             Refer & Earn
           </DropdownMenuItem>
 
-          <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md text-destructive">
+          <DropdownMenuItem
+            className="p-4 font-medium rounded-none cursor-pointer text-md text-destructive"
+            onClick={() => {
+              logOut();
+              router.push("/auth/login");
+            }}
+          >
             <LogOutIcon className="size-5 text-destructive" />
             Logout
           </DropdownMenuItem>
