@@ -1,66 +1,62 @@
-import * as React from "react";
 import Link from "next/link";
 
 const sections = [
   {
-    title: "About",
+    title: "Company",
     links: [
-      { label: "About", href: "/about" },
-      { label: "Download", href: "/download" },
+      { href: "/about", label: "About" },
+      { href: "/faq", label: "FAQ" },
+      { href: "/blog", label: "Blog" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Terms of Service", href: "/terms" },
-      { label: "Privacy Policy", href: "/privacy" },
-    ],
-  },
-  {
-    title: "Get in touch",
-    links: [
-      { label: "Contact us", href: "/contact-us" },
-      { label: "Give us feedback", href: "/give-us-feedback" },
-      { label: "Help Center", href: "/help-center" },
+      { href: "/privacy-policy", label: "Privacy Policy" },
+      { href: "/terms-of-service", label: "Terms of Service" },
     ],
   },
 ];
 
 export function Footer() {
-  return (
-    <footer className="py-12 mx-auto mt-12 bg-foreground/97 dark:bg-background text-background dark:text-foreground dark:border-t">
-      <div className="px-6 mx-auto max-w-7xl">
-        <div className="flex flex-wrap gap-x-12 gap-y-6">
-          <div className="mr-6">
-            <img
-              src="/brand/mint-cashback.svg"
-              alt="Mint Cashback"
-              className="h-12"
-            />
-          </div>
-          
-          {sections.map((section, index) => (
-            <div key={index}>
-              <h4 className="pb-2 font-semibold">{section.title}</h4>
+  const currentYear = new Date().getFullYear();
 
-              <ul className="space-y-1">
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <Link href={link.href}>
-                      <span className="font-medium transition-all text-md text-neutral-400 hover:text-neutral-300 hover:underline">
+  return (
+    <footer className="mt-12 border-t bg-background">
+      <div className="container px-6 py-12 mx-auto max-w-7xl">
+        <div className="flex flex-wrap max-w-3xl gap-8">
+          <div className="flex flex-wrap w-full gap-12 md:w-auto">
+            {sections.map((section) => (
+              <div key={section.title} className="min-w-[100px]">
+                <h3 className="mb-3 font-bold text-md">{section.title}</h3>
+                <ul className="space-y-2">
+                  {section.links.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="font-semibold transition-colors text-md text-muted-foreground hover:text-primary"
+                        target={
+                          link.href.startsWith("/info/") ? "_blank" : undefined
+                        }
+                        rel={
+                          link.href.startsWith("/info/")
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                      >
                         {link.label}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-row justify-between mt-12 pt-12 pb-[150px] border-t border-t-accent/40 dark:border-t-border/40">
-          <p className="font-medium text-md text-neutral-400">
-            © {new Date().getFullYear()} Mint Cashback - All Rights Reserved
+        <div className="pt-8 mt-8 border-t">
+          <p className="text-lg font-medium text-muted-foreground">
+            © {currentYear} Mint CashBack. All rights reserved.
           </p>
         </div>
       </div>
