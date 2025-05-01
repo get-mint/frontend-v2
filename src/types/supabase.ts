@@ -323,11 +323,10 @@ export type Database = {
           id: number
           image_url: string | null
           is_enabled: boolean
-          max_cashback_reward: number | null
-          max_pct_reward: number | null
           metadata: Json | null
           name: string
           network_id: number
+          priority: number
           slug: string
         }
         Insert: {
@@ -339,11 +338,10 @@ export type Database = {
           id?: number
           image_url?: string | null
           is_enabled?: boolean
-          max_cashback_reward?: number | null
-          max_pct_reward?: number | null
           metadata?: Json | null
           name: string
           network_id: number
+          priority?: number
           slug: string
         }
         Update: {
@@ -355,11 +353,10 @@ export type Database = {
           id?: number
           image_url?: string | null
           is_enabled?: boolean
-          max_cashback_reward?: number | null
-          max_pct_reward?: number | null
           metadata?: Json | null
           name?: string
           network_id?: number
+          priority?: number
           slug?: string
         }
         Relationships: [
@@ -558,7 +555,7 @@ export type Database = {
       user_balance_entries: {
         Row: {
           amount: number
-          balance_after: number
+          balance: number
           created_at: string
           currency_id: number
           id: string
@@ -569,7 +566,7 @@ export type Database = {
         }
         Insert: {
           amount: number
-          balance_after: number
+          balance: number
           created_at?: string
           currency_id: number
           id?: string
@@ -580,7 +577,7 @@ export type Database = {
         }
         Update: {
           amount?: number
-          balance_after?: number
+          balance?: number
           created_at?: string
           currency_id?: number
           id?: string
