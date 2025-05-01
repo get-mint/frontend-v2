@@ -5,6 +5,12 @@ import { Card, CardContent } from "@/components/ui/card";
 export default function SignupPage() {
   return (
     <div className="flex flex-col items-center justify-center p-6 min-h-svh bg-muted md:p-10">
+      <img
+        src="/brand/mint-cashback.svg"
+        alt="Signup Banner"
+        className="block object-cover w-[50vw] h-full sm:hidden mb-5 animate-in fade-in slide-in-from-top-2 duration-500"
+      />
+      
       <div className="w-full max-w-sm duration-500 md:max-w-3xl animate-in fade-in slide-in-from-top-2">
         <div className="flex flex-col gap-6">
           <Card className="p-0 overflow-hidden">
