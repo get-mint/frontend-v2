@@ -69,7 +69,7 @@ export default function Transactions() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-lg">Recent Activity</CardTitle>
-        <Link href="/user/transactions">
+        <Link href="/user/activity">
           <Button variant="outline">
             View All <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
