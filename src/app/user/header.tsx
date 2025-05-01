@@ -25,6 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 export function UserHeader() {
   const router = useRouter();
@@ -76,20 +77,26 @@ export function UserHeader() {
             <span className="text-lg font-bold">My Account</span>
           </div>
 
+          <Link href="/user/dashboard" passHref>
           <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
             <LayoutDashboardIcon className="size-5 text-foreground" />
             Dashboard
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </Link>
 
-          <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
+          <Link href="/user/activity" passHref>
+            <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
             <HistoryIcon className="size-5 text-foreground" />
             Activity
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </Link>
 
-          <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
-            <HandCoinsIcon className="size-5 text-foreground" />
-            Refer & Earn
-          </DropdownMenuItem>
+          <Link href="/user/refer-and-earn" passHref>
+            <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
+              <HandCoinsIcon className="size-5 text-foreground" />
+              Refer & Earn
+            </DropdownMenuItem>
+          </Link>
 
           <DropdownMenuItem
             className="p-4 font-medium rounded-none cursor-pointer text-md text-destructive"

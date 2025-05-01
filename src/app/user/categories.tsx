@@ -23,10 +23,10 @@ export async function Categories() {
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold">Categories</h1>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
           {brandCategories.map((category) => (
             <Link href={`/user/brands?category=${category.id}`} key={category.id}>
-              <div className="flex shrink-0 flex-col items-center justify-center p-4 rounded-xl bg-accent hover:ring-2 hover:ring-primary transition-all cursor-pointer min-w-[140px]">
+              <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-accent hover:ring-2 hover:ring-primary transition-all cursor-pointer min-w-[140px]">
                 <span className="mb-2 text-3xl">{category.emoji}</span>
                 <span className="text-sm font-medium text-muted-foreground">
                   {category.name}
