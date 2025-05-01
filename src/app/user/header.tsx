@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import {
   SearchIcon,
@@ -15,6 +16,7 @@ import {
 
 import { useAuth } from "@/lib/hooks/use-auth";
 import { useIsMobile } from "@/lib/hooks/use-mobile";
+import { createClient } from "@/lib/supabase/client";
 
 import { Header } from "@/components/layout/header";
 import { Input } from "@/components/ui/input";
@@ -25,15 +27,47 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 
 export function UserHeader() {
   const router = useRouter();
 
-  const { logOut } = useAuth();
+  const { user, selectedCurrency, logOut } = useAuth();
   const isMobile = useIsMobile();
 
   const [search, setSearch] = useState<string>("");
+  const [balance, setBalance] = useState<number>(0);
+
+  useEffect(() => {
+    if (!user || !selectedCurrency) {
+      return;
+    }
+
+    const fetchBalance = async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from("user_balance_entries")
+        .select("balance")
+        .eq("user_id", user?.id)
+        .eq("currency_id", selectedCurrency?.id)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      if (data.length === 0) {
+        setBalance(0);
+        return;
+      }
+
+      setBalance(data[0].balance);
+    };
+
+    fetchBalance();
+  }, [user, selectedCurrency]);
 
   const handleSearch = () => {
     router.push(`/user/brands?search=${search}`);
@@ -67,7 +101,10 @@ export function UserHeader() {
               </Button>
             )}
 
-            <span className="mr-1 font-semibold">$0.00</span>
+            <span className="mr-1 font-semibold">
+              {selectedCurrency?.symbol}
+              {balance.toFixed(2)}
+            </span>
             <ChevronDownIcon className="mr-1 size-5" />
           </div>
         </DropdownMenuTrigger>
@@ -78,16 +115,16 @@ export function UserHeader() {
           </div>
 
           <Link href="/user/dashboard" passHref>
-          <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
-            <LayoutDashboardIcon className="size-5 text-foreground" />
-            Dashboard
+            <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
+              <LayoutDashboardIcon className="size-5 text-foreground" />
+              Dashboard
             </DropdownMenuItem>
           </Link>
 
           <Link href="/user/activity" passHref>
             <DropdownMenuItem className="p-4 font-medium rounded-none cursor-pointer text-md">
-            <HistoryIcon className="size-5 text-foreground" />
-            Activity
+              <HistoryIcon className="size-5 text-foreground" />
+              Activity
             </DropdownMenuItem>
           </Link>
 
