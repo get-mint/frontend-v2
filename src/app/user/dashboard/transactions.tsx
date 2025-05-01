@@ -10,6 +10,7 @@ import { createClient } from "@/lib/supabase/client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 type Transaction = {
   id: string;
@@ -68,13 +69,13 @@ export default function Transactions() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-lg">Recent Activity</CardTitle>
-        <Link
-          href="/user/transactions"
-          className="flex items-center text-sm text-muted-foreground hover:text-foreground"
-        >
-          View All <ChevronRight className="w-4 h-4 ml-1" />
+        <Link href="/user/transactions">
+          <Button variant="outline">
+            View All <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
         </Link>
       </CardHeader>
+
       <CardContent>
         <div className="flex flex-col divide-y">
           {transactions.length > 0 ? (
@@ -96,7 +97,7 @@ export default function Transactions() {
                     </p>
                   </div>
                 </div>
-                <span className="text-lg font-bold text-green-500">
+                <span className="text-xl font-bold text-primary">
                   +{selectedCurrency?.symbol}
                   {transaction.user_cashback.toFixed(2)}
                 </span>
