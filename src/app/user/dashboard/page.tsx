@@ -1,4 +1,5 @@
 import Balance from "./balance";
+import Transactions from "./transactions";
 
 export default function Dashboard() {
   return (
@@ -12,6 +13,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Balance />
+        <Transactions />
       </div>
     </>
   )
