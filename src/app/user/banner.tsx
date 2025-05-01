@@ -39,7 +39,7 @@ export async function Banner() {
           </Link>
 
           <Link href="/user/brands" passHref>
-            <Button className="font-semibold text-white transition-all bg-transparent border-2 sm:w-48sm:h-12 text-md sm:text-lg border-primary-foreground sm:hover:w-50 hover:bg-transparent">
+            <Button className="font-semibold text-white transition-all bg-transparent border-2 sm:w-48 sm:h-12 text-md sm:text-lg border-primary-foreground sm:hover:w-50 hover:bg-transparent">
               Browse Brands
               <TagsIcon className="size-4 sm:size-5" />
             </Button>
