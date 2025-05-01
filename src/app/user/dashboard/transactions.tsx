@@ -97,6 +97,7 @@ export default function Transactions() {
                     </p>
                   </div>
                 </div>
+                
                 <span className="text-xl font-bold text-primary">
                   +{selectedCurrency?.symbol}
                   {transaction.user_cashback.toFixed(2)}
