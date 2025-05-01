@@ -7,11 +7,13 @@ import { createClient } from "@/lib/supabase/client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 
 export default function Balance() {
   const { user, selectedCurrency } = useAuth();
 
   const [balance, setBalance] = useState<number>(0);
+  const [pendingBalance, setPendingBalance] = useState<number>(0);
 
   useEffect(() => {
     if (!user || !selectedCurrency) {
@@ -39,20 +41,80 @@ export default function Balance() {
     fetchBalance();
   }, [user, selectedCurrency]);
 
+  useEffect(() => {
+    if (!user || !selectedCurrency) {
+      return;
+    }
+
+    const fetchPendingBalance = async () => {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from("transactions")
+        .select("user_cashback, currency_id")
+        .eq("user_id", user?.id)
+        .eq("status", "pending")
+        .eq("currency_id", selectedCurrency?.id);
+
+      if (error) {
+        console.error(error);
+      }
+
+      const total =
+        data?.reduce(
+          (sum, transaction) => sum + transaction.user_cashback,
+          0
+        ) || 0;
+      setPendingBalance(total);
+    };
+
+    fetchPendingBalance();
+  }, [user, selectedCurrency]);
+
+  const progress = Math.min((balance / 10) * 100, 100);
+  const withdrawalThreshold = 10;
+  const amountNeeded = Math.max(withdrawalThreshold - balance, 0).toFixed(2);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="mb-1">Current Balance</CardTitle>
-        
-        <span className="text-4xl font-bold">
+        <CardTitle className="text-lg">Current Balance</CardTitle>
+
+        <span className="text-5xl font-extrabold">
           {selectedCurrency?.symbol}
           {balance.toFixed(2)}
         </span>
 
-        <Progress value={(balance / 10) * 100} className="h-4 mt-2" />
+        <Progress value={progress} className="h-3 mt-3 mb-2" />
+
+        <span className="mb-2 text-sm font-medium text-muted-foreground">
+          {balance < withdrawalThreshold
+            ? `${selectedCurrency?.symbol}${amountNeeded} more to unlock withdrawal!`
+            : "You can now withdraw your funds!"}
+        </span>
+
+        <Button
+          disabled={balance < withdrawalThreshold}
+          variant="default"
+          className="w-full rounded-md"
+        >
+          Withdraw
+        </Button>
       </CardHeader>
 
-      <CardContent></CardContent>
+      <CardContent>
+        <h2 className="mb-1 font-semibold">Pending Balance</h2>
+
+        <div className="flex flex-col gap-2">
+          <span className="text-4xl font-extrabold">
+            {selectedCurrency?.symbol}
+            {pendingBalance.toFixed(2)}
+          </span>
+          <span className="text-sm font-medium text-muted-foreground">
+            Cashback pending approval
+          </span>
+        </div>
+      </CardContent>
     </Card>
   );
 }
