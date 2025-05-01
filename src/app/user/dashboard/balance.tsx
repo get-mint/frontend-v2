@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
 export default function Balance() {
   const { user, selectedCurrency } = useAuth();
@@ -41,11 +42,17 @@ export default function Balance() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Balance</CardTitle>
+        <CardTitle className="mb-1">Current Balance</CardTitle>
+        
+        <span className="text-4xl font-bold">
+          {selectedCurrency?.symbol}
+          {balance.toFixed(2)}
+        </span>
+
+        <Progress value={(balance / 10) * 100} className="h-4 mt-2" />
       </CardHeader>
-      <CardContent>
-        <p>{balance}</p>
-      </CardContent>
+
+      <CardContent></CardContent>
     </Card>
   );
 }
