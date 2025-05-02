@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 import { toast } from "sonner";
 
@@ -87,9 +88,13 @@ export function Register({ onSuccess }: RegisterProps) {
           className="text-sm font-medium leading-none cursor-pointer"
         >
           I agree to the{" "}
-          <a href="#" className="underline text-primary">
+          <Link
+            href="/user/refer-and-earn/terms"
+            className="underline text-primary"
+            target="_blank"
+          >
             Terms of Service
-          </a>{" "}
+          </Link>{" "}
           for affiliates
         </label>
       </div>
