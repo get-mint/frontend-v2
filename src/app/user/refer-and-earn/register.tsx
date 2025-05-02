@@ -85,7 +85,7 @@ export function Register({ onSuccess }: RegisterProps) {
         />
         <label
           htmlFor="terms"
-          className="text-sm font-medium leading-none cursor-pointer"
+          className="text-lg font-medium leading-none cursor-pointer"
         >
           I agree to the{" "}
           <Link
@@ -103,6 +103,7 @@ export function Register({ onSuccess }: RegisterProps) {
         onClick={handleRegisterAsAffiliate}
         disabled={!agreedToTerms || isRegistering}
         size="lg"
+        className="text-lg rounded-full"
       >
         {isRegistering ? "Registering..." : "Register as Affiliate"}
       </Button>
