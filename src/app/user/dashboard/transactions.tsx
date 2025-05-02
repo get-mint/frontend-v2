@@ -9,7 +9,6 @@ import { useAuth } from "@/lib/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
 type Transaction = {
@@ -97,7 +96,7 @@ export default function Transactions() {
                     </p>
                   </div>
                 </div>
-                
+
                 <span className="text-xl font-bold text-primary">
                   +{selectedCurrency?.symbol}
                   {transaction.user_cashback.toFixed(2)}
