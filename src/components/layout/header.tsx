@@ -12,7 +12,7 @@ export function Header({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile();
 
   return (
-    <div className="sticky top-0 border-b z-100 bg-white/85 backdrop-blur-md">
+    <div className="sticky top-0 z-50 border-b bg-white/85 backdrop-blur-md">
       <div className="container flex items-center justify-between gap-3 px-6 mx-auto sm:gap-8 h-18 max-w-7xl">
         <Link
           href={`${user ? "/user" : "/"}`}
