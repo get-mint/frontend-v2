@@ -1,8 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/hooks/use-auth";
 import { ArrowRightIcon, DollarSignIcon } from "lucide-react";
+
+import { useAuth } from "@/lib/hooks/use-auth";
+
+import { Button } from "@/components/ui/button";
 
 export function Banner() {
   const { selectedCurrency } = useAuth();
@@ -12,7 +14,9 @@ export function Banner() {
       <h1 className="text-4xl font-extrabold sm:text-6xl">
         Earn up to {selectedCurrency?.symbol}5
       </h1>
-      <p className="text-2xl font-bold sm:text-4xl">for every friend you refer</p>
+      <p className="text-2xl font-bold sm:text-4xl">
+        for every friend you refer
+      </p>
 
       <Button className="w-48 h-12 mt-1 text-xl bg-transparent border-2 border-white hover:bg-transparent group">
         Learn More
