@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
+
+import { Tables } from "@/types/supabase";
 
 import { Loader } from "@/components/ui/loader";
 
 import { Banner } from "./banner";
-import { Tables } from "@/types/supabase";
-import { createClient } from "@/lib/supabase/client";
+import { Register } from "./register";
 
 export default function ReferAndEarn() {
   const { user } = useAuth();
@@ -19,7 +21,7 @@ export default function ReferAndEarn() {
   );
 
   useEffect(() => {
-    if (!user?.auth_user_id) return;
+    if (!user?.id) return;
     const fetchAffiliate = async () => {
       setLoading(true);
 
@@ -28,7 +30,7 @@ export default function ReferAndEarn() {
       const { data, error } = await supabase
         .from("affiliates")
         .select("*")
-        .eq("user_id", user?.auth_user_id)
+        .eq("user_id", user.id)
         .maybeSingle();
 
       if (error) {
@@ -42,21 +44,24 @@ export default function ReferAndEarn() {
     };
 
     fetchAffiliate();
-  }, [user?.auth_user_id]);
+  }, [user?.id]);
+
+  const handleRegistrationSuccess = (newAffiliate: Tables<"affiliates">) => {
+    setAffiliate(newAffiliate);
+  };
 
   return loading ? (
     <div className="flex items-center justify-center h-[80vh]">
       <Loader className="size-12 text-primary" />
     </div>
   ) : (
-    <>
-      {affiliate ? (
-        <div className="flex items-center justify-center h-[80vh]">
-          <p className="text-2xl font-bold">You are already an affiliate.</p>
-        </div>
-      ) : (
-        <Banner />
+    <div className="space-y-8">
+      {!affiliate && (
+        <>
+          <Banner />
+          <Register onSuccess={handleRegistrationSuccess} />
+        </>
       )}
-    </>
+    </div>
   );
 }
