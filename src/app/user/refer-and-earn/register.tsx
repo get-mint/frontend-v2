@@ -16,7 +16,7 @@ interface RegisterProps {
 }
 
 export function Register({ onSuccess }: RegisterProps) {
-  const { authUser, user } = useAuth();
+  const { authUser } = useAuth();
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
 
@@ -69,8 +69,8 @@ export function Register({ onSuccess }: RegisterProps) {
   return (
     <div className="flex flex-col items-center max-w-md mx-auto mt-8 space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold">Become an Affiliate</h2>
-        <p className="mt-2 text-muted-foreground">
+        <h2 className="text-3xl font-bold">Become an Affiliate</h2>
+        <p className="mt-2 text-lg text-muted-foreground">
           Register as an affiliate and start earning rewards for every friend
           you refer!
         </p>
@@ -95,9 +95,9 @@ export function Register({ onSuccess }: RegisterProps) {
       </div>
 
       <Button
-        className="w-full"
         onClick={handleRegisterAsAffiliate}
         disabled={!agreedToTerms || isRegistering}
+        size="lg"
       >
         {isRegistering ? "Registering..." : "Register as Affiliate"}
       </Button>
