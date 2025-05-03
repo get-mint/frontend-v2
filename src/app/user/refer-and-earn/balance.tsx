@@ -13,6 +13,7 @@ export function Balance({ affiliate }: { affiliate: Tables<"affiliates"> }) {
   const { selectedCurrency } = useAuth();
 
   const [balance, setBalance] = useState<number>(0);
+  const [pendingBalance, setPendingBalance] = useState<number>(0);
 
   useEffect(() => {
     if (!affiliate || !selectedCurrency) {
