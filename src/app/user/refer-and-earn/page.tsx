@@ -10,8 +10,9 @@ import { Tables } from "@/types/supabase";
 import { Loader } from "@/components/ui/loader";
 
 import { Banner } from "./banner";
+import { Balance } from "./balance";
+import { Codes } from "./codes";
 import { Register } from "./register";
-import Codes from "./codes";
 
 export default function ReferAndEarn() {
   const { user } = useAuth();
@@ -67,6 +68,7 @@ export default function ReferAndEarn() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <Balance affiliate={affiliate} />
             <Codes affiliate={affiliate} />
           </div>
         </>

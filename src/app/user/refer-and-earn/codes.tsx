@@ -11,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import CreateCodeDialog from "./create-code-dialog";
 
-export default function Codes({
+export function Codes({
   affiliate,
 }: {
   affiliate: Tables<"affiliates">;
