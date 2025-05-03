@@ -10,6 +10,8 @@ import {
   UsersIcon,
   StoreIcon,
   NewspaperIcon,
+  NetworkIcon,
+  TagIcon,
 } from "lucide-react";
 
 import {
@@ -32,29 +34,34 @@ const sections = [
         url: "/admin",
         icon: <HomeIcon />,
       },
-      {
-        title: "Administrators",
-        url: "/admin/administrators",
-        icon: <UsersIcon />,
-      },
     ],
   },
   {
     label: "Partnerships",
     items: [
       {
-        title: "Advertisers",
-        url: "/admin/advertisers",
+        title: "Brands",
+        url: "/admin/partnerships/brands",
         icon: <StoreIcon />,
+      },
+      {
+        title: "Categories",
+        url: "/admin/partnerships/categories",
+        icon: <TagIcon />,
+      },
+      {
+        title: "Networks",
+        url: "/admin/partnerships/networks",
+        icon: <NetworkIcon />,
       },
     ],
   },
   {
-    label: "Advertising",
+    label: "Content",
     items: [
       {
         title: "Blog",
-        url: "/admin/blog",
+        url: "/admin/content/blog",
         icon: <NewspaperIcon />,
       },
     ],
