@@ -10,10 +10,18 @@ export async function isUserAdmin(supabase: SupabaseClient): Promise<boolean> {
 
   if (authError || !user) return false;
 
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("id")
+    .eq("auth_user_id", user.id)
+    .maybeSingle();
+
+  if (userError) return false;
+
   const { data: userRole, error: roleError } = await supabase
     .from("user_roles")
     .select("roles(name)")
-    .eq("user_id", user.id)
+    .eq("user_id", userData?.id)
     .eq("roles.name", "admin")
     .maybeSingle();
 
