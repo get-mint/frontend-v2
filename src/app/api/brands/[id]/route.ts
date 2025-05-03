@@ -1,19 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server/client";
 import { isUserAdmin } from "@/lib/supabase/server/auth";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Check if user is admin
     const supabase = createAdminClient();
-    const isAdmin = await isUserAdmin(supabase);
     
+    // Get the Authorization header
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json(
+        { error: "Missing or invalid authorization header" },
+        { status: 401 }
+      );
+    }
+    
+    // Extract the token
+    const token = authHeader.replace('Bearer ', '');
+    
+    // Verify the session
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: "Invalid session", details: authError?.message },
+        { status: 401 }
+      );
+    }
+    
+    // For security - verify the user is an admin
+    const isAdmin = await isUserAdmin(supabase, user.id);
     if (!isAdmin) {
       return NextResponse.json(
-        { error: "Unauthorized" },
+        { error: "Unauthorized - Admin access required" },
         { status: 401 }
       );
     }
@@ -21,97 +44,164 @@ export async function PUT(
     const brandId = params.id;
     const body = await request.json();
     
-    // Update brand data
-    const { error: updateError } = await supabase
-      .from("brands")
-      .update({
-        name: body.name,
-        domain: body.domain,
-        description: body.description,
-        slug: body.slug,
-        color: body.color,
-        image_url: body.image_url,
-        network_id: body.network_id,
-        currency_id: body.currency_id,
-        priority: body.priority,
-        is_enabled: body.is_enabled,
-      })
-      .eq("id", brandId);
+    console.log("API: Updating brand", brandId, "with data:", body);
     
-    if (updateError) {
-      console.error("Error updating brand:", updateError);
-      return NextResponse.json(
-        { error: `Failed to update brand: ${updateError.message}` },
-        { status: 500 }
-      );
-    }
-    
-    // Handle categories if provided
-    if (body.categories) {
-      // First delete existing category associations
-      const { error: deleteError } = await supabase
-        .from("brands_categories")
-        .delete()
-        .eq("brand_id", brandId);
+    // Handle partial updates (only one field)
+    if (body.field && body.value !== undefined) {
+      const fieldName = body.field;
+      const value = body.value;
       
-      if (deleteError) {
-        console.error("Error deleting brand categories:", deleteError);
+      // Special handling for categories
+      if (fieldName === "categories") {
+        await updateCategories(supabase, brandId, value);
+        return NextResponse.json({ 
+          success: true, 
+          message: "Categories updated successfully",
+          field: fieldName
+        });
+      }
+      
+      // Update a single field
+      const { error } = await supabase
+        .from("brands")
+        .update({ [fieldName]: value })
+        .eq("id", brandId);
+      
+      if (error) {
+        console.error(`Error updating field ${fieldName}:`, error);
         return NextResponse.json(
-          { error: "Failed to update brand categories" },
+          { error: `Failed to update ${fieldName}: ${error.message}` },
           { status: 500 }
         );
       }
       
-      // Then add new associations if any
-      if (body.categories && body.categories.length > 0) {
-        const categoriesData = body.categories.map((categoryId: number) => ({
-          brand_id: Number(brandId),
-          brand_category_id: Number(categoryId),
-        }));
-        
-        console.log("Inserting categories:", categoriesData);
-        
-        const { error: insertError } = await supabase
-          .from("brands_categories")
-          .insert(categoriesData);
-        
-        if (insertError) {
-          console.error("Error inserting brand categories:", insertError);
-          return NextResponse.json(
-            { error: "Failed to add brand categories" },
-            { status: 500 }
-          );
-        }
-      }
+      return NextResponse.json({ 
+        success: true,
+        message: `${fieldName} updated successfully`,
+        field: fieldName
+      });
     }
     
-    return NextResponse.json({ success: true });
+    // Handle full brand update (all fields at once)
+    else {
+      // Only update valid fields
+      const validFields = ["name", "domain", "description", "slug", "color", 
+        "image_url", "network_id", "currency_id", "priority", "is_enabled"];
+      
+      const updateData: Record<string, any> = {};
+      
+      validFields.forEach(field => {
+        if (body[field] !== undefined) {
+          updateData[field] = body[field];
+        }
+      });
+      
+      // Update brand data
+      const { error: updateError } = await supabase
+        .from("brands")
+        .update(updateData)
+        .eq("id", brandId);
+      
+      if (updateError) {
+        console.error("Error updating brand:", updateError);
+        return NextResponse.json(
+          { error: `Failed to update brand: ${updateError.message}` },
+          { status: 500 }
+        );
+      }
+      
+      // Handle categories if provided
+      if (body.categories) {
+        await updateCategories(supabase, brandId, body.categories);
+      }
+      
+      return NextResponse.json({ 
+        success: true,
+        message: "Brand updated successfully"
+      });
+    }
   } catch (error) {
     console.error("Error handling brand update:", error);
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Something went wrong", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }
 }
 
+async function updateCategories(
+  supabase: SupabaseClient,
+  brandId: string | number,
+  categoryIds: number[]
+) {
+  // First delete all existing category associations
+  const { error: deleteError } = await supabase
+    .from("brands_categories")
+    .delete()
+    .eq("brand_id", brandId);
+  
+  if (deleteError) {
+    console.error("Error deleting brand categories:", deleteError);
+    throw deleteError;
+  }
+  
+  // Skip if no categories to add
+  if (!categoryIds || categoryIds.length === 0) return;
+  
+  // Add new category associations
+  const categoriesData = categoryIds.map((categoryId: number) => ({
+    brand_id: Number(brandId),
+    brand_category_id: Number(categoryId),
+  }));
+  
+  const { error: insertError } = await supabase
+    .from("brands_categories")
+    .insert(categoriesData);
+  
+  if (insertError) {
+    console.error("Error inserting brand categories:", insertError);
+    throw insertError;
+  }
+}
+
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
     const supabase = createAdminClient();
     
-    // Check if user is admin
-    const isAdmin = await isUserAdmin(supabase);
-    
-    if (!isAdmin) {
+    // Get the Authorization header
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json(
-        { error: "Unauthorized" },
+        { error: "Missing or invalid authorization header" },
         { status: 401 }
       );
     }
-
+    
+    // Extract the token
+    const token = authHeader.replace('Bearer ', '');
+    
+    // Verify the session
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: "Invalid session", details: authError?.message },
+        { status: 401 }
+      );
+    }
+    
+    // For security - verify the user is an admin
+    const isAdmin = await isUserAdmin(supabase, user.id);
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: "Unauthorized - Admin access required" },
+        { status: 401 }
+      );
+    }
+    
     const brandId = params.id;
     
     // Get the brand with its network and currency
@@ -143,7 +233,7 @@ export async function GET(
       );
     }
     
-    const categoryIds = brandCategories.map((item) => item.brand_category_id);
+    const categoryIds = brandCategories.map(item => item.brand_category_id);
     
     return NextResponse.json({
       ...brand,

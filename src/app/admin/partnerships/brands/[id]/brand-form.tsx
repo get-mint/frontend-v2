@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Tables } from "@/types/supabase";
 import { createClient } from "@/lib/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 
@@ -34,7 +34,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -44,11 +43,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { cn } from "@/lib/utils/tailwind";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -88,10 +82,15 @@ export function BrandForm({
   selectedCategoryIds,
 }: BrandFormProps) {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [savingField, setSavingField] = useState<string | null>(null);
+  const supabase = createClient();
   
-  console.log("Brand data:", brand);
-  console.log("Selected category IDs:", selectedCategoryIds);
+  // Track which fields have been changed to show status indicators
+  const [changedFields, setChangedFields] = useState<Record<string, boolean>>({});
+  const [savedFields, setSavedFields] = useState<Record<string, boolean>>({});
+  
+  // Create a ref to store timeout IDs for each field
+  const timeoutRefs = useRef<Record<string, NodeJS.Timeout>>({});
   
   const form = useForm<BrandFormValues>({
     resolver: zodResolver(brandSchema),
@@ -109,56 +108,140 @@ export function BrandForm({
       categories: selectedCategoryIds || [],
     },
   });
-
-  async function onSubmit(values: BrandFormValues) {
-    try {
-      setIsSubmitting(true);
-      toast.loading("Saving brand changes...");
-      
-      console.log("Submitting form with values:", values);
-      
+  
+  // Custom save function with timeout to delay saving
+  const saveWithDelay = (field: string, value: any) => {
+    // Clear any existing timeout for this field
+    if (timeoutRefs.current[field]) {
+      clearTimeout(timeoutRefs.current[field]);
+    }
+    
+    // Set a new timeout
+    timeoutRefs.current[field] = setTimeout(async () => {
       try {
+        setSavingField(field);
+        setChangedFields(prev => ({ ...prev, [field]: false }));
+        
+        // Get session for authentication
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+          throw new Error("No active session. Please log in again.");
+        }
+        
+        // Call the API route for partial update with auth header
         const response = await fetch(`/api/brands/${brand.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
           },
-          body: JSON.stringify(values),
+          body: JSON.stringify({ field, value }),
         });
         
         const data = await response.json();
-        console.log("Response from API:", data);
         
         if (!response.ok) {
-          throw new Error(data.error || 'Failed to update brand');
+          throw new Error(data.error || `Failed to save ${field}`);
         }
         
-        toast.dismiss();
-        toast.success("Brand updated successfully");
+        setSavedFields(prev => ({ ...prev, [field]: true }));
+        toast.success(`${field.charAt(0).toUpperCase() + field.slice(1)} updated`);
         router.refresh();
-      } catch (fetchError) {
-        console.error("Network or API error:", fetchError);
-        toast.dismiss();
         
-        if (fetchError instanceof TypeError && fetchError.message.includes('Failed to fetch')) {
-          toast.error("Network error. Please check your connection.");
-        } else {
-          toast.error(fetchError instanceof Error ? fetchError.message : "Failed to update brand");
-        }
+      } catch (error) {
+        console.error(`Error saving ${field}:`, error);
+        toast.error(`Failed to save ${field}`);
+        setChangedFields(prev => ({ ...prev, [field]: true }));
+      } finally {
+        setSavingField(null);
+        
+        // Clear the "saved" indicator after 3 seconds
+        setTimeout(() => {
+          setSavedFields(prev => ({ ...prev, [field]: false }));
+        }, 3000);
       }
-      
-    } catch (error) {
-      console.error("General form error:", error);
-      toast.dismiss();
-      toast.error("An unexpected error occurred");
-    } finally {
-      setIsSubmitting(false);
+    }, 1000); // 1 second delay
+  };
+  
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      Object.values(timeoutRefs.current).forEach(timeout => {
+        clearTimeout(timeout);
+      });
+    };
+  }, []);
+  
+  // Watch all form fields for changes
+  const formValues = useWatch({ control: form.control });
+  
+  // Set up field change detection
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+      if (name && type === "change") {
+        setChangedFields(prev => ({ ...prev, [name]: true }));
+      }
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
+  
+  // Set up auto-save for all fields
+  useEffect(() => {
+    // Skip the first render
+    if (!formValues) return;
+    
+    Object.keys(formValues).forEach(field => {
+      if (changedFields[field]) {
+        const value = formValues[field as keyof BrandFormValues];
+        saveWithDelay(field, value);
+      }
+    });
+  }, [formValues, changedFields]);
+  
+  // Field status indicator component
+  const FieldStatus = ({ field }: { field: string }) => {
+    if (savingField === field) {
+      return (
+        <div className="ml-2 inline-flex items-center text-muted-foreground">
+          <svg className="mr-1 h-3 w-3 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span className="text-xs">Saving...</span>
+        </div>
+      );
     }
-  }
-
+    
+    if (savedFields[field]) {
+      return (
+        <div className="ml-2 inline-flex items-center text-green-500">
+          <svg xmlns="http://www.w3.org/2000/svg" className="mr-1 h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+          </svg>
+          <span className="text-xs">Saved</span>
+        </div>
+      );
+    }
+    
+    if (changedFields[field]) {
+      return (
+        <div className="ml-2 inline-flex items-center text-amber-500">
+          <svg xmlns="http://www.w3.org/2000/svg" className="mr-1 h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+          </svg>
+          <span className="text-xs">Unsaved changes</span>
+        </div>
+      );
+    }
+    
+    return null;
+  };
+  
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form>
         <Tabs defaultValue="general" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="general">General Information</TabsTrigger>
@@ -182,7 +265,10 @@ export function BrandForm({
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Brand Name</FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel>Brand Name</FormLabel>
+                          <FieldStatus field="name" />
+                        </div>
                         <FormControl>
                           <Input placeholder="Brand name" {...field} />
                         </FormControl>
@@ -196,7 +282,10 @@ export function BrandForm({
                     name="domain"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Domain</FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel>Domain</FormLabel>
+                          <FieldStatus field="domain" />
+                        </div>
                         <FormControl>
                           <Input placeholder="example.com" {...field} />
                         </FormControl>
@@ -210,7 +299,10 @@ export function BrandForm({
                     name="slug"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Slug</FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel>Slug</FormLabel>
+                          <FieldStatus field="slug" />
+                        </div>
                         <FormControl>
                           <Input placeholder="brand-slug" {...field} />
                         </FormControl>
@@ -227,7 +319,10 @@ export function BrandForm({
                     name="priority"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Priority</FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel>Priority</FormLabel>
+                          <FieldStatus field="priority" />
+                        </div>
                         <FormControl>
                           <Input 
                             type="number" 
@@ -248,9 +343,15 @@ export function BrandForm({
                     name="network_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Network</FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel>Network</FormLabel>
+                          <FieldStatus field="network_id" />
+                        </div>
                         <Select 
-                          onValueChange={field.onChange} 
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            setChangedFields(prev => ({ ...prev, network_id: true }));
+                          }} 
                           defaultValue={field.value.toString()}
                         >
                           <FormControl>
@@ -279,9 +380,15 @@ export function BrandForm({
                     name="currency_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Currency</FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel>Currency</FormLabel>
+                          <FieldStatus field="currency_id" />
+                        </div>
                         <Select 
-                          onValueChange={field.onChange} 
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            setChangedFields(prev => ({ ...prev, currency_id: true }));
+                          }}
                           defaultValue={field.value.toString()}
                         >
                           <FormControl>
@@ -311,7 +418,10 @@ export function BrandForm({
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <div className="flex items-center">
+                        <FormLabel>Description</FormLabel>
+                        <FieldStatus field="description" />
+                      </div>
                       <FormControl>
                         <Textarea 
                           placeholder="Describe the brand" 
@@ -331,9 +441,12 @@ export function BrandForm({
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">
-                          Enabled
-                        </FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel className="text-base">
+                            Enabled
+                          </FormLabel>
+                          <FieldStatus field="is_enabled" />
+                        </div>
                         <FormDescription>
                           Brand will be visible to users when enabled.
                         </FormDescription>
@@ -341,7 +454,10 @@ export function BrandForm({
                       <FormControl>
                         <Switch
                           checked={field.value}
-                          onCheckedChange={field.onChange}
+                          onCheckedChange={(checked) => {
+                            field.onChange(checked);
+                            setChangedFields(prev => ({ ...prev, is_enabled: true }));
+                          }}
                         />
                       </FormControl>
                     </FormItem>
@@ -367,7 +483,10 @@ export function BrandForm({
                     name="color"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Brand Color</FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel>Brand Color</FormLabel>
+                          <FieldStatus field="color" />
+                        </div>
                         <div className="flex gap-2">
                           <FormControl>
                             <Input placeholder="#000000" {...field} value={field.value || ""} />
@@ -390,7 +509,10 @@ export function BrandForm({
                     name="image_url"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Logo URL</FormLabel>
+                        <div className="flex items-center">
+                          <FormLabel>Logo URL</FormLabel>
+                          <FieldStatus field="image_url" />
+                        </div>
                         <FormControl>
                           <Input placeholder="https://..." {...field} value={field.value || ""} />
                         </FormControl>
@@ -425,7 +547,10 @@ export function BrandForm({
           <TabsContent value="categories">
             <Card>
               <CardHeader>
-                <CardTitle>Brand Categories</CardTitle>
+                <CardTitle className="flex items-center">
+                  <span>Brand Categories</span>
+                  <FieldStatus field="categories" />
+                </CardTitle>
                 <CardDescription>
                   Assign this brand to one or more categories.
                 </CardDescription>
@@ -459,13 +584,14 @@ export function BrandForm({
                                     <Checkbox
                                       checked={field.value?.includes(category.id)}
                                       onCheckedChange={(checked) => {
-                                        return checked
-                                          ? field.onChange([...(field.value || []), category.id])
-                                          : field.onChange(
-                                              field.value?.filter(
-                                                (value) => value !== category.id
-                                              )
+                                        const updatedValues = checked
+                                          ? [...(field.value || []), category.id]
+                                          : field.value?.filter(
+                                              (value) => value !== category.id
                                             );
+                                        
+                                        field.onChange(updatedValues);
+                                        setChangedFields(prev => ({ ...prev, categories: true }));
                                       }}
                                     />
                                   </FormControl>
@@ -495,26 +621,8 @@ export function BrandForm({
             type="button"
             variant="outline"
             onClick={() => router.push("/admin/partnerships/brands")}
-            disabled={isSubmitting}
           >
-            Cancel
-          </Button>
-          <Button 
-            type="submit" 
-            disabled={isSubmitting}
-            className={isSubmitting ? "opacity-70" : ""}
-          >
-            {isSubmitting ? (
-              <>
-                <svg className="mr-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Saving...
-              </>
-            ) : (
-              "Save Changes"
-            )}
+            Back to Brands
           </Button>
         </div>
       </form>
