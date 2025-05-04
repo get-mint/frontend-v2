@@ -68,20 +68,21 @@ async function fetchBrands({
 export default async function BrandsPage({ 
   searchParams,
 }: { 
-  searchParams: { 
+  searchParams: Promise<{ 
     page?: string;
     search?: string;
     network?: string;
     currency?: string;
-  };
+  }>;
 }) {
-  const currentPage = Number(searchParams.page) || 1;
+  const params = await searchParams;
+  const currentPage = Number(params.page) || 1;
   
   const { brands, totalCount } = await fetchBrands({
     page: currentPage,
-    search: searchParams.search,
-    networkId: searchParams.network,
-    currencyId: searchParams.currency,
+    search: params.search,
+    networkId: params.network,
+    currencyId: params.currency,
   });
   
   const totalPages = Math.ceil(totalCount / BRANDS_PER_PAGE);
@@ -151,7 +152,7 @@ export default async function BrandsPage({
                 <TableCell className="py-4">
                   <a 
                     href={`/admin/partnerships/brands/${brand.id}`}
-                    className="text-primary hover:underline font-medium"
+                    className="font-medium text-primary hover:underline"
                   >
                     Edit
                   </a>

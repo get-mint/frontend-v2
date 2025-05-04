@@ -5,9 +5,10 @@ import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = createAdminClient();
     
     // Get the Authorization header
@@ -41,7 +42,7 @@ export async function PUT(
       );
     }
     
-    const brandId = params.id;
+    const brandId = id;
     const body = await request.json();
     
     console.log("API: Updating brand", brandId, "with data:", body);
@@ -166,9 +167,10 @@ async function updateCategories(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = createAdminClient();
     
     // Get the Authorization header
@@ -202,7 +204,7 @@ export async function GET(
       );
     }
     
-    const brandId = params.id;
+    const brandId = id;
     
     // Get the brand with its network and currency
     const { data: brand, error } = await supabase
