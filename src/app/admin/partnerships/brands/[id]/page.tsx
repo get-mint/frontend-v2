@@ -74,8 +74,10 @@ async function fetchBrandCategoriesForBrand(brandId: string) {
   return data.map(item => item.brand_category_id);
 }
 
-export default async function BrandPage({ params }: { params: { id: string } }) {
-  const brand = await fetchBrand(params.id);
+export default async function BrandPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  
+  const brand = await fetchBrand(id);
   
   if (!brand) {
     notFound();
@@ -84,7 +86,7 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
   const networks = await fetchNetworks();
   const currencies = await fetchCurrencies();
   const categories = await fetchBrandCategories();
-  const brandCategoryIds = await fetchBrandCategoriesForBrand(params.id);
+  const brandCategoryIds = await fetchBrandCategoriesForBrand(id);
   
   return (
     <div className="space-y-6">
@@ -92,7 +94,7 @@ export default async function BrandPage({ params }: { params: { id: string } }) 
         <h1 className="text-4xl font-bold">Edit Brand: {brand.name}</h1>
         <a 
           href="/admin/partnerships/brands"
-          className="px-4 py-2 text-sm font-medium text-primary bg-primary/10 rounded-md hover:bg-primary/20"
+          className="px-4 py-2 text-sm font-medium rounded-md text-primary bg-primary/10 hover:bg-primary/20"
         >
           Back to Brands
         </a>
