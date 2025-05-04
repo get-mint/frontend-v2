@@ -77,9 +77,10 @@ export function DashboardSidebar() {
         <SidebarGroup>
           {sections.map((section) => (
             <React.Fragment key={section.label}>
-              <SidebarGroupLabel className="text-sm">
+              <SidebarGroupLabel>
                 {section.label}
               </SidebarGroupLabel>
+              
               <SidebarGroupContent>
                 <SidebarMenu>
                   {section.items.map((item) => (
