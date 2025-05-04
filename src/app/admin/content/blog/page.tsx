@@ -34,7 +34,10 @@ export default function BlogPage() {
   const handleDeletePost = async (postId: string) => {
     const supabase = createClient();
 
-    const { error } = await supabase.from("blog_posts").delete().eq("id", postId);
+    const { error } = await supabase
+      .from("blog_posts")
+      .delete()
+      .eq("id", postId);
 
     if (error) {
       console.error(error);
@@ -56,7 +59,10 @@ export default function BlogPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-bold">Blog Posts</h1>
-        <Button onClick={() => router.push("/admin/blog/create")} size="lg">
+        <Button
+          onClick={() => router.push("/admin/content/blog/create")}
+          size="lg"
+        >
           <PlusIcon className="w-5 h-5" />
           Create Blog Post
         </Button>
@@ -65,7 +71,7 @@ export default function BlogPage() {
         {posts.map((post: Tables<"blog_posts">, index: number) => (
           <BlurFade delay={0.25 * index} key={post.id}>
             <Link
-              href={`/admin/blog/edit/${post.id}`}
+              href={`/admin/content/blog/edit/${post.id}`}
               className="space-y-3 cursor-pointer"
             >
               <Image
@@ -85,7 +91,12 @@ export default function BlogPage() {
                 {post.created_at &&
                   new Date(post.created_at).toLocaleDateString()}
               </p>
-              <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600" onClick={() => handleDeletePost(post.id.toString())}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-red-500 hover:text-red-600"
+                onClick={() => handleDeletePost(post.id.toString())}
+              >
                 <Trash2Icon className="w-4 h-4" />
               </Button>
             </div>
