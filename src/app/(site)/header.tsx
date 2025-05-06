@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 import { MenuIcon, HomeIcon, BookIcon } from "lucide-react";
 
 import { useIsMobile } from "@/lib/hooks/use-mobile";
-import { Header } from "@/components/layout/header";
+import { useAuth } from "@/lib/hooks/use-auth";
 
+import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,6 +26,8 @@ export function SiteHeader() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
+  const { user } = useAuth();
+
   return (
     <Header>
       <div className="flex items-center gap-3 md:gap-6">
@@ -34,9 +37,8 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`font-semibold transition-all ${
-                  pathname === item.href ? "text-primary" : "hover:text-primary"
-                }`}
+                className={`font-semibold transition-all ${pathname === item.href ? "text-primary" : "hover:text-primary"
+                  }`}
               >
                 {item.label}
               </Link>
@@ -45,13 +47,21 @@ export function SiteHeader() {
         )}
 
         <div className="flex items-center gap-3">
-          <Link href="/auth/login" passHref>
-            <Button variant="outline">Log In</Button>
-          </Link>
+          {user ? (
+            <>
+              <Link href="/auth/login" passHref>
+                <Button variant="outline">Log In</Button>
+              </Link>
 
-          <Link href="/auth/signup" passHref>
-            <Button className="font-semibold">Join Mint</Button>
-          </Link>
+              <Link href="/auth/signup" passHref>
+                <Button className="font-semibold">Join Mint</Button>
+              </Link>
+            </>
+          ) : (
+            <Link href="/user" passHref>
+              <Button variant="outline">My</Button>
+            </Link>
+          )}
 
           {isMobile && (
             <DropdownMenu>
@@ -65,15 +75,13 @@ export function SiteHeader() {
                   <DropdownMenuItem
                     key={item.href}
                     asChild
-                    className={`transition-all text-md cursor-point ${
-                      pathname === item.href ? "bg-primary/10" : ""
-                    }`}
+                    className={`transition-all text-md cursor-point ${pathname === item.href ? "bg-primary/10" : ""
+                      }`}
                   >
                     <Link href={item.href} className="flex items-center gap-2">
                       <item.icon
-                        className={`size-5 ${
-                          pathname === item.href ? "text-primary" : ""
-                        }`}
+                        className={`size-5 ${pathname === item.href ? "text-primary" : ""
+                          }`}
                       />
                       <span
                         className={
