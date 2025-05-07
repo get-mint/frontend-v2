@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { MenuIcon, HomeIcon, BookIcon } from "lucide-react";
+import { MenuIcon, HomeIcon, BookIcon, UserIcon } from "lucide-react";
 
 import { useIsMobile } from "@/lib/hooks/use-mobile";
 import { useAuth } from "@/lib/hooks/use-auth";
@@ -47,7 +47,7 @@ export function SiteHeader() {
         )}
 
         <div className="flex items-center gap-3">
-          {user ? (
+          {!user ? (
             <>
               <Link href="/auth/login" passHref>
                 <Button variant="outline">Log In</Button>
@@ -59,7 +59,10 @@ export function SiteHeader() {
             </>
           ) : (
             <Link href="/user" passHref>
-              <Button variant="outline">My</Button>
+              <Button variant="outline">
+                <UserIcon />
+                My Account
+              </Button>
             </Link>
           )}
 
