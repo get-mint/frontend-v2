@@ -21,8 +21,8 @@ import { UserHeader } from "../user/user-header";
 const navItems = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/about", label: "About", icon: BookOpenIcon },
-  { href: "/blog", label: "Blog", icon: BookIcon },
   { href: "/faq", label: "FAQ", icon: MessageCircleQuestionIcon },
+  { href: "/blog", label: "Blog", icon: BookIcon },
 ];
 
 export function SiteHeader() {
