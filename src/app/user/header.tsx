@@ -8,13 +8,12 @@ import { SearchIcon } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import { UserHeader as UserProfileHeader } from "./user-header";
 
 export function UserHeader() {
   const router = useRouter();
 
   const [search, setSearch] = useState<string>("");
-
 
   const handleSearch = () => {
     router.push(`/user/brands?search=${search}`);
@@ -39,7 +38,7 @@ export function UserHeader() {
         </Button>
       </div>
 
-      <UserHeader />
+      <UserProfileHeader />
     </Header>
   );
 }

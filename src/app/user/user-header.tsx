@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import {
   UserIcon,
@@ -112,8 +112,8 @@ export function UserHeader() {
 
         <DropdownMenuItem
           className="p-4 font-medium rounded-none cursor-pointer text-md text-destructive"
-          onClick={() => {
-            logOut();
+          onClick={async () => {
+            await logOut();
             router.push("/auth/login");
           }}
         >
