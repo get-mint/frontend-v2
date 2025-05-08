@@ -70,11 +70,9 @@ export function UserHeader() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex flex-row items-center justify-center p-2 transition-all bg-white border rounded-full cursor-pointer hover:border-primary hover:ring-1 hover:ring-primary">
-          {!isMobile && (
             <Button size="icon" className="mr-3">
               <UserIcon className="size-5" />
             </Button>
-          )}
 
           <span className="mr-1 font-semibold">
             {selectedCurrency?.symbol}

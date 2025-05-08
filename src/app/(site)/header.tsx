@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { MenuIcon, HomeIcon, BookIcon, UserIcon } from "lucide-react";
+import { MenuIcon, HomeIcon, BookIcon, BookOpenIcon, ListIcon, MessageCircleQuestionIcon } from "lucide-react";
 
 import { useIsMobile } from "@/lib/hooks/use-mobile";
 import { useAuth } from "@/lib/hooks/use-auth";
@@ -20,7 +20,9 @@ import { UserHeader } from "../user/user-header";
 
 const navItems = [
   { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/about", label: "About", icon: BookIcon },
+  { href: "/about", label: "About", icon: BookOpenIcon },
+  { href: "/blog", label: "Blog", icon: BookIcon },
+  { href: "/faq", label: "FAQ", icon: MessageCircleQuestionIcon },
 ];
 
 export function SiteHeader() {
