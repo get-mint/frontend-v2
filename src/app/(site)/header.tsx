@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { UserHeader } from "../user/user-header";
 
 const navItems = [
   { href: "/", label: "Home", icon: HomeIcon },
@@ -58,12 +59,7 @@ export function SiteHeader() {
               </Link>
             </>
           ) : (
-            <Link href="/user" passHref>
-              <Button variant="outline">
-                <UserIcon />
-                My Account
-              </Button>
-            </Link>
+            <UserHeader />
           )}
 
           {isMobile && (
