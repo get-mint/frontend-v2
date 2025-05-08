@@ -66,7 +66,7 @@ export function Brands({ brands }: { brands: Tables<"brands">[] }) {
                 variant="ghost"
               >
                 Shop
-                <ExternalLinkIcon className="size-4" />
+                <ExternalLinkIcon />
               </Button>
             </Link>
           </div>

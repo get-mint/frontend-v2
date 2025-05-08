@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeftIcon, ExternalLinkIcon } from "lucide-react";
 
 import { useAuth } from "@/lib/hooks/use-auth";
 
@@ -13,7 +14,7 @@ import { BrandAndNetworkAndOffers } from "./types";
 export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
   const router = useRouter();
 
-  const { selectedCurrency } = useAuth();
+  const { authUser, selectedCurrency } = useAuth();
 
   return (
     <>
@@ -23,7 +24,7 @@ export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
           onClick={() => router.back()}
           className="absolute left-0 hidden md:flex"
         >
-          <ArrowLeft />
+          <ArrowLeftIcon />
           Back
         </Button>
 
@@ -34,6 +35,17 @@ export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
             : selectedCurrency?.symbol}{" "}
           cashback on {brand.name}
         </h1>
+
+        <Link
+          href={`/launch?domain=${brand.domain}&email=${authUser?.email}`}
+          target="_blank"
+          className="absolute right-0"
+        >
+          <Button variant="outline">
+            Shop
+            <ExternalLinkIcon />
+          </Button>
+        </Link>
       </div>
 
       <div
