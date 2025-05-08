@@ -11,7 +11,7 @@ export function BottomBanner() {
   const { selectedCurrency } = useAuth();
 
   return (
-    <div className="grid grid-cols-1 gap-8 p-6 mt-8 sm:grid-cols-2 rounded-xl bg-muted">
+    <div className="grid grid-cols-1 gap-8 p-6 mt-16 sm:grid-cols-2 rounded-xl bg-muted">
       <div className="flex flex-col gap-3">
         <h2 className="text-3xl font-extrabold">
           Refer your friends and earn up to {selectedCurrency?.symbol}5

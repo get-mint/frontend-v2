@@ -52,12 +52,16 @@ export default function Banner({ brand }: { brand: BrandAndNetworkAndOffers }) {
         className="flex flex-col items-center justify-center w-full py-12 rounded-xl bg-muted"
         style={{ backgroundColor: brand.color ?? "" }}
       >
-        <img
-          src={brand.image_url ?? ""}
-          alt={brand.name}
-          height={300}
-          width={300}
-        />
+        <Link href={`/launch?domain=${brand.domain}&email=${authUser?.email}`} target="_blank" passHref className="">
+
+          <img
+            src={brand.image_url ?? ""}
+            alt={brand.name}
+            height={300}
+            width={300}
+          />
+        </Link>
+
       </div>
     </>
   );
