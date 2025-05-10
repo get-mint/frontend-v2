@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import crypto from "crypto";
-import { z } from "zod";
 
 import { createAdminClient } from "@/lib/supabase/server/client";
 
@@ -17,29 +16,17 @@ const emailSchema = z.object({
  * @returns The response object containing the saved user or an error message.
  */
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-
-  const result = emailSchema.safeParse(body);
-
-  if (!result.success) {
-    return NextResponse.json(
-      {
-        error: "Invalid email format",
-        details: result.error.format(),
-      },
-      { status: 400 }
-    );
-  }
-
-  const { email } = result.data;
-
-  const trackingId = crypto.createHash("sha256").update(email).digest("hex");
+  const { email } = await request.json();
+  const trackingId = crypto
+    .createHash("sha256")
+    .update(email.toLowerCase().trim())
+    .digest("hex");
 
   const supabase = createAdminClient();
 
   const { data: existingUser, error: existingUserError } = await supabase
     .from("users")
-    .select("tracking_id")
+    .select("*")
     .eq("tracking_id", trackingId)
     .maybeSingle();
 
@@ -67,7 +54,6 @@ export async function POST(request: NextRequest) {
   let { data: newUser, error: newUserError } = await supabase
     .from("users")
     .insert({ tracking_id: trackingId })
-    .select("tracking_id");
     .select();
 
   if (newUserError) {
