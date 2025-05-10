@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import crypto from "crypto";
+
 import { createAdminClient } from "@/lib/supabase/server/client";
 
 /**
@@ -11,13 +13,17 @@ import { createAdminClient } from "@/lib/supabase/server/client";
  */
 export async function POST(request: NextRequest) {
   const { email } = await request.json();
+  const trackingId = crypto
+    .createHash("sha256")
+    .update(email.toLowerCase().trim())
+    .digest("hex");
 
   const supabase = createAdminClient();
 
   const { data: existingUser, error: existingUserError } = await supabase
     .from("users")
     .select("*")
-    .eq("email", email)
+    .eq("tracking_id", trackingId)
     .maybeSingle();
 
   if (existingUserError) {
@@ -33,7 +39,7 @@ export async function POST(request: NextRequest) {
 
   let { data: newUser, error: newUserError } = await supabase
     .from("users")
-    .insert({ email })
+    .insert({ tracking_id: trackingId })
     .select();
 
   if (newUserError) {
