@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
     .from("users")
     .insert({ tracking_id: trackingId })
     .select("tracking_id");
+    .select();
 
   if (newUserError) {
     console.error("Error creating new user:", newUserError);
