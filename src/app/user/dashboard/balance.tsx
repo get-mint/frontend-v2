@@ -50,7 +50,7 @@ export default function Balance() {
 
       const { data, error } = await supabase
         .from("transactions")
-        .select("user_cashback")
+        .select("user_share_usd")
         .eq("user_id", user?.id)
         .eq("status", "pending");
 
@@ -60,7 +60,7 @@ export default function Balance() {
 
       const total =
         data?.reduce(
-          (sum, transaction) => sum + transaction.user_cashback,
+          (sum, transaction) => sum + transaction.user_share_usd,
           0
         ) || 0;
       setPendingBalance(total);
