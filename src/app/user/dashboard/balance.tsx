@@ -10,13 +10,13 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
 export default function Balance() {
-  const { user, selectedCurrency } = useAuth();
+  const { user } = useAuth();
 
   const [balance, setBalance] = useState<number>(0);
   const [pendingBalance, setPendingBalance] = useState<number>(0);
 
   useEffect(() => {
-    if (!user || !selectedCurrency) {
+    if (!user) {
       return;
     }
 
@@ -25,23 +25,27 @@ export default function Balance() {
 
       const { data, error } = await supabase
         .from("user_balance_entries")
-        .select("balance")
+        .select("balance_usd")
         .eq("user_id", user?.id)
         .order("created_at", { ascending: false })
         .limit(1);
 
       if (error) {
+        console.log(error);
         console.error(error);
       }
-
-      setBalance(data?.[0].balance || 0);
+      if (Array.isArray(data) && data.length > 0 && data[0]) {
+        setBalance(data[0].balance_usd || 0);
+      } else {
+        setBalance(0);
+      }
     };
 
     fetchBalance();
-  }, [user, selectedCurrency]);
+  }, [user]);
 
   useEffect(() => {
-    if (!user || !selectedCurrency) {
+    if (!user) {
       return;
     }
 
@@ -67,7 +71,7 @@ export default function Balance() {
     };
 
     fetchPendingBalance();
-  }, [user, selectedCurrency]);
+  }, [user]);
 
   const progress = Math.min((balance / 10) * 100, 100);
   const withdrawalThreshold = 10;
@@ -86,7 +90,7 @@ export default function Balance() {
 
         <span className="mb-2 text-sm font-medium text-muted-foreground">
           {balance < withdrawalThreshold
-            ? `${selectedCurrency?.symbol}${amountNeeded} more to unlock withdrawal!`
+            ? `$${amountNeeded} more to unlock withdrawal!`
             : "You can now withdraw your funds!"}
         </span>
 
