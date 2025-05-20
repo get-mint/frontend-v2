@@ -28,7 +28,6 @@ export default function Balance() {
         .select("balance")
         .eq("user_id", user?.id)
         .order("created_at", { ascending: false })
-        .eq("currency_id", selectedCurrency?.id)
         .limit(1);
 
       if (error) {
@@ -51,10 +50,9 @@ export default function Balance() {
 
       const { data, error } = await supabase
         .from("transactions")
-        .select("user_cashback, currency_id")
+        .select("user_cashback")
         .eq("user_id", user?.id)
-        .eq("status", "pending")
-        .eq("currency_id", selectedCurrency?.id);
+        .eq("status", "pending");
 
       if (error) {
         console.error(error);
@@ -81,8 +79,7 @@ export default function Balance() {
         <CardTitle className="text-lg">Current Balance</CardTitle>
 
         <span className="text-5xl font-extrabold">
-          {selectedCurrency?.symbol}
-          {balance.toFixed(2)}
+          ${balance.toFixed(2)}
         </span>
 
         <Progress value={progress} className="h-3 mt-3 mb-2" />
@@ -107,8 +104,7 @@ export default function Balance() {
 
         <div className="flex flex-col gap-2">
           <span className="text-4xl font-extrabold">
-            {selectedCurrency?.symbol}
-            {pendingBalance.toFixed(2)}
+            ${pendingBalance.toFixed(2)}
           </span>
           <span className="text-sm font-medium text-muted-foreground">
             Cashback pending approval
