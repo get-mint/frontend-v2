@@ -113,7 +113,7 @@ export async function GET(request: Request) {
     // Update existing user
     const { error: updateError } = await supabase
       .from("users")
-      .update({ tracking_id: trackingId })
+      .update({ tracking_id: trackingId, email: email })
       .eq("auth_user_id", userId);
 
     dbError = updateError;
@@ -122,6 +122,7 @@ export async function GET(request: Request) {
     const { error: insertError } = await supabase.from("users").insert({
       auth_user_id: userId,
       tracking_id: trackingId,
+      email: email,
     });
 
     dbError = insertError;
