@@ -10,13 +10,12 @@ import { Tables } from "@/types/supabase";
 
 export const AuthContext = createContext<
   | {
-      authUser: AuthUser | undefined;
-      user: Tables<"users"> | undefined;
-      logIn: (email: string, password: string) => any;
-      logOut: () => any;
-      refreshUser: () => any;
-      selectedCurrency: Tables<"currencies"> | undefined;
-    }
+    authUser: AuthUser | undefined;
+    user: Tables<"users"> | undefined;
+    logIn: (email: string, password: string) => any;
+    logOut: () => any;
+    refreshUser: () => any;
+  }
   | undefined
 >(undefined);
 
@@ -75,33 +74,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     fetchUser();
   }, [authUser]);
 
-  const fetchSelectedCurrency = async () => {
-    if (!user?.id) {
-      setSelectedCurrency(undefined);
-      return;
-    }
-
-    const supabase = createClient();
-
-    const { data, error } = await supabase
-      .from("currencies")
-      .select("*")
-      .eq("id", user.selected_currency_id)
-      .maybeSingle();
-
-    if (error) {
-      console.error("Failed to fetch selected currency:", error);
-      setSelectedCurrency(undefined);
-      return;
-    }
-
-    setSelectedCurrency(data);
-  };
-
-  useEffect(() => {
-    fetchSelectedCurrency();
-  }, [user]);
-
   const logIn = async (
     email: string,
     password: string
@@ -120,7 +92,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setAuthUser(data.user);
 
     await fetchUser();
-    await fetchSelectedCurrency();
 
     return { authUser: data.user };
   };
@@ -143,7 +114,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         logIn,
         logOut,
         refreshUser: fetchUser,
-        selectedCurrency,
       }}
     >
       {children}

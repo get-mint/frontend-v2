@@ -7,7 +7,6 @@ export const PAGE_SIZE = 20;
 export async function getBrands(
   search: string,
   page: number,
-  currencyId?: number,
   categoryId?: string
 ) {
   const supabase = createClient();
@@ -27,9 +26,6 @@ export async function getBrands(
       .order("priority", { ascending: true });
   }
 
-  if (currencyId) {
-    query = query.eq("currency_id", currencyId);
-  }
 
   if (search) {
     query = query.ilike("name", `%${search}%`);

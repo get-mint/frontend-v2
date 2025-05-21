@@ -10,13 +10,13 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
 export default function Balance() {
-  const { user, selectedCurrency } = useAuth();
+  const { user } = useAuth();
 
   const [balance, setBalance] = useState<number>(0);
   const [pendingBalance, setPendingBalance] = useState<number>(0);
 
   useEffect(() => {
-    if (!user || !selectedCurrency) {
+    if (!user) {
       return;
     }
 
@@ -25,24 +25,27 @@ export default function Balance() {
 
       const { data, error } = await supabase
         .from("user_balance_entries")
-        .select("balance")
+        .select("balance_usd")
         .eq("user_id", user?.id)
         .order("created_at", { ascending: false })
-        .eq("currency_id", selectedCurrency?.id)
         .limit(1);
 
       if (error) {
+        console.log(error);
         console.error(error);
       }
-
-      setBalance(data?.[0].balance || 0);
+      if (Array.isArray(data) && data.length > 0 && data[0]) {
+        setBalance(data[0].balance_usd || 0);
+      } else {
+        setBalance(0);
+      }
     };
 
     fetchBalance();
-  }, [user, selectedCurrency]);
+  }, [user]);
 
   useEffect(() => {
-    if (!user || !selectedCurrency) {
+    if (!user) {
       return;
     }
 
@@ -51,10 +54,9 @@ export default function Balance() {
 
       const { data, error } = await supabase
         .from("transactions")
-        .select("user_cashback, currency_id")
+        .select("user_share_usd")
         .eq("user_id", user?.id)
-        .eq("status", "pending")
-        .eq("currency_id", selectedCurrency?.id);
+        .eq("status", "pending");
 
       if (error) {
         console.error(error);
@@ -62,14 +64,14 @@ export default function Balance() {
 
       const total =
         data?.reduce(
-          (sum, transaction) => sum + transaction.user_cashback,
+          (sum, transaction) => sum + transaction.user_share_usd,
           0
         ) || 0;
       setPendingBalance(total);
     };
 
     fetchPendingBalance();
-  }, [user, selectedCurrency]);
+  }, [user]);
 
   const progress = Math.min((balance / 10) * 100, 100);
   const withdrawalThreshold = 10;
@@ -81,15 +83,14 @@ export default function Balance() {
         <CardTitle className="text-lg">Current Balance</CardTitle>
 
         <span className="text-5xl font-extrabold">
-          {selectedCurrency?.symbol}
-          {balance.toFixed(2)}
+          ${balance.toFixed(2)}
         </span>
 
         <Progress value={progress} className="h-3 mt-3 mb-2" />
 
         <span className="mb-2 text-sm font-medium text-muted-foreground">
           {balance < withdrawalThreshold
-            ? `${selectedCurrency?.symbol}${amountNeeded} more to unlock withdrawal!`
+            ? `$${amountNeeded} more to unlock withdrawal!`
             : "You can now withdraw your funds!"}
         </span>
 
@@ -107,8 +108,7 @@ export default function Balance() {
 
         <div className="flex flex-col gap-2">
           <span className="text-4xl font-extrabold">
-            {selectedCurrency?.symbol}
-            {pendingBalance.toFixed(2)}
+            ${pendingBalance.toFixed(2)}
           </span>
           <span className="text-sm font-medium text-muted-foreground">
             Cashback pending approval

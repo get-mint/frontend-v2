@@ -41,12 +41,7 @@ function SearchAndFilterContent() {
         setCategory(undefined);
       }
 
-      const data = await getBrands(
-        searchQuery,
-        pageNumber,
-        user?.selected_currency_id || 1,
-        categoryId || undefined
-      );
+      const data = await getBrands(searchQuery, pageNumber, categoryId);
 
       if (isInitialLoad) {
         setBrands(data);
